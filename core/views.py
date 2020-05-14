@@ -43,6 +43,10 @@ class HomeView(View):
 class ProductDetailView(DetailView):
     model = Item
     template_name = "product.html"
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
+        context['item_list'] = Item.objects.all()
+        return context
 
 class ContactView(View):
     def get(self, *args, **kwargs):

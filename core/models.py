@@ -31,6 +31,9 @@ class Item(models.Model):
         return reverse("core:product", kwargs={
             'slug': self.slug
         })
+    
+    def total_price(self):
+        return self.price + self.discount_price
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
