@@ -1,14 +1,10 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, View
+from django.views.generic import ListView, View, DetailView
 
 from .models import Item, Contact, Category
 
 from .forms import ContactForm
 
-# class HomeView(ListView):
-#     model = Category
-#     paginate_by = 4
-#     template_name = "index.html"
 
 class HomeView(View):
     def get(self, *args, **kwargs):
@@ -16,21 +12,18 @@ class HomeView(View):
 
         items = Item.objects.all()
 
+        count_all = items.count()
+
         count_round = items.filter(category='RNT').count()
         count_collar = items.filter(category='CT').count()
-
-        # print(count_collar)
-
-        # for item in items:
-        #     print(item.category)
         
-        context = {'categories': categories, 'items': items, 'count_round': count_round, 'count_collar': count_collar}
+        context = {'categories': categories, 'count_all': count_all, 'items': items, 'count_round': count_round, 'count_collar': count_collar}
 
         return render(self.request, 'index.html', context)
 
     def post(self, *args, **kwargs):
         form = ContactForm(self.request.POST or None)
-        # print(self.request.POST)
+        print(self.request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
             email = form.cleaned_data.get('email')
@@ -45,8 +38,11 @@ class HomeView(View):
             )
             contacts.save() 
 
-            return redirect('home')
+            return redirect('/')
 
+class ProductDetailView(DetailView):
+    model = Item
+    template_name = "product.html"
 
 class ContactView(View):
     def get(self, *args, **kwargs):

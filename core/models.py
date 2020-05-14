@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 
 CATEGORY_CHOICES = (
     ('TP','Track Pants'),
@@ -25,6 +26,11 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("core:product", kwargs={
+            'slug': self.slug
+        })
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
