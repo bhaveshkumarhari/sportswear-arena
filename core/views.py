@@ -13,8 +13,18 @@ from .forms import ContactForm
 class HomeView(View):
     def get(self, *args, **kwargs):
         categories = Category.objects.all()
+
+        items = Item.objects.all()
+
+        count_round = items.filter(category='RNT').count()
+        count_collar = items.filter(category='CT').count()
+
+        # print(count_collar)
+
+        # for item in items:
+        #     print(item.category)
         
-        context = {'categories': categories}
+        context = {'categories': categories, 'items': items, 'count_round': count_round, 'count_collar': count_collar}
 
         return render(self.request, 'index.html', context)
 

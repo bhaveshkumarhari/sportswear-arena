@@ -1,6 +1,30 @@
 from django.db import models
 
-# Create your models here.
+CATEGORY_CHOICES = (
+    ('TP','Track Pants'),
+    ('ET','Event T-Shirt'),
+    ('CUT','Customized T-Shirt'),
+    ('COT','Corporate T-Shirt'),
+    ('GT','Graphics T-Shirt'),
+    ('SPT','Sports T-Shirt'),
+    ('SUT','Sublimation T-Shirt'),
+    ('CT','Collar T-Shirt'),
+    ('RNT','Round Neck T-Shirt')
+)
+
+class Item(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.FloatField()
+    discount_price = models.IntegerField(blank=True, null=True)
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
+    slug = models.SlugField()
+    description = models.TextField()
+    image = models.ImageField()
+    quantity = models.IntegerField(default=1)
+    new = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
@@ -13,14 +37,6 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
-
-class Item(models.Model):
-    title = models.CharField(max_length=100)
-    price = models.FloatField()
-    image = models.ImageField()
-
-    def __str__(self):
-        return self.title
 
 class Contact(models.Model):
     name = models.CharField(max_length=50)
