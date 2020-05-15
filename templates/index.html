@@ -54,9 +54,9 @@
                         </div>
                       </a> -->
                       <div class="ps-offer">
-                        <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="blog-detail.html"></a><img src="{{ item.image }}" alt=""></div>
+                        <div class="ps-post__thumbnail"><a class="ps-post__overlay" href="{{ item.get_absolute_url }}"><img src="{{ item.image }}" alt=""></a></div>
                         <br>
-                        <div class="ps-post" style="text-align: center;"><a class="ps-post__title" href="blog-detail.html">{{item.title}}</a>
+                        <div class="ps-post" style="text-align: center;"><a class="ps-post__title" href="">{{item.get_title_display}}</a>
                           <!-- <p class="ps-post__meta"><span>By:<a class="mr-5" href="blog.html">Alena Studio</a></span> -<span class="ml-5">Jun 10, 2017</span></p> -->
                           <p>{{item.description}}</p>
                           <!-- <a class="ps-morelink" href="blog-detail.html">Read more<i class="fa fa-long-arrow-right"></i></a> -->
@@ -75,13 +75,13 @@
                           <li class="current"><a href="#" data-filter="*">All <sup>{{count_all}}</sup></a></li>
                           <li><a href="#" data-filter=".RNT">Round Neck <sup>{{count_round}}</sup></a></li>
                           <li><a href="#" data-filter=".CT">Collar <sup>{{count_collar}}</sup></a></li>
-                          <li><a href="#" data-filter=".SUT">Sublimation <sup>1</sup></a></li>
-                          <li><a href="#" data-filter=".SPT">Sports <sup>1</sup></a></li>
-                          <li><a href="#" data-filter=".GT">Graphics <sup>3</sup></a></li>
-                          <li><a href="#" data-filter=".COT">Corporate <sup>1</sup></a></li>
-                          <li><a href="#" data-filter=".CUT">Customized <sup>2</sup></a></li>
-                          <li><a href="#" data-filter=".ET">Event <sup>1</sup></a></li>
-                          <li><a href="#" data-filter=".TP">Track Pants<sup>1</sup></a></li>
+                          <li><a href="#" data-filter=".SUT">Sublimation <sup>{{count_sublimation}}</sup></a></li>
+                          <li><a href="#" data-filter=".SPT">Sports <sup>{{count_sports}}</sup></a></li>
+                          <li><a href="#" data-filter=".GT">Graphics <sup>{{count_graphics}}</sup></a></li>
+                          <li><a href="#" data-filter=".COT">Corporate <sup>{{count_corporate}}</sup></a></li>
+                          <li><a href="#" data-filter=".CUT">Customized <sup>{{count_customise}}</sup></a></li>
+                          <li><a href="#" data-filter=".ET">Event <sup>{{count_event}}</sup></a></li>
+                          <li><a href="#" data-filter=".TP">Track Pants<sup>{{count_track}}</sup></a></li>
                         </ul>
                       </div>
                       <div class="ps-section__content pb-50">

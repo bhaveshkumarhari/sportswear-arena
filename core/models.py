@@ -38,7 +38,7 @@ class Item(models.Model):
         return self.price + self.discount_price
 
 class Category(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
     description = models.TextField(max_length=1000)
     image = models.CharField(max_length=100)
     # image = models.ImageField()
@@ -48,6 +48,11 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
+
+    def get_absolute_url(self):
+        return reverse("core:product-list", kwargs={
+            'title': self.title
+        })
 
 class Contact(models.Model):
     name = models.CharField(max_length=50)
