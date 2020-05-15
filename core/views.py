@@ -40,6 +40,14 @@ class HomeView(View):
 
             return redirect('/')
 
+class ProductListView(ListView):
+    model = Item
+    # paginate_by = 10
+    template_name = "product-list.html"
+
+    queryset = Item.objects.all()
+    context_object_name = 'item_list'
+
 class ProductDetailView(DetailView):
     model = Item
     template_name = "product.html"

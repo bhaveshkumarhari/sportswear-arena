@@ -98,13 +98,13 @@
                                     <div class="ps-badge"><span>New</span></div>
                                     {% endif %}
                                     
-                                    {% if item.discount_price %}<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-&#8377;{{item.discount_price}}</span></div>{% endif %}<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ item.image.url }}" alt=""><a class="ps-shoe__overlay" href="{{ item.get_absolute_url }}"></a>
+                                    {% if item.discount_price %}<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-&#8377;{{item.discount_price}}</span></div>{% endif %}<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ item.front_image.url }}" alt=""><a class="ps-shoe__overlay" href="{{ item.get_absolute_url }}"></a>
                                   </div>
                                   <div class="ps-shoe__content">
                                     <div class="ps-shoe__variants">
-                                      <div class="ps-shoe__variant normal"><img src="{% static 'sky/images/shoe/2.jpg' %}" alt=""><img src="{% static 'sky/images/shoe/3.jpg' %}" alt=""><img src="{% static 'sky/images/shoe/4.jpg' %}" alt=""><img src="{% static 'sky/images/shoe/5.jpg' %}" alt=""></div>
+                                      <div class="ps-shoe__variant normal"><img src="{{ item.front_image.url }}" alt=""><img src="{{ item.back_image.url }}" alt=""><img src="{{ item.side_image.url }}" alt=""><img src="" alt=""></div>
                                     </div>
-                                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{item.title}}</a>
+                                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ item.get_absolute_url }}">{{item.title}}</a>
                                       <p class="ps-shoe__categories"><a href="#">{{item.get_category_display}}</a></p><span class="ps-shoe__price">
                                         {% if item.discount_price %}<del>&#8377;{{item.total_price}}</del>{% endif %} &#8377; {{item.price}}</span>
                                     </div>
@@ -143,14 +143,14 @@
                                     <div class="ps-badge"><span>New</span></div>
                                     {% endif %}
                                     
-                                    {% if item.discount_price %}<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-&#8377;{{item.discount_price}}</span></div>{% endif %}<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ item.image.url }}" alt=""><a class="ps-shoe__overlay" href="{{ item.get_absolute_url }}"></a>
+                                    {% if item.discount_price %}<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-&#8377;{{item.discount_price}}</span></div>{% endif %}<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ item.front_image.url }}" alt=""><a class="ps-shoe__overlay" href="{{ item.get_absolute_url }}"></a>
                                 <!-- <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ item.image.url }}" alt=""><a class="ps-shoe__overlay" href="{{ item.get_absolute_url }}"></a> -->
                               </div>
                               <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
-                                  <div class="ps-shoe__variant normal"><img src="{% static 'sky/images/shoe/2.jpg' %}" alt=""><img src="{% static 'sky/images/shoe/3.jpg' %}" alt=""><img src="{% static 'sky/images/shoe/4.jpg' %}" alt=""><img src="{% static 'sky/images/shoe/5.jpg' %}" alt=""></div>
+                                  <div class="ps-shoe__variant normal"><img src="{{ item.front_image.url }}" alt=""><img src="{{ item.back_image.url }}" alt=""><img src="{{ item.side_image.url }}" alt=""><img src="" alt=""></div>
                                 </div>
-                                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">{{item.title}}</a>
+                                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ item.get_absolute_url }}">{{item.title}}</a>
                                   <p class="ps-shoe__categories"><a href="#">{{item.get_category_display}}</a></p><span class="ps-shoe__price"> {% if item.discount_price %}<del>&#8377;{{item.total_price}}</del>{% endif %} &#8377; {{item.price}}</span>
                                 </div>
                               </div>

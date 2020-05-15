@@ -20,7 +20,9 @@ class Item(models.Model):
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
     slug = models.SlugField()
     description = models.TextField()
-    image = models.ImageField()
+    front_image = models.ImageField()
+    back_image = models.ImageField()
+    side_image = models.ImageField()
     quantity = models.IntegerField(default=1)
     new = models.BooleanField(default=False)
 

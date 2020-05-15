@@ -17,22 +17,22 @@
               <div class="ps-product__thumbnail">
                 <div class="ps-product__preview">
                   <div class="ps-product__variants">
-                    <div class="item"><img src="{{ object.image.url }}" alt=""></div>
-                    <div class="item"><img src="{{ object.image.url }}" alt=""></div>
-                    <div class="item"><img src="{{ object.image.url }}" alt=""></div>
-                    <div class="item"><img src="{{ object.image.url }}" alt=""></div>
-                    <div class="item"><img src="{{ object.image.url }}" alt=""></div>
-                  </div><a class="popup-youtube ps-product__video" href="http://www.youtube.com/watch?v=0O2aH4XLbto"><img src="{{ object.image.url }}" alt=""><i class="fa fa-play"></i></a>
+                    <div class="item"><img src="{{ object.front_image.url }}" alt=""></div>
+                    <div class="item"><img src="{{ object.back_image.url }}" alt=""></div>
+                    <div class="item"><img src="{{ object.side_image.url }}" alt=""></div>
+                    <!-- <div class="item"><img src="{{ object.image.url }}" alt=""></div>
+                    <div class="item"><img src="{{ object.image.url }}" alt=""></div> -->
+                  </div><a class="popup-youtube ps-product__video" href="http://www.youtube.com/watch?v=0O2aH4XLbto"><img src="{{ object.front_image.url }}" alt=""><i class="fa fa-play"></i></a>
                 </div>
                 <div class="ps-product__image">
-                  <div class="item"><img class="zoom" src="{{ object.image.url }}" alt="" data-zoom-image="{{ object.image.url }}"></div>
-                  <div class="item"><img class="zoom" src="{{ object.image.url }}" alt="" data-zoom-image="{{ object.image.url }}"></div>
-                  <div class="item"><img class="zoom" src="{{ object.image.url }}" alt="" data-zoom-image="{{ object.image.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ object.front_image.url }}" alt="" data-zoom-image="{{ object.front_image.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ object.back_image.url }}" alt="" data-zoom-image="{{ object.back_image.url }}"></div>
+                  <div class="item"><img class="zoom" src="{{ object.side_image.url }}" alt="" data-zoom-image="{{ object.side_image.url }}"></div>
                 </div>
               </div>
               <div class="ps-product__thumbnail--mobile">
-                <div class="ps-product__main-img"><img src="{{ object.image.url }}" alt=""></div>
-                <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on"><img src="{{ object.image.url }}" alt=""><img src="{{ object.image.url }}" alt=""><img src="{{ object.image.url }}" alt=""></div>
+                <div class="ps-product__main-img"><img src="{{ object.front_image.url }}" alt=""></div>
+                <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on"><img src="{{ object.front_image.url }}" alt=""><img src="{{ object.back_image.url }}" alt=""><img src="{{ object.side_image.url }}" alt=""></div>
               </div>
               <div class="ps-product__info">
                 <div class="ps-product__rating">
@@ -46,7 +46,7 @@
                 </div>
                 <h1>{{ object.title }}</h1>
                 <p class="ps-product__category"><a href="#"> {{ object.get_category_display }}</a></p>
-                <h3 class="ps-product__price">&#8377; {{item.price}} {% if item.discount_price %}<del>&#8377;{{item.discount_price}}</del>{% endif %}</h3>
+                <h3 class="ps-product__price">&#8377; {{item.price}} {% if item.discount_price %}<del>&#8377;{{item.total_price}}</del>{% endif %}</h3>
                 <div class="ps-product__block ps-product__quickview">
                   <h4>QUICK REVIEW</h4>
                   <p>{{object.description}}</p>
@@ -55,10 +55,10 @@
                 <div class="ps-product__block ps-product__style">
                   <h4>CHOOSE YOUR STYLE</h4>
                   <ul>
-                    <li><a href="product-detail.html"><img src="{{ object.image.url }}" alt=""></a></li>
-                    <li><a href="product-detail.html"><img src="{{ object.image.url }}" alt=""></a></li>
-                    <li><a href="product-detail.html"><img src="{{ object.image.url }}" alt=""></a></li>
-                    <li><a href="product-detail.html"><img src="{{ object.image.url }}" alt=""></a></li>
+                    <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
+                    <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
+                    <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
+                    <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
                   </ul>
                 </div>
                 <div class="ps-product__block ps-product__size">
@@ -103,7 +103,7 @@
                 <div class="tab-pane" role="tabpanel" id="tab_02">
                   <p class="mb-20">1 review for <strong>Shoes Air Jordan</strong></p>
                   <div class="ps-review">
-                    <div class="ps-review__thumbnail"><img src="images/user/1.jpg" alt=""></div>
+                    <div class="ps-review__thumbnail"><img src="{{ object.image.url }}" alt=""></div>
                     <div class="ps-review__content">
                       <header>
                         <select class="ps-rating">
@@ -198,15 +198,15 @@
                     <div class="ps-badge"><span>New</span></div>
                     {% endif %}
                     
-                    {% if item.discount_price %}<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-&#8377;{{item.discount_price}}</span></div>{% endif %}<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ item.image.url }}" alt=""><a class="ps-shoe__overlay" href="{{ item.get_absolute_url }}"></a>
+                    {% if item.discount_price %}<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-&#8377;{{item.discount_price}}</span></div>{% endif %}<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ item.front_image.url }}" alt=""><a class="ps-shoe__overlay" href="{{ item.get_absolute_url }}"></a>
                     <!-- <div class="ps-badge"><span>New</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="{{ item.image.url }}" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a> -->
                   </div>
                   <div class="ps-shoe__content">
                     <div class="ps-shoe__variants">
-                      <div class="ps-shoe__variant normal"><img src="{{ item.image.url }}" alt=""><img src="{{ item.image.url }}" alt=""><img src="{{ item.image.url }}" alt=""><img src="{{ item.image.url }}" alt=""></div>
+                      <div class="ps-shoe__variant normal"><img src="{{ item.front_image.url }}" alt=""><img src="{{ item.back_image.url }}" alt=""><img src="{{ item.side_image.url }}" alt=""><img src="" alt=""></div>
                       
                     </div>
-                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">{{item.title}}</a>
+                    <div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ item.get_absolute_url }}">{{item.title}}</a>
                       <p class="ps-shoe__categories"><a href="#">{{item.get_category_display}}</a></p><span class="ps-shoe__price"> {% if item.discount_price %}<del>&#8377;{{item.total_price}}</del>{% endif %} &#8377; {{item.price}}</span>
                     </div>
                   </div>
