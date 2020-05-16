@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, View, DetailView
 
-from .models import Item, Contact, Category
+from .models import Item, Contact, Category, OrderItem, Order
 
 from .forms import ContactForm
 
