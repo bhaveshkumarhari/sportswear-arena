@@ -46,7 +46,7 @@
                 </div>
                 <h1>{{ object.title }}</h1>
                 <p class="ps-product__category"><a href="#"> {{ object.get_category_display }}</a></p>
-                <h3 class="ps-product__price">&#8377; {{item.price}} {% if item.discount_price %}<del>&#8377;{{item.total_price}}</del>{% endif %}</h3>
+                <h3 class="ps-product__price">{% if item.discount_price %}<del>&#8377;{{item.price}}</del> &#8377; {{item.discount_price}} {% else %} &#8377;{{item.price}}{% endif %}</h3>
                 <div class="ps-product__block ps-product__quickview">
                   <h4>QUICK REVIEW</h4>
                   <p>{{object.description}}</p>

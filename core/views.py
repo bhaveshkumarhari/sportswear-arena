@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, View, DetailView
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.utils import timezone
 
@@ -13,7 +16,7 @@ from django.core.paginator import Paginator
 
 
 class HomeView(View):
-    # paginate_by = 1
+
     def get(self, *args, **kwargs):
         categories = Category.objects.all()
 
@@ -55,6 +58,7 @@ class HomeView(View):
             contacts.save() 
 
             return redirect('/')
+
 
 def ProductListView(request, title):
 
@@ -103,10 +107,6 @@ def ProductListView(request, title):
 
     return render(request, 'product-list.html', context)
 
-# class ProductListView(ListView):
-    # model = Item
-    # paginate_by = 10
-    # template_name = "product-list.html"
 
 class ProductDetailView(DetailView):
     model = Item
@@ -116,6 +116,7 @@ class ProductDetailView(DetailView):
         context['item_list'] = Item.objects.all()
         return context
 
+@login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug) # get specific item with slug
     # If item is not in OrderItem model then add item else get the item
@@ -148,7 +149,7 @@ def add_to_cart(request, slug):
         messages.info(request, "This item was added to your cart.")
         return redirect("core:order-summary")
 
-
+@login_required
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug) # get specific item with slug
 
@@ -184,7 +185,42 @@ def remove_from_cart(request, slug):
         return redirect("core:product",slug=slug)
 
 
-class OrderSummaryView(View):
+@login_required
+def remove_single_item_from_cart(request, slug):
+    item = get_object_or_404(Item, slug=slug) # get specific item with slug
+
+    # filter Order model which is not ordered yet by the specific user
+    order_qs = Order.objects.filter(
+        user=request.user, 
+        ordered=False
+    ) 
+
+    if order_qs.exists():
+        order = order_qs[0] # grab the order from the order_qs
+
+        # check if an item exists in Order model with slug
+        if order.items.filter(item__slug=item.slug).exists():
+            order_item = OrderItem.objects.filter(
+                item=item,
+                user=request.user,
+                ordered=False
+            )[0]
+            if order_item.quantity > 1:
+                order_item.quantity -= 1 # Decrease quantity in OrderItem model if there is an item exists
+                order_item.save() # Save OrderItem model
+            else:
+                order.items.remove(order_item)
+            messages.info(request, "This item quantity was updated.")
+            return redirect("core:order-summary")
+        else:
+            messages.info(request, "This item was not in your cart.")
+            return redirect("core:product",slug=slug)
+    else:
+        messages.info(request, "You do not have an active order.")
+        return redirect("core:product",slug=slug)
+
+        
+class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
 
         try:

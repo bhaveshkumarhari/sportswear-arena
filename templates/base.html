@@ -187,10 +187,10 @@
             </form> -->
            
             {% if request.user.is_authenticated %}
-            <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>{{ request.user|cart_item_count }}</i></span><i class="ps-icon-shopping-cart"></i></a>
+            <div class="ps-cart"><a class="ps-cart__toggle" href="{% url 'core:order-summary' %}"><span><i>{{ request.user|cart_item_count }}</i></span><i class="ps-icon-shopping-cart"></i></a>
               <div class="ps-cart__listing">
                 <div class="ps-cart__content">
-                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
+                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="{% url 'core:order-summary' %}"></a>
                     <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{% static 'sky/images/shoe/2.jpg' %}" alt=""></div>
                     <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">Amazin’ Glazin’</a>
                       <p><span>Quantity:<i>12</i></span><span>Total:<i>&#8377;176</i></span></p>
