@@ -145,6 +145,42 @@ def add_to_cart(request, slug):
         messages.info(request, "This item was added to your cart.")
         return redirect("core:order-summary")
 
+
+def remove_from_cart(request, slug):
+    item = get_object_or_404(Item, slug=slug) # get specific item with slug
+
+    # filter Order model which is not ordered yet by the specific user
+    order_qs = Order.objects.filter(
+        user=request.user, 
+        ordered=False
+    ) 
+
+    if order_qs.exists():
+        order = order_qs[0] # grab the order from the order_qs
+
+        # check if an item exists in Order model with slug
+        if order.items.filter(item__slug=item.slug).exists():
+            order_item = OrderItem.objects.filter(
+                item=item,
+                user=request.user,
+                ordered=False
+            )[0]
+            order.items.remove(order_item) # Remove item if an item exists in Order model
+            #------if item quantity is more than 1 and removed item from cart, Set item quantity to 1 in OrderItem
+            if order_item.quantity > 1:
+                order_item.quantity = 1
+                order_item.save() # Save OrderItem model
+            #-------------------------------------
+            messages.info(request, "This item was removed from your cart.")
+            return redirect("core:order-summary")
+        else:
+            messages.info(request, "This item was not in your cart.")
+            return redirect("core:product",slug=slug)
+    else:
+        messages.info(request, "You do not have an active order.")
+        return redirect("core:product",slug=slug)
+
+
 class OrderSummaryView(View):
     def get(self, *args, **kwargs):
 
