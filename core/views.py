@@ -22,6 +22,8 @@ class HomeView(View):
 
         items = Item.objects.all()
 
+        order = Order.objects.get(user=self.request.user, ordered=False)
+
         count_all = items.count()
 
         count_round = items.filter(category='RNT').count()
@@ -34,7 +36,7 @@ class HomeView(View):
         count_sublimation = items.filter(category='SUT').count()
         count_event = items.filter(category='ET').count()
         
-        context = {'categories': categories, 'count_all': count_all, 'items': items, 'count_round': count_round, 'count_collar': count_collar,
+        context = {'cart': order, 'categories': categories, 'count_all': count_all, 'items': items, 'count_round': count_round, 'count_collar': count_collar,
                    'count_track': count_track, 'count_customise': count_customise, 'count_corporate': count_corporate,'count_graphics': count_graphics,
                     'count_sports': count_sports, 'count_sublimation': count_sublimation, 'count_event': count_event }
 
@@ -114,6 +116,7 @@ class ProductDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
         context['item_list'] = Item.objects.all()
+        context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
         return context
 
 @login_required
@@ -219,7 +222,7 @@ def remove_single_item_from_cart(request, slug):
         messages.info(request, "You do not have an active order.")
         return redirect("core:product",slug=slug)
 
-        
+
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
 
@@ -227,7 +230,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
             # get the items which are not ordered yet from current user
             order = Order.objects.get(user=self.request.user, ordered=False)
             context = {
-                'object':order
+                'cart':order
             }
             return render(self.request, 'order_summary.html', context)
             

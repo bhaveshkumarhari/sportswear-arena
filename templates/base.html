@@ -190,13 +190,26 @@
             <div class="ps-cart"><a class="ps-cart__toggle" href="{% url 'core:order-summary' %}"><span><i>{{ request.user|cart_item_count }}</i></span><i class="ps-icon-shopping-cart"></i></a>
               <div class="ps-cart__listing">
                 <div class="ps-cart__content">
-                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="{% url 'core:order-summary' %}"></a>
-                    <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{% static 'sky/images/shoe/2.jpg' %}" alt=""></div>
-                    <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">Amazin’ Glazin’</a>
-                      <p><span>Quantity:<i>12</i></span><span>Total:<i>&#8377;176</i></span></p>
+                  {% for order_item in cart.items.all %}
+                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="{% url 'core:remove-from-cart' order_item.item.slug %}"></a>
+                    <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{{ order_item.item.front_image.url }}" alt=""></div>
+                    <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ order_item.item.get_absolute_url }}">{{ order_item.item.title }}</a>
+                      <p><span>Quantity:<i>{{ order_item.quantity }}</i></span>
+                        <span>Total:<i>
+                        <!-- check the condition if item has discount price -->
+                        {% if order_item.item.discount_price %}
+                            <!-- get the return value from OrderItem model function-->
+                            &#8377;{{ order_item.get_total_discount_item_price }}
+                            <span class="badge badge-primary">Saving £{{ order_item.get_amount_saved }}</span>
+                        {% else %}
+                            <!-- get the return value from OrderItem model function-->
+                            &#8377;{{ order_item.get_total_item_price }}
+                        {% endif %}
+                      </i></span></p>
                     </div>
                   </div>
-                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
+                  {% endfor %}
+                  <!-- <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
                     <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{% static 'sky/images/shoe/1.jpg' %}" alt=""></div>
                     <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">The Crusty Croissant</a>
                       <p><span>Quantity:<i>12</i></span><span>Total:<i>&#8377;176</i></span></p>
@@ -207,11 +220,13 @@
                     <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">The Rolling Pin</a>
                       <p><span>Quantity:<i>12</i></span><span>Total:<i>&#8377;176</i></span></p>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="ps-cart__total">
-                  <p>Number of items:<span>36</span></p>
-                  <p>Item Total:<span>&#8377;528.00</span></p>
+                  <p>Number of items:<span>{{ cart.get_total_quantity }}</span></p>
+                  {% if cart.get_total %}
+                  <p>Item Total:<span>&#8377; {{ cart.get_total }}</span></p>
+                  {% endif %}
                 </div>
                 <div class="ps-cart__footer"><a class="ps-btn" href="cart.html">Check out<i class="ps-icon-arrow-left"></i></a></div>
               </div>

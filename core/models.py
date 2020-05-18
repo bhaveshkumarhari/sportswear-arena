@@ -107,6 +107,12 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.get_final_price()
         return total
+    
+    def get_total_quantity(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.quantity
+        return total
 
 class Contact(models.Model):
     name = models.CharField(max_length=50)

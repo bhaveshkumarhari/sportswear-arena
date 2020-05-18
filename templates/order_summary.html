@@ -31,7 +31,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for order_item in object.items.all %}
+            {% for order_item in cart.items.all %}
             <tr>
               <td scope="row">{{ forloop.counter }}</td>
               <td><a class="ps-product__preview" href="product-detail.html"><img class="mr-15" width="80" height="80" src="{{ order_item.item.front_image.url }}" alt=""> {{ order_item.item.title }}</a></td>
@@ -84,9 +84,9 @@
               <a href="/" class="ps-btn ps-btn--gray">Continue Shopping</a>
             </div>
           </div>
-          {% if object.get_total %}
+          {% if cart.get_total %}
           <div class="ps-cart__total">
-            <h3>Total Price: <span>&#8377; {{ object.get_total }}</span></h3><a class="ps-btn" href="checkout.html">Process to checkout<i class="ps-icon-next"></i></a>
+            <h3>Total Price: <span>&#8377; {{ cart.get_total }}</span></h3><a class="ps-btn" href="checkout.html">Process to checkout<i class="ps-icon-next"></i></a>
           </div>
           {% endif %}
         </div>
