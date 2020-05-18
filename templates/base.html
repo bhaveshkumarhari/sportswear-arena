@@ -15,7 +15,10 @@
     <meta name="author" content="Nghia Minh Luong">
     <meta name="keywords" content="Default Description">
     <meta name="description" content="Default keyword">
-    <title>SportswearArena - Homepage</title>
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+    <!-- <title>SportswearArena - Homepage</title> -->
     <!-- Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'sky/plugins/font-awesome/css/font-awesome.min.css' %}">
@@ -149,7 +152,7 @@
                   </li> -->
                   <li class="menu-item"><a style="color: white;" href="{% url 'core:home' %}">Home</a></li>
                   <li class="menu-item"><a style="color: white;" href="#">Men</a></li>
-                  <li class="menu-item"><a style="color: white;" href="#">Women</a></li>
+                  <li class="menu-item"><a style="color: rgb(255, 255, 255);" href="#">Women</a></li>
                   <li class="menu-item"><a style="color: white;" href="#">Kids</a></li>
                   <li class="menu-item"><a style="color: white;" href="#">Categories</a></li>
                   <!-- <li class="menu-item"><a style="color: white;" href="#">About</a></li> -->
@@ -220,9 +223,9 @@
              </div>
              {% else %}
              <div class="ps-cart">
-              <ul>
-               <li class="menu-item"><a style="color: white; padding: 5px; font-size: 12pt; font-family: Arial, Helvetica, sans-serif;" href="{% url 'account_login' %}"><u>Login</u></a>
-                or<a style="color: white; padding: 5px; font-size: 12pt; font-family: Arial, Helvetica, sans-serif;" href="{% url 'account_signup' %}"><u>Register</u></a></li>
+              <ul class="">
+               <li class="menu-item"><a style="color: rgb(255, 255, 255); padding: 5px; font-size: 12pt; font-family: Arial, Helvetica, sans-serif;" href="{% url 'account_login' %}"><u>Login</u></a>
+                or<a style="color: rgb(255, 255, 255); padding: 5px; font-size: 12pt; font-family: Arial, Helvetica, sans-serif;" href="{% url 'account_signup' %}"><u>Register</u></a></li>
              </ul>
              </div>
              {% endif %}
