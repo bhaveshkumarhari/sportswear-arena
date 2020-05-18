@@ -9,8 +9,11 @@ from .models import Item, Contact, Category, OrderItem, Order
 
 from .forms import ContactForm
 
+from django.core.paginator import Paginator
+
 
 class HomeView(View):
+    # paginate_by = 1
     def get(self, *args, **kwargs):
         categories = Category.objects.all()
 
