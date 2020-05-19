@@ -9,4 +9,4 @@ class ContactForm(forms.Form):
     }))
 
 class ProductForm(forms.Form):
-    qauntity = forms.IntegerField()
+    value = forms.CharField()

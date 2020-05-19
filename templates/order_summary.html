@@ -39,7 +39,7 @@
               <td>
                 <div class="form-group--number">
                   <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><button class="minus"><span>-</span></button></a>
-                  <input class="form-control" type="text" value="{{ order_item.quantity }}">
+                  <input class="form-control" type="text" disabled value="{{ order_item.quantity }}">
                   <a href="{% url 'core:add-to-cart' order_item.item.slug %}"><button class="plus"><span>+</span></button></a>
                 </div>
               </td>
