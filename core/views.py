@@ -14,15 +14,16 @@ from .forms import ContactForm
 
 from django.core.paginator import Paginator
 
+from .decorators import unauthenticated_user
+
 
 class HomeView(View):
 
     def get(self, *args, **kwargs):
+
         categories = Category.objects.all()
 
         items = Item.objects.all()
-
-        order = Order.objects.get(user=self.request.user, ordered=False)
 
         count_all = items.count()
 
@@ -36,9 +37,13 @@ class HomeView(View):
         count_sublimation = items.filter(category='SUT').count()
         count_event = items.filter(category='ET').count()
         
-        context = {'cart': order, 'categories': categories, 'count_all': count_all, 'items': items, 'count_round': count_round, 'count_collar': count_collar,
+        context = {'categories': categories, 'count_all': count_all, 'items': items, 'count_round': count_round, 'count_collar': count_collar,
                    'count_track': count_track, 'count_customise': count_customise, 'count_corporate': count_corporate,'count_graphics': count_graphics,
                     'count_sports': count_sports, 'count_sublimation': count_sublimation, 'count_event': count_event }
+            
+        if self.request.user.is_staff:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context['cart'] = order
 
         return render(self.request, 'index.html', context)
 
@@ -88,6 +93,9 @@ def ProductListView(request, title):
 
     #---------------------------------------------------
 
+    if request.user.is_staff:
+            context['cart'] = Order.objects.get(user=request.user, ordered=False)
+
     if title == 'RNT':
         context['RNT'] = True
     if title == 'CT':
@@ -116,7 +124,8 @@ class ProductDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
         context['item_list'] = Item.objects.all()
-        context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+        if self.request.user.is_staff:
+            context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
         return context
 
 @login_required

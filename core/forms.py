@@ -7,3 +7,6 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea(attrs={
         'rows': 4
     }))
+
+class ProductForm(forms.Form):
+    qauntity = forms.IntegerField()

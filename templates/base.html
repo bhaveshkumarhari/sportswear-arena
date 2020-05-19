@@ -186,7 +186,17 @@
               
             </form> -->
            
-            {% if request.user.is_authenticated %}
+          {% if request.user.is_authenticated %}
+            {% if request.user|cart_item_count == 0 %}
+            <div class="ps-cart"><a class="ps-cart__toggle" href="{% url 'core:order-summary' %}"><span><i>{{ request.user|cart_item_count }}</i></span><i class="ps-icon-shopping-cart"></i></a>
+              <div class="ps-cart__listing">
+                <div class="ps-cart__total">
+                  <p>You do not have an item in your cart.</p>
+                </div>
+                <div class="ps-cart__footer"><a class="ps-btn" href="/">Start shopping<i class="ps-icon-arrow-left"></i></a></div>
+              </div>
+            </div>
+            {% else %}
             <div class="ps-cart"><a class="ps-cart__toggle" href="{% url 'core:order-summary' %}"><span><i>{{ request.user|cart_item_count }}</i></span><i class="ps-icon-shopping-cart"></i></a>
               <div class="ps-cart__listing">
                 <div class="ps-cart__content">
@@ -209,18 +219,6 @@
                     </div>
                   </div>
                   {% endfor %}
-                  <!-- <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
-                    <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{% static 'sky/images/shoe/1.jpg' %}" alt=""></div>
-                    <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">The Crusty Croissant</a>
-                      <p><span>Quantity:<i>12</i></span><span>Total:<i>&#8377;176</i></span></p>
-                    </div>
-                  </div>
-                  <div class="ps-cart-item"><a class="ps-cart-item__close" href="#"></a>
-                    <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{% static 'sky/images/shoe/3.jpg' %}" alt=""></div>
-                    <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="product-detail.html">The Rolling Pin</a>
-                      <p><span>Quantity:<i>12</i></span><span>Total:<i>&#8377;176</i></span></p>
-                    </div>
-                  </div> -->
                 </div>
                 <div class="ps-cart__total">
                   <p>Number of items:<span>{{ cart.get_total_quantity }}</span></p>
@@ -231,6 +229,7 @@
                 <div class="ps-cart__footer"><a class="ps-btn" href="cart.html">Check out<i class="ps-icon-arrow-left"></i></a></div>
               </div>
             </div>
+            {% endif %}
 
              <div class="ps-cart">
               <ul>
@@ -245,7 +244,7 @@
              </ul>
              </div>
              {% endif %}
-            
+             
             <div class="menu-toggle"><span></span></div>
             <!-- <ul class="main-menu menu" style="float: right;">
               <li class="menu-item"><a style="color: white;" href="#">Login</a></li>

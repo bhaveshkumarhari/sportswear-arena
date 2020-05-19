@@ -35,7 +35,7 @@ class Category(models.Model):
 class Item(models.Model):
     title = models.CharField(max_length=100)
     price = models.FloatField()
-    discount_price = models.IntegerField(blank=True, null=True)
+    discount_price = models.FloatField(blank=True, null=True)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
     slug = models.SlugField()
     description = models.TextField()
@@ -64,7 +64,7 @@ class Item(models.Model):
         })
     
     def saving_price(self):
-        return self.price - self.discount_price
+        return int(self.price - self.discount_price)
 
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
