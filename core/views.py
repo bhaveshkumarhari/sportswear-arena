@@ -8,9 +8,9 @@ from django.utils import timezone
 
 from django.contrib import messages
 
-from .models import Item, Contact, Category, OrderItem, Order
+from .models import Item, Contact, Category, OrderItem, Order, Address
 
-from .forms import ContactForm, ProductForm
+from .forms import ContactForm, ProductForm, CheckoutForm
 
 # from django.core.paginator import Paginator
 
@@ -304,6 +304,61 @@ class OrderSummaryView(LoginRequiredMixin, View):
             # if there is no active order then shows message
             messages.warning(self.request, "You do not have active order")
             return redirect("/")
+
+
+class CheckoutView(View):
+    def get(self, *args, **kwargs):
+        form = CheckoutForm()
+        context = {'form':form}
+        return render(self.request, 'checkout.html', context)
+    
+    def post(self, *args, **kwargs):
+        form = CheckoutForm(self.request.POST or None)
+        try:
+            # check if order is already exists and not yet completed.
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            #print(self.request.POST) # printing the POST data to terminal
+            if form.is_valid():
+                # Get the cleaned data from the form.
+                shipping_address = form.cleaned_data.get('shipping_address')
+                shipping_address2 = form.cleaned_data.get('shipping_address2')
+                shipping_country = form.cleaned_data.get('shipping_country')
+                shipping_zip = form.cleaned_data.get('shipping_zip')
+                shipping_state = form.cleaned_data.get('shipping_state')
+                # TODO: Add functionality for these fields
+                # same_shipping_address = form.cleaned_data.get('same_shipping_address')
+                # save_info = form.cleaned_data.get('save_info')
+                payment_option = form.cleaned_data.get('payment_option')
+
+                # Assign the data to BillingAddress model fields
+                shipping_address = Address(
+                    user = self.request.user,
+                    street_address = shipping_address,
+                    apartment_address = shipping_address2,
+                    country = shipping_country,
+                    zip = shipping_zip,
+                    state = shipping_state,
+                )
+                shipping_address.save() # Save the assigned data
+                order.shipping_address = shipping_address
+                order.save()
+                return redirect('core:checkout')
+                # if payment_option == 'S':
+                #     return redirect('core:payment', payment_option='stripe')
+                # elif payment_option == 'S':
+                #     return redirect('core:payment', payment_option='paypal')
+                # else:
+                #     # Prints when data is invalid
+                #     messages.warning(self.request, "Invalid payment option selected")
+                #     return redirect('core:checkout')
+
+        except ObjectDoesNotExist:
+            # if there is no active order then shows message
+            messages.error(self.request, "You do not have active order")
+            return redirect("core:order-summary")
+
+        
+
 
 class ContactView(View):
     def get(self, *args, **kwargs):

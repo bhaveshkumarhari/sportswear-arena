@@ -78,7 +78,7 @@
       <nav class="navigation" style="background-color: rgb(29, 29, 88);">
         <div class="container-fluid">
           <div class="navigation__column left">
-            <div class="header__logo"><a class="ps-logo" href="index.html"><img src="{% static 'sky/images/sportswhitelogo.png' %}" alt=""></a></div>
+            <div class="header__logo"><a class="ps-logo" href="{% url 'core:home' %}"><img src="{% static 'sky/images/sportswhitelogo.png' %}" alt=""></a></div>
           </div>
           <!-- <div class="navigation__column left">
             <div class="header__logo" style="margin-top: 30px; width: 300px;"><a href="{% url 'core:home' %}"><img src="{% static 'sky/images/sportswhitelogo.png' %}" alt=""></a></div>
@@ -236,6 +236,7 @@
 
              <div class="ps-cart">
               <ul>
+                <!-- <li class="menu-item">Hello, {{request.user.username}}</li> -->
                <li class="menu-item"><a style="color: white; padding: 10px; font-size: 12pt; font-family: Arial, Helvetica, sans-serif;" href="{% url 'account_logout' %}"><u>Logout</u></a></li>
              </ul>
              </div>

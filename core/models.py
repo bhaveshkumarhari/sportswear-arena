@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 
+from django_countries.fields import CountryField
+
 CATEGORY_CHOICES = (
     ('TP','Track Pants'),
     ('ET','Event T-Shirt'),
@@ -14,6 +16,10 @@ CATEGORY_CHOICES = (
     ('RNT','Round Neck T-Shirt')
 )
 
+ADDRESS_CHOICES = (
+    ('B','Billing'),
+    ('S','Shipping'),
+)
 
 class Category(models.Model):
     title = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
@@ -98,6 +104,8 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
+    shipping_address = models.ForeignKey(
+        'Address', related_name='shipping_address', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -113,6 +121,22 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.quantity
         return total
+
+class Address(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    street_address = models.CharField(max_length=100)
+    apartment_address = models.CharField(max_length=100)
+    country = CountryField(multiple=False)
+    zip = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
+    default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        verbose_name_plural = 'Addresses'
 
 class Contact(models.Model):
     name = models.CharField(max_length=50)
