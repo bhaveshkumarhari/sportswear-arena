@@ -1686,7 +1686,8 @@ textarea.form-control {
     -o-transform: translate(-50%, -50%) rotate(45deg);
     transform: translate(-50%, -50%) rotate(45deg); }
   .ps-remove:hover {
-    background-color: #50CF96; }
+    /* background-color: #50CF96; } */
+    background-color: rgb(238, 113, 113); }
     .ps-remove:hover:before, .ps-remove:hover:after {
       background-color: #fff; }
 
@@ -2256,6 +2257,7 @@ textarea.form-control {
 
 .ps-widget--info > header .ps-logo {
   margin-bottom: 15px;
+  /* max-width: 300px; */
   max-width: 120px;
   display: inline-block; }
 
@@ -5044,7 +5046,7 @@ textarea.form-control {
   .header .ps-logo {
     padding-top: 15px;
     display: inline-block;
-    max-width: 150px;
+    max-width: 300px;
     line-height: 55px; }
   .header .header__top {
     border-bottom: 1px solid #e5e5e5; }

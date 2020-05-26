@@ -130,46 +130,47 @@ class ProductDetailView(View):
         return render(self.request, 'product.html', context)
     
     def post(self, *args, **kwargs):
+        
         form = ProductForm(self.request.POST or None)
-        # print(self.request.POST)
         if form.is_valid():
             value = form.cleaned_data.get('value')
-
+        
         item = get_object_or_404(Item, slug=slug_value['slug']) # get specific item with slug
-        # If item is not in OrderItem model then add item else get the item
-        order_item, created = OrderItem.objects.get_or_create(
-            item=item,
-            user=self.request.user,
-            ordered=False
-            )
 
-        # filter Order model which is not ordered yet by the specific user
-        order_qs = Order.objects.filter(user=self.request.user, ordered=False) 
+        if self.request.user.is_staff: #TODO
+            # If item is not in OrderItem model then add item else get the item
+            order_item, created = OrderItem.objects.get_or_create(
+                item=item,
+                user=self.request.user,
+                ordered=False
+                )
 
-        if order_qs.exists():
-            order = order_qs[0] # grab the order from the order_qs
+            # filter Order model which is not ordered yet by the specific user
+            order_qs = Order.objects.filter(user=self.request.user, ordered=False) 
 
-            # check if an item exists in Order model with slug
-            if order.items.filter(item__slug=item.slug).exists():
-                order_item.quantity += int(value) # Increase quantity in OrderItem model if there is an item exists
-                order_item.save() # Save OrderItem model
-                messages.info(self.request, "This item quantity was updated.")
-                return redirect("core:order-summary")
+            if order_qs.exists():
+                order = order_qs[0] # grab the order from the order_qs
+
+                # check if an item exists in Order model with slug
+                if order.items.filter(item__slug=item.slug).exists():
+                    order_item.quantity += int(value) # Increase quantity in OrderItem model if there is an item exists
+                    order_item.save() # Save OrderItem model
+                    messages.info(self.request, "This item quantity was updated.")
+                    return redirect("core:order-summary")
+                else:
+                    order.items.add(order_item) # Add item to Order model if item does not exist in OrderItem.
+                    order_item.quantity += int(value) - 1
+                    order_item.save() # Save OrderItem model
+                    messages.info(self.request, "This item was added to your cart.")
+                    return redirect("core:order-summary")
             else:
-                order.items.add(order_item) # Add item to Order model if item does not exist in OrderItem.
+                ordered_date = timezone.now() # get current date
+                order = Order.objects.create(user=self.request.user, ordered_date=ordered_date) # Create Order model instance with specific user and ordered date
+                order.items.add(order_item) # Then add order_item to that model instance
                 order_item.quantity += int(value) - 1
                 order_item.save() # Save OrderItem model
                 messages.info(self.request, "This item was added to your cart.")
                 return redirect("core:order-summary")
-        else:
-            ordered_date = timezone.now() # get current date
-            order = Order.objects.create(user=self.request.user, ordered_date=ordered_date) # Create Order model instance with specific user and ordered date
-            order.items.add(order_item) # Then add order_item to that model instance
-            order_item.quantity += int(value) - 1
-            order_item.save() # Save OrderItem model
-            messages.info(self.request, "This item was added to your cart.")
-            return redirect("core:order-summary")
-
 
         return redirect('core:order-summary')
 
