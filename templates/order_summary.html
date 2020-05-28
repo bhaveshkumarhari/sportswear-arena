@@ -24,6 +24,7 @@
             <tr>
               <th scope="col">#</th>
               <th>All Products</th>
+              <th>Size</th>
               <th>Price</th>
               <th>Quantity</th>
               <th>Total</th>
@@ -35,6 +36,7 @@
             <tr>
               <td scope="row">{{ forloop.counter }}</td>
               <td><a class="ps-product__preview" href="{{ order_item.item.get_absolute_url }}"><img class="mr-15" width="80" height="80" src="{{ order_item.item.front_image.url }}" alt=""> {{ order_item.item.title }}</a></td>
+              <td>{{ order_item.size}}</td>
               <td>&#8377;{{ order_item.item.price }}</td>
               <td>
                 <div class="form-group--number">
@@ -86,7 +88,7 @@
           </div>
           {% if cart.get_total %}
           <div class="ps-cart__total">
-            <h3>Total Price: <span>&#8377; {{ cart.get_total }}</span></h3><a class="ps-btn" href="checkout.html">Process to checkout<i class="ps-icon-next"></i></a>
+            <h3>Total Price: <span>&#8377; {{ cart.get_total }}</span></h3><a class="ps-btn" href="{% url 'core:checkout' %}">Process to checkout<i class="ps-icon-next"></i></a>
           </div>
           {% endif %}
         </div>

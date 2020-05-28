@@ -21,6 +21,14 @@ ADDRESS_CHOICES = (
     ('S','Shipping'),
 )
 
+TSHIRT_SIZES = (
+    ('B','S'),
+    ('M','M'),
+    ('L','L'),
+    ('XL','XL'),
+    ('XXL','XXL'),
+)
+
 class Category(models.Model):
     title = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
     description = models.TextField(max_length=1000)
@@ -48,6 +56,7 @@ class Item(models.Model):
     front_image = models.ImageField()
     back_image = models.ImageField()
     side_image = models.ImageField()
+    size = models.CharField(choices=TSHIRT_SIZES, max_length=3)
     quantity = models.IntegerField(default=1)
     new = models.BooleanField(default=False)
 
@@ -76,10 +85,11 @@ class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    size = models.CharField(null=False, max_length=3)
     ordered = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.title}"
+        return f"{self.quantity} of {self.item.title} of {self.size} size"
 
     # calculate price with item quantity
     def get_total_item_price(self):

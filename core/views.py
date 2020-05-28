@@ -3,6 +3,10 @@ from django.views.generic import ListView, View, DetailView
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
 
 from django.utils import timezone
 
@@ -10,11 +14,56 @@ from django.contrib import messages
 
 from .models import Item, Contact, Category, OrderItem, Order, Address
 
-from .forms import ContactForm, ProductForm, CheckoutForm
+from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm
 
 # from django.core.paginator import Paginator
 
 from django.views.generic.edit import FormMixin
+
+
+def registerPage(request):
+    if request.user.is_authenticated:
+        return redirect('core:home')
+    else:
+        form = CreateUserForm()
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                username = form.cleaned_data.get('username')
+
+        #         # For every user registration, add user to customer group
+        #         group = Group.objects.get(name='customer')
+        #         user.groups.add(group)
+
+                messages.success(request,'Account was created for ' + username)
+                return redirect('core:login')
+        context = {'form':form}
+        return render(request, 'register.html', context)
+
+def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('core:home')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('core:home')
+            else:
+                messages.warning(request, 'Username OR password is incorrect')
+
+        context = {}
+        return render(request, 'login.html', context)
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('/')
 
 
 class HomeView(View):
@@ -41,15 +90,14 @@ class HomeView(View):
                    'count_track': count_track, 'count_customise': count_customise, 'count_corporate': count_corporate,'count_graphics': count_graphics,
                     'count_sports': count_sports, 'count_sublimation': count_sublimation, 'count_event': count_event }
             
-        if self.request.user.is_staff: #TODO
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            context['cart'] = order
+        # if self.request.user.is_authenticated: #TODO
+        #     context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
 
         return render(self.request, 'index.html', context)
 
     def post(self, *args, **kwargs):
         form = ContactForm(self.request.POST or None)
-        print(self.request.POST)
+        # print(self.request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
             email = form.cleaned_data.get('email')
@@ -93,8 +141,8 @@ def ProductListView(request, title):
 
     #---------------------------------------------------
 
-    if request.user.is_staff: #TODO
-            context['cart'] = Order.objects.get(user=request.user, ordered=False)
+    if self.request.user.is_authenticated: #TODO
+            context['cart'] = Order.objects.filter(user=self.request.user, ordered=False)
 
     if title == 'RNT':
         context['RNT'] = True
@@ -125,8 +173,14 @@ class ProductDetailView(View):
         context = {}
         context['object'] = Item.objects.get(slug=slug_value['slug'])
         context['item_list'] = Item.objects.all()
-        if self.request.user.is_staff: #TODO
+        if self.request.user.is_authenticated: #TODO
             context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+            # try:
+            #     context['cart'] = Order.objects.filter(user=self.request.user, ordered=False)
+            # except:
+            #     messages.warning(self.request, "You do not have item in your cart.")
+            #     return redirect("core:product",slug=slug_value['slug'])
+
         return render(self.request, 'product.html', context)
     
     def post(self, *args, **kwargs):
@@ -134,40 +188,51 @@ class ProductDetailView(View):
         form = ProductForm(self.request.POST or None)
         if form.is_valid():
             value = form.cleaned_data.get('value')
+            size = form.cleaned_data.get('size')
+
         
         item = get_object_or_404(Item, slug=slug_value['slug']) # get specific item with slug
+        # print(item)
 
-        if self.request.user.is_staff: #TODO
+        if self.request.user.is_authenticated: #TODO
             # If item is not in OrderItem model then add item else get the item
             order_item, created = OrderItem.objects.get_or_create(
                 item=item,
+                # size=size,
                 user=self.request.user,
                 ordered=False
                 )
+            # print(order_item)
 
             # filter Order model which is not ordered yet by the specific user
             order_qs = Order.objects.filter(user=self.request.user, ordered=False) 
 
             if order_qs.exists():
                 order = order_qs[0] # grab the order from the order_qs
-
+                
                 # check if an item exists in Order model with slug
                 if order.items.filter(item__slug=item.slug).exists():
+                    
                     order_item.quantity += int(value) # Increase quantity in OrderItem model if there is an item exists
+                    # order_item.size = size
                     order_item.save() # Save OrderItem model
                     messages.info(self.request, "This item quantity was updated.")
                     return redirect("core:order-summary")
                 else:
+                    # print(order_item)
                     order.items.add(order_item) # Add item to Order model if item does not exist in OrderItem.
-                    order_item.quantity += int(value) - 1
+                    order_item.quantity = int(value)
+                    # order_item.size = size
                     order_item.save() # Save OrderItem model
                     messages.info(self.request, "This item was added to your cart.")
                     return redirect("core:order-summary")
             else:
+                print(order_item)
                 ordered_date = timezone.now() # get current date
                 order = Order.objects.create(user=self.request.user, ordered_date=ordered_date) # Create Order model instance with specific user and ordered date
                 order.items.add(order_item) # Then add order_item to that model instance
-                order_item.quantity += int(value) - 1
+                order_item.quantity = int(value)
+                # order_item.size = size
                 order_item.save() # Save OrderItem model
                 messages.info(self.request, "This item was added to your cart.")
                 return redirect("core:order-summary")
@@ -185,7 +250,7 @@ class ProductDetailView(View):
 #             context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
 #         return context
 
-@login_required
+@login_required(login_url='core:login')
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug) # get specific item with slug
     # If item is not in OrderItem model then add item else get the item
@@ -218,7 +283,7 @@ def add_to_cart(request, slug):
         messages.info(request, "This item was added to your cart.")
         return redirect("core:order-summary")
 
-@login_required
+@login_required(login_url='core:login')
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug) # get specific item with slug
 
@@ -254,7 +319,7 @@ def remove_from_cart(request, slug):
         return redirect("core:product",slug=slug)
 
 
-@login_required
+@login_required(login_url='core:login')
 def remove_single_item_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug) # get specific item with slug
 
@@ -290,6 +355,9 @@ def remove_single_item_from_cart(request, slug):
 
 
 class OrderSummaryView(LoginRequiredMixin, View):
+    login_url = 'core:login'
+    redirect_field_name = 'core:order-summary'
+
     def get(self, *args, **kwargs):
 
         try:
@@ -306,7 +374,8 @@ class OrderSummaryView(LoginRequiredMixin, View):
             return redirect("/")
 
 
-class CheckoutView(View):
+class CheckoutView(LoginRequiredMixin, View):
+    login_url = 'core:login'
     def get(self, *args, **kwargs):
         form = CheckoutForm()
         context = {'form':form}

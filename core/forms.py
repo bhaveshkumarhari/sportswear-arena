@@ -1,3 +1,5 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django import forms
 
 from django_countries.fields import CountryField
@@ -7,6 +9,12 @@ PAYMENT_CHOICES = (
     ('S', 'Stripe'),
     ('P', 'Paypal')
 )
+
+class CreateUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields= ['username','email','password1','password2']
+
 
 class CheckoutForm(forms.Form):
     shipping_address = forms.CharField(required=False)
@@ -46,4 +54,5 @@ class ContactForm(forms.Form):
     }))
 
 class ProductForm(forms.Form):
+    size = forms.CharField()
     value = forms.CharField()

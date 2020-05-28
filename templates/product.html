@@ -65,15 +65,15 @@
                   {% csrf_token %}
                 <div class="ps-product__block ps-product__size">
                   <h4>CHOOSE SIZE<a href="#">Size chart</a></h4>
-                  <select class="ps-select selectpicker">
-                    <option value="1">Select Size</option>
-                    <option value="2">XXS</option>
-                    <option value="3">XS</option>
-                    <option value="4">S</option>
-                    <option value="5">M</option>
-                    <option value="6">L</option>
-                    <option value="7">XL</option>
-                    <option value="8">XXL</option>
+                  <select name="size" class="ps-select selectpicker">
+                    <!-- <option value="1">Select Size</option> -->
+                    <!-- <option value="2">XXS</option>
+                    <option value="3">XS</option> -->
+                    <option value="S" required>S</option>
+                    <option value="M" required>M</option>
+                    <option value="L" required>L</option>
+                    <option value="XL" required>XL</option>
+                    <option value="XXL" required>XXL</option>
                     
                     <!-- <option value="3">8</option>
                     <option value="3">8.5</option>
