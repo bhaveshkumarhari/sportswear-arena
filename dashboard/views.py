@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 
 from .forms import CreateUserForm
+
+from django.contrib import messages
+
+from django.contrib.auth import authenticate, login, logout
 
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users, admin_only
@@ -32,7 +36,7 @@ def registerPage(request):
             user.groups.add(group)
 
             messages.success(request,'Account was created for ' + username)
-            return redirect('core:login')
+            return redirect('dashboard:dashboard-login')
     context = {'form':form}
     return render(request, 'dashboard_register.html', context)
 
@@ -49,13 +53,16 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('core:home')
+            return redirect('dashboard:dashboard-home')
         else:
             messages.warning(request, 'Username OR password is incorrect')
 
     context = {}
     return render(request, 'dashboard_login.html', context)
 
+def logoutUser(request):
+    logout(request)
+    return redirect('dashboard:dashboard-login')
 
 class userPage(View):
 
