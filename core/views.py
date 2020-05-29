@@ -16,49 +16,53 @@ from .models import Item, Contact, Category, OrderItem, Order, Address
 
 from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm
 
+from .decorators import unauthenticated_user
+
 # from django.core.paginator import Paginator
 
-from django.views.generic.edit import FormMixin
+# from django.views.generic.edit import FormMixin
 
 
+@unauthenticated_user
 def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('core:home')
-    else:
-        form = CreateUserForm()
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                user = form.save()
-                username = form.cleaned_data.get('username')
+    # if request.user.is_authenticated:
+    #     return redirect('core:home')
+    # else:
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
 
-        #         # For every user registration, add user to customer group
-        #         group = Group.objects.get(name='customer')
-        #         user.groups.add(group)
+    #         # For every user registration, add user to customer group
+    #         group = Group.objects.get(name='customer')
+    #         user.groups.add(group)
 
-                messages.success(request,'Account was created for ' + username)
-                return redirect('core:login')
-        context = {'form':form}
-        return render(request, 'register.html', context)
+            messages.success(request,'Account was created for ' + username)
+            return redirect('core:login')
+    context = {'form':form}
+    return render(request, 'register.html', context)
 
+@unauthenticated_user
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('core:home')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+    # if request.user.is_authenticated:
+    #     return redirect('core:home')
+    # else:
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-            user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
-            if user is not None:
-                login(request, user)
-                return redirect('core:home')
-            else:
-                messages.warning(request, 'Username OR password is incorrect')
+        if user is not None:
+            login(request, user)
+            return redirect('core:home')
+        else:
+            messages.warning(request, 'Username OR password is incorrect')
 
-        context = {}
-        return render(request, 'login.html', context)
+    context = {}
+    return render(request, 'login.html', context)
 
 
 def logoutUser(request):
@@ -90,8 +94,12 @@ class HomeView(View):
                    'count_track': count_track, 'count_customise': count_customise, 'count_corporate': count_corporate,'count_graphics': count_graphics,
                     'count_sports': count_sports, 'count_sublimation': count_sublimation, 'count_event': count_event }
             
-        # if self.request.user.is_authenticated: #TODO
-        #     context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+        if self.request.user.is_authenticated:
+            try:
+                context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+            except:
+                ordered_date = timezone.now() # get current date
+                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
 
         return render(self.request, 'index.html', context)
 
@@ -141,8 +149,12 @@ def ProductListView(request, title):
 
     #---------------------------------------------------
 
-    if self.request.user.is_authenticated: #TODO
-            context['cart'] = Order.objects.filter(user=self.request.user, ordered=False)
+    if self.request.user.is_authenticated:
+            try:
+                context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+            except:
+                ordered_date = timezone.now() # get current date
+                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
 
     if title == 'RNT':
         context['RNT'] = True
@@ -173,13 +185,12 @@ class ProductDetailView(View):
         context = {}
         context['object'] = Item.objects.get(slug=slug_value['slug'])
         context['item_list'] = Item.objects.all()
-        if self.request.user.is_authenticated: #TODO
-            context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
-            # try:
-            #     context['cart'] = Order.objects.filter(user=self.request.user, ordered=False)
-            # except:
-            #     messages.warning(self.request, "You do not have item in your cart.")
-            #     return redirect("core:product",slug=slug_value['slug'])
+        if self.request.user.is_authenticated:
+            try:
+                context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+            except:
+                ordered_date = timezone.now() # get current date
+                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
 
         return render(self.request, 'product.html', context)
     
@@ -194,7 +205,7 @@ class ProductDetailView(View):
         item = get_object_or_404(Item, slug=slug_value['slug']) # get specific item with slug
         # print(item)
 
-        if self.request.user.is_authenticated: #TODO
+        if self.request.user.is_authenticated:
             # If item is not in OrderItem model then add item else get the item
             order_item, created = OrderItem.objects.get_or_create(
                 item=item,
@@ -227,7 +238,7 @@ class ProductDetailView(View):
                     messages.info(self.request, "This item was added to your cart.")
                     return redirect("core:order-summary")
             else:
-                print(order_item)
+                # print(order_item)
                 ordered_date = timezone.now() # get current date
                 order = Order.objects.create(user=self.request.user, ordered_date=ordered_date) # Create Order model instance with specific user and ordered date
                 order.items.add(order_item) # Then add order_item to that model instance
@@ -379,6 +390,13 @@ class CheckoutView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         form = CheckoutForm()
         context = {'form':form}
+        if self.request.user.is_authenticated:
+            try:
+                context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+            except:
+                ordered_date = timezone.now() # get current date
+                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+                
         return render(self.request, 'checkout.html', context)
     
     def post(self, *args, **kwargs):
