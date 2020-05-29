@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.models import Group
 
+from core.models import Item
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 @login_required(login_url='dashboard:dashboard-login')
@@ -18,6 +20,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 @admin_only
 def HomeView(request):
     return render(request, 'dashboard.html')
+
+
+@login_required(login_url='dashboard:dashboard-login')
+@admin_only
+def productList(request):
+    items = Item.objects.all()
+    context = {'items':items}
+    return render(request, 'dashboard_product_list.html', context)
+
 
 @unauthenticated_user
 def registerPage(request):
