@@ -22,7 +22,7 @@
                             <div class="page-header-breadcrumb">
                                 <ul class="breadcrumb-title">
                                     <li class="breadcrumb-item">
-                                        <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
+                                        <a href="{% url 'dashboard:dashboard-home' %}"> <i class="feather icon-home"></i> </a>
                                     </li>
                                     <!-- <li class="breadcrumb-item"><a href="#!">E-Commerce</a>
                                     </li> -->
@@ -55,7 +55,9 @@
                                                             <tr>
                                                                 <th>Image</th>
                                                                 <th>Product Name</th>
+                                                                <th>Category</th>
                                                                 <th>Amount</th>
+                                                                <th>Discount Price</th>
                                                                 <th>Stock</th>
                                                                 <th>Action</th>
                                                             </tr>
@@ -70,9 +72,21 @@
                                                                     <h6>{{item.title}}</h6>
                                                                     <span>{{item.description}}</span>
                                                                 </td>
+                                                                <td>{{item.get_category_display}}</td>
                                                                 <td>&#8377;{{item.price}}</td>
+                                                                {% if item.discount_price %}
+                                                                <td>{{item.discount_price}}</td>
+                                                                {% else %}
+                                                                <td>-</td>
+                                                                {% endif %}
                                                                 <td>
+                                                                    {% if item.quantity == 0 %}
                                                                     <label class="text-danger">Out Of Stock</label>
+                                                                    {% elif 11 > item.quantity > 0 %}
+                                                                    <label class="text-warning">Low Stock</label>
+                                                                    {% else %}
+                                                                    <label class="text-success">In Stock</label>
+                                                                    {% endif %}
                                                                 </td>
                                                                 <td class="action-icon">
                                                                     <a href="#!" class="m-r-15 text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="icofont icofont-ui-edit"></i></a>
@@ -80,7 +94,7 @@
                                                                 </td>
                                                             </tr>
                                                             {% endfor %}
-                                                            <tr>
+                                                            <!-- <tr>
                                                                 <td class="pro-list-img">
                                                                     <img src="{% static 'dashboard\assets\images\product-list\pro-l6.png' %}" class="img-fluid" alt="tbl">
                                                                 </td>
@@ -113,7 +127,8 @@
                                                                     <a href="#!" class="m-r-15 text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="icofont icofont-ui-edit"></i></a>
                                                                     <a href="#!" class="text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="icofont icofont-delete-alt"></i></a>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> -->
+                                                            
                                                             
                                                         </tbody>
                                                     </table>
