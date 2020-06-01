@@ -116,6 +116,8 @@ class Order(models.Model):
     ordered = models.BooleanField(default=False)
     shipping_address = models.ForeignKey(
         'Address', related_name='shipping_address', on_delete=models.SET_NULL, blank=True, null=True)
+    billing_address = models.ForeignKey(
+        'Address', related_name='billing_address',on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.user.username

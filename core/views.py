@@ -385,19 +385,57 @@ class OrderSummaryView(LoginRequiredMixin, View):
             return redirect("/")
 
 
+def is_valid_form(values):
+    valid = True
+    for field in values:
+        if field == '':
+            valid = False
+    return valid
+
 class CheckoutView(LoginRequiredMixin, View):
     login_url = 'core:login'
     def get(self, *args, **kwargs):
-        form = CheckoutForm()
-        context = {'form':form}
-        if self.request.user.is_authenticated:
-            try:
-                context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
-            except:
-                ordered_date = timezone.now() # get current date
-                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
-                
-        return render(self.request, 'checkout.html', context)
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            form = CheckoutForm()
+            context = {
+                'form': form,
+                # 'couponform': CouponForm,
+                'order': order,
+                # 'DISPLAY_COUPON_FORM': True # Displays coupon form.
+            }
+
+            shipping_address_qs = Address.objects.filter(
+                user = self.request.user,
+                address_type = 'S',
+                default = True
+            )
+
+            if shipping_address_qs.exists():
+                context.update({'default_shipping_address': shipping_address_qs[0]})
+
+
+            billing_address_qs = Address.objects.filter(
+                user = self.request.user,
+                address_type = 'B',
+                default = True
+            )
+
+            if billing_address_qs.exists():
+                context.update({'default_billing_address': billing_address_qs[0]})
+
+            if self.request.user.is_authenticated:
+                try:
+                    context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+                except:
+                    ordered_date = timezone.now() # get current date
+                    context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+                    
+            return render(self.request, 'checkout.html', context)
+        
+        except ObjectDoesNotExist:
+            messages.info(self.request, "You do not have an active order")
+            return redirect("core:checkout")
     
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
@@ -406,29 +444,134 @@ class CheckoutView(LoginRequiredMixin, View):
             order = Order.objects.get(user=self.request.user, ordered=False)
             #print(self.request.POST) # printing the POST data to terminal
             if form.is_valid():
-                # Get the cleaned data from the form.
-                shipping_address = form.cleaned_data.get('shipping_address')
-                shipping_address2 = form.cleaned_data.get('shipping_address2')
-                shipping_country = form.cleaned_data.get('shipping_country')
-                shipping_zip = form.cleaned_data.get('shipping_zip')
-                shipping_state = form.cleaned_data.get('shipping_state')
-                # TODO: Add functionality for these fields
-                # same_shipping_address = form.cleaned_data.get('same_shipping_address')
-                # save_info = form.cleaned_data.get('save_info')
-                payment_option = form.cleaned_data.get('payment_option')
 
-                # Assign the data to BillingAddress model fields
-                shipping_address = Address(
-                    user = self.request.user,
-                    street_address = shipping_address,
-                    apartment_address = shipping_address2,
-                    country = shipping_country,
-                    zip = shipping_zip,
-                    state = shipping_state,
-                )
-                shipping_address.save() # Save the assigned data
-                order.shipping_address = shipping_address
-                order.save()
+#---------------------------- FOR SHIPPING ADDRESS ----------------------------------------
+
+                #------- If checkbox selected to use default shipping address --------
+                use_default_shipping = form.cleaned_data.get('use_default_shipping')
+
+                if use_default_shipping:
+                    print("Using the default shipping address")
+                    address_qs = Address.objects.filter(
+                        user = self.request.user,
+                        address_type = 'S',
+                        default = True
+                    )
+                    if address_qs.exists():
+                        shipping_address = address_qs[0]
+                        order.shipping_address = shipping_address
+                        order.save()
+
+                    else:
+                        messages.info(self.request, "No default shipping address available")
+                        return redirect('core:checkout')
+                #----- Else user will enter new shipping address------------------------
+                else:
+                    print("User is entering a new shipping address")
+
+                    # Get the cleaned data from the form.
+                    shipping_address = form.cleaned_data.get('shipping_address')
+                    shipping_address2 = form.cleaned_data.get('shipping_address2')
+                    shipping_country = form.cleaned_data.get('shipping_country')
+                    shipping_zip = form.cleaned_data.get('shipping_zip')
+                    shipping_state = form.cleaned_data.get('shipping_state')
+
+
+                    # functionality is above
+                    if is_valid_form([shipping_address, shipping_country, shipping_zip, shipping_state]):
+                        # Assign the data to BillingAddress model fields
+                        shipping_address = Address(
+                            user = self.request.user,
+                            street_address = shipping_address,
+                            apartment_address = shipping_address2,
+                            country = shipping_country,
+                            zip = shipping_zip,
+                            state = shipping_state,
+                            address_type = 'S'
+                        )
+                        shipping_address.save() # Save the assigned data
+                        order.shipping_address = shipping_address
+                        order.save()
+
+                        #------- If checkbox selected to set default shipping address --------
+                        set_default_shipping = form.cleaned_data.get('set_default_shipping')
+
+                        if set_default_shipping:
+                            shipping_address.default = True
+                            shipping_address.save()
+                        #---------------------------------------------------------------------
+                    else:
+                        messages.info(self.request, "Please fill in the required shipping address fields")
+
+#---------------------------- FOR BILLING ADDRESS ----------------------------------------
+
+                #------- If checkbox selected to use default shipping address --------
+                use_default_billing = form.cleaned_data.get('use_default_billing')
+                #------- If checkbox selected to use same billing address as shipping address-
+                same_billing_address = form.cleaned_data.get('same_billing_address')
+
+                #------- If checkbox selected to use same billing address as shipping address-
+                if same_billing_address:
+                    billing_address = shipping_address
+                    billing_address.pk = None
+                    billing_address.save()
+                    billing_address.address_type = 'B'
+                    billing_address.save()
+                    order.billing_address = billing_address
+                    order.save()
+
+                #------- elif checkbox selected to use default shipping address --------
+                elif use_default_billing:
+                    print("Using the default billing address")
+                    address_qs = Address.objects.filter(
+                        user = self.request.user,
+                        address_type = 'B',
+                        default = True
+                    )
+                    if address_qs.exists():
+                        billing_address = address_qs[0]
+                        order.billing_address = billing_address
+                        order.save()
+                    else:
+                        messages.info(self.request, "No default billing address available")
+                        return redirect('core:checkout')
+                #----- Else user will enter new billing address------------------------
+                else:
+                    print("User is entering a new billing address")
+
+                    billing_address1 = form.cleaned_data.get('billing_address')
+                    billing_address2 = form.cleaned_data.get('billing_address2')
+                    billing_country = form.cleaned_data.get('billing_country')
+                    billing_zip = form.cleaned_data.get('billing_zip')
+                    billing_state = form.cleaned_data.get('billing_state')
+                    
+                    if is_valid_form([billing_address1, billing_country, billing_zip, billing_state]):
+                        # Assign the data to Address model fields
+                        billing_address = Address(
+                            user = self.request.user,
+                            street_address = billing_address1,
+                            apartment_address = billing_address2,
+                            country = billing_country,
+                            zip = billing_zip,
+                            state = billing_state,
+                            address_type = 'B'
+                        )
+                        billing_address.save() # Save the assigned data
+
+                        order.billing_address = billing_address
+                        order.save()
+
+                        #------- If checkbox selected to set default shipping address --------
+                        set_default_billing = form.cleaned_data.get('set_default_billing')
+
+                        if set_default_billing:
+                            billing_address.default = True
+                            billing_address.save()
+
+                        #---------------------------------------------------------------------
+                    else:
+                        messages.info(self.request, "Please fill in the required billing address fields")      
+
                 return redirect('core:checkout')
                 # if payment_option == 'S':
                 #     return redirect('core:payment', payment_option='stripe')

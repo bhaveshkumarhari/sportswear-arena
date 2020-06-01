@@ -321,6 +321,7 @@
                     </div>
                 </div>
             </div>
+            
             <!-- Sidebar inner chat end-->
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
@@ -328,12 +329,12 @@
                         <div class="pcoded-inner-navbar main-menu">
                             <div class="pcoded-navigatio-lavel">Navigation</div>
                             <ul class="pcoded-item pcoded-left-item">
-                                <li class="pcoded-hasmenu active pcoded-trigger">
+                                <!-- <li class="pcoded-hasmenu active pcoded-trigger">
                                     <a href="{% url 'dashboard:dashboard-home' %}">
                                         <span class="pcoded-micon"><i class="feather icon-home"></i></span>
                                         <span class="pcoded-mtext">Dashboard</span>
                                     </a>
-                                    <!-- <ul class="pcoded-submenu">
+                                    <ul class="pcoded-submenu">
                                         <li class="">
                                             <a href="index-1.htm">
                                                 <span class="pcoded-mtext">Default</span>
@@ -350,8 +351,8 @@
                                                 <span class="pcoded-badge label label-info ">NEW</span>
                                             </a>
                                         </li>
-                                    </ul> -->
-                                </li>
+                                    </ul>
+                                </li> -->
                                 <!-- <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)">
                                         <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
@@ -432,9 +433,21 @@
                                     </ul>
                                 </li> -->
                                 <li class="">
+                                    <a href="{% url 'dashboard:dashboard-home' %}">
+                                        <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+                                        <span class="pcoded-mtext">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="">
                                     <a href="{% url 'dashboard:dashboard-product-list' %}">
                                         <span class="pcoded-micon"><i class="feather icon-list"></i></span>
                                         <span class="pcoded-mtext">Product List</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{% url 'dashboard:dashboard-product-list' %}">
+                                        <span class="pcoded-micon"><i class="feather icon-users"></i></span>
+                                        <span class="pcoded-mtext">Customer List</span>
                                     </a>
                                 </li>
                                 <!-- <li class="pcoded-hasmenu">
