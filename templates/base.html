@@ -205,7 +205,7 @@
                 <div class="ps-cart__content">
                   {% for order_item in cart.items.all %}
                   <div class="ps-cart-item"><a class="ps-cart-item__close" href="{% url 'core:remove-from-cart' order_item.item.slug %}"></a>
-                    <div class="ps-cart-item__thumbnail"><a href="product-detail.html"></a><img src="{{ order_item.item.front_image.url }}" alt=""></div>
+                    <div class="ps-cart-item__thumbnail"><a href="{{ order_item.item.get_absolute_url }}"></a><img src="{{ order_item.item.front_image.url }}" alt=""></div>
                     <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ order_item.item.get_absolute_url }}">{{ order_item.item.title }}</a>
                       <p><span>Quantity:<i>{{ order_item.quantity }}</i></span>
                         <span>Total:<i>
@@ -229,7 +229,7 @@
                   <p>Item Total:<span>&#8377; {{ cart.get_total }}</span></p>
                   {% endif %}
                 </div>
-                <div class="ps-cart__footer"><a class="ps-btn" href="cart.html">Check out<i class="ps-icon-arrow-left"></i></a></div>
+                <div class="ps-cart__footer"><a class="ps-btn" href="{% url 'core:checkout' %}">Check out<i class="ps-icon-arrow-left"></i></a></div>
               </div>
             </div>
             {% endif %}

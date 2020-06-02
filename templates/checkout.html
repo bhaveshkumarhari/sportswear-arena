@@ -151,84 +151,27 @@
                           <label class="custom-control-label" for="set_default_billing">Save as default billing address</label>
                         </div>
                       </div>
+
+                      <div class='show_text' style="display:none">
+                        Same as my shipping address.
+                      </div>
+
+                      <hr>
+
+                      {% if default_billing_address %}
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" name="use_default_billing" id="use_default_billing">
+                        <label class="custom-control-label" for="use_default_billing">Use default billing address: {{ default_billing_address.street_address|truncatechars:10 }}</label>
+                      </div>
+                      {% endif %}
+
+                      
                 </div>
 
-                <hr>
-
-                {% if default_billing_address %}
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="use_default_billing" id="use_default_billing">
-                  <label class="custom-control-label" for="use_default_billing">Use default billing address: {{ default_billing_address.street_address|truncatechars:10 }}</label>
-                </div>
-                {% endif %}
                 
               </div>
               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-                <div class="ps-checkout__order">
-                  <header>
-                    <h3>Your Order</h3>
-                  </header>
-                  <div class="content">
-                    <table class="table ps-checkout__products">
-                      <thead>
-                        <tr>
-                          <th class="text-uppercase">Product</th>
-                          <th class="text-uppercase">Total</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>HABITANT x1</td>
-                          <td>$300.00</td>
-                        </tr>
-                        <tr>
-                          <td>Card Subtitle</td>
-                          <td>$300.00</td>
-                        </tr>
-                        <tr>
-                          <td>Order Total</td>
-                          <td>$300.00</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <footer>
-                    <h3>Payment Method</h3>
-                    {% for value, name in form.fields.payment_option.choices %}
-                    <div class="form-group paypal">
-                        
-                        <div class="ps-radio ps-radio--inline">
-                          <input class="form-control" type="radio" name="payment_option" value="{{ value }}" id="{{ name }}" required>
-                          <label for="{{ name }}">{{ name }}</label>
-                        </div>
-                        <!-- <ul class="ps-payment-method">
-                          <li><a href="#"><img src="{% static 'sky/images/payment/1.png' %}" alt=""></a></li>
-                          <li><a href="#"><img src="{% static 'sky/images/payment/2.png' %}" alt=""></a></li>
-                          <li><a href="#"><img src="{% static 'sky/images/payment/3.png' %}" alt=""></a></li>
-                        </ul> -->
-                        
-                    </div>
-                    {% endfor %}
-                    <div class="form-group cheque">
-                        <button class="ps-btn ps-btn--fullwidth" type="submit">Place Order<i class="ps-icon-next"></i></button>
-                    </div>
-                    <!-- <div class="form-group cheque">
-                      <div class="ps-radio">
-                        <input class="form-control" type="radio" id="rdo01" name="payment">
-                        <label for="rdo01">Paypal</label>
-                        <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                      </div>
-                      
-                    </div> -->
-                   
-                      
-                    
-                  </footer>
-                </div>
-                <div class="ps-shipping">
-                  <h3>FREE SHIPPING</h3>
-                  <p>YOUR ORDER QUALIFIES FOR FREE SHIPPING.<br> <a href="#"> Singup </a> for free shipping on every order, every time.</p>
-                </div>
+                {% include "order_snippet.html" %}
               </div>
         </div>
       </form>
@@ -242,6 +185,8 @@
 <script>
 var hideable_shipping_form = $('.hideable_shipping_form');
 var hideable_billing_form = $('.hideable_billing_form');
+
+var show_text = $('.show_text');
 
 var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
 var use_default_billing = document.querySelector("input[name=use_default_billing]");
@@ -266,8 +211,10 @@ use_default_billing.addEventListener('change', function() {
 same_billing_address.addEventListener('change', function() {
   if (this.checked) {
     hideable_billing_form.hide();
+    show_text.show();
   } else {
     hideable_billing_form.show();
+    show_text.hide();
   }
 })
 </script>
