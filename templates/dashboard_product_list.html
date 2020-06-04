@@ -1,15 +1,32 @@
 {% extends 'dashboard_base.html' %}
 {% load static %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+{% endblock extra_head %}
+
 {% block content %}
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <!-- Main-body start -->
         <div class="main-body">
+            <div class="pt-4">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} background-{{ message.tags }}" role="alert">
+                      {{ message }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="icofont icofont-close-line-circled text-white"></i>
+                      </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
             <div class="page-wrapper">
                 <!-- Page-header start -->
                 <div class="page-header">
                     <div class="row align-items-end">
+                        
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
@@ -43,14 +60,16 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h5>Available Products</h5>
-                                        <button type="button" class="btn btn-primary waves-effect waves-light f-right d-inline-block md-trigger" data-modal="modal-13"> <i class="icofont icofont-plus m-r-5"></i> Add Product
-                </button>
+                                        <!-- <button type="button" class="btn btn-primary waves-effect waves-light f-right d-inline-block md-trigger" data-modal="modal-13"> <i class="icofont icofont-plus m-r-5"></i> Add Product
+                </button> -->
+                                        <a href="{% url 'dashboard:create-product' %}"><button type="button" class="btn btn-primary waves-effect waves-light f-right d-inline-block md-trigger"> <i class="icofont icofont-plus m-r-5"></i> Add Product
+                                        </button></a>
                                     </div>
                                     <div class="card-block">
                                         <div class="table-responsive">
                                             <div class="table-content">
                                                 <div class="project-table">
-                                                    <table id="e-product-list" class="table table-striped dt-responsive nowrap">
+                                                    <table id="myTable" class="table table-striped dt-responsive nowrap">
                                                         <thead>
                                                             <tr>
                                                                 <th>Image</th>
@@ -149,3 +168,13 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block extra_scripts %}
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
+{% endblock extra_scripts %}
+               

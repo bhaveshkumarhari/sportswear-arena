@@ -42,6 +42,10 @@
     <!-- jquery file upload Frame work -->
     <link href="{% static 'dashboard\assets\pages\jquery.filer\css\jquery.filer.css' %}" type="text/css" rel="stylesheet">
     <link href="{% static 'dashboard\assets\pages\jquery.filer\css\themes\jquery.filer-dragdropbox-theme.css' %}" type="text/css" rel="stylesheet">
+
+    {% block extra_head %}
+    {% endblock extra_head %}
+
 </head>
 <!-- Menu sidebar static layout -->
 
@@ -1717,6 +1721,7 @@
                             </ul> -->
                         </div>
                     </nav>
+
                     {% block content %}
                     {% endblock content %}
 
@@ -1819,6 +1824,9 @@
     <script src="{% static 'dashboard\assets\js\pcoded.min.js' %}"></script>
     <script src="{% static 'dashboard\assets\js\vartical-layout.min.js' %}"></script>
     <script src="{% static 'dashboard\assets\js\jquery.mCustomScrollbar.concat.min.js' %}"></script>
+
+    {% block extra_scripts %}
+    {% endblock extra_scripts %}
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>

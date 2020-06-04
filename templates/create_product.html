@@ -1,0 +1,462 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<!-- Required Fremwork -->
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\bootstrap\css\bootstrap.min.css' %}">
+<!-- star theme css -->
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\jquery-bar-rating\css\bars-1to10.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\jquery-bar-rating\css\bars-horizontal.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\jquery-bar-rating\css\bars-movie.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\jquery-bar-rating\css\bars-pill.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\jquery-bar-rating\css\bars-reversed.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\jquery-bar-rating\css\bars-square.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\jquery-bar-rating\css\css-stars.css' %}">
+<!-- themify-icons line icon -->
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\assets\icon\themify-icons\themify-icons.css' %}">
+<!-- ico font -->
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\assets\icon\icofont\css\icofont.css' %}">
+<!-- feather Awesome -->
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\assets\icon\feather\css\feather.css' %}">
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\assets\css\style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\assets\css\jquery.mCustomScrollbar.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- Main-body start -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- Page-header start -->
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <div class="d-inline">
+                                    <h4>Product Edit</h4>
+                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="page-header-breadcrumb">
+                                <ul class="breadcrumb-title">
+                                    <li class="breadcrumb-item">
+                                        <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="#!">E-Commerce</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="#!">Product Edit</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Page-header end -->
+
+
+                    <!-- Page body start -->
+                    <div class="page-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- Product edit card start -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Product Edit</h5>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="product-edit">
+                                                    <ul class="nav nav-tabs nav-justified md-tabs " role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" data-toggle="tab" href="#product_description" role="tab">
+                                                                <div class="f-20">
+                                                                    <i class="icofont icofont-edit"></i>
+                                                                </div>
+                                                                Product Description</a>
+                                                            <div class="slide"></div>
+                                                        </li>
+                                                        <!-- <li class="nav-item">
+                                                            <a class="nav-link" data-toggle="tab" href="#price_stock" role="tab">
+                                                                <div class="f-20">
+                                                                    <i class="icofont icofont-edit"></i>
+                                                                </div>
+                                                                Product Price and Stock</a>
+                                                            <div class="slide"></div>
+                                                        </li> -->
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-toggle="tab" href="#preview" role="tab">
+                                                                <div class="f-20">
+                                                                    <i class="icofont icofont-ui-image"></i>
+                                                                </div>
+                                                                Preview</a>
+                                                            <div class="slide"></div>
+                                                        </li>
+                                                        <!-- <li class="nav-item">
+                                                            <a class="nav-link" data-toggle="tab" href="#messages8" role="tab">
+                                                                <div class="f-20">
+                                                                    <i class="icofont icofont-comment"></i>
+                                                                </div>
+                                                                Reviews</a>
+                                                            <div class="slide"></div>
+                                                        </li> -->
+                                                    </ul>
+                                                    <!-- Tab panes -->
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="product_description" role="tabpanel">
+                                                            <form class="md-float-material card-block" method="POST" enctype="multipart/form-data">
+                                                                
+                                                                {% csrf_token %}
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-note"></i></span>
+                                                                            <input type="text" name="title" class="form-control" placeholder="Title">
+                                                                        </div>
+                                                                    </div>
+                                                                   
+                                                                    <div class="col-sm-6">
+                                                                        <!-- <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-align-left"></i></span>
+                                                                            <input type="text" name="category" class="form-control" placeholder="Category">
+                                                                        </div> -->
+                                                                        {{form.category}}
+                                                                        <!-- <select name="category" class="form-control form-control-primary">
+                                                                            <option value="default" required>Choose category</option>
+                                                                            <option value="TP" required>Track Pants</option>
+                                                                            <option value="ET" required>Event T-Shirt</option>
+                                                                            <option value="CUT" required>Customized T-Shirt</option>
+                                                                            <option value="COT" required>Corporate T-Shirt</option>
+                                                                            <option value="GT" required>Graphics T-Shirt</option>
+                                                                            <option value="SPT" required>Sports T-Shirt</option>
+                                                                            <option value="SUT" required>Sublimation T-Shirt</option>
+                                                                            <option value="CT" required>Collar T-Shirt</option>
+                                                                            <option value="RNT" required>Round Neck T-Shirt</option>
+                                                                            
+                                                                        </select> -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-copy-alt"></i></span>
+                                                                            <input type="text" name="description" class="form-control" placeholder="Description">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        {{form.size}}
+                                                                        <!-- <select name="size" class="form-control form-control-primary">
+                                                                            <option value="default" required>Choose size</option>
+                                                                            <option value="S" required>S</option>
+                                                                            <option value="M" required>M</option>
+                                                                            <option value="L" required>L</option>
+                                                                            <option value="XL" required>XL</option>
+                                                                            <option value="XXL" required>XXL</option>
+                                                                        </select> -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
+                                                                            <input type="text" name="slug" class="form-control" placeholder="Slug">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
+                                                                            <input type="text" name="quantity" class="form-control" placeholder="Quantity">
+                                                                        </div>
+                                                                    </div> 
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
+                                                                            <input type="text" name="price" class="form-control" placeholder="Price">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
+                                                                            <input type="text" name="discount_price" class="form-control" placeholder="Discount Price">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
+                                                                            <input type="file" name="front_image" id="inpFile_1" class="form-control" placeholder="Front View">
+                                                                        </div>
+                                                                    </div>
+                                                                   
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
+                                                                            <input type="file" name="back_image" id="inpFile_2" class="form-control" placeholder="Front View">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
+                                                                            <input type="file" name="side_image" id="inpFile_3" class="form-control" placeholder="Front View">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div>
+                                                                            <input type="checkbox" id="new" name="new" value="new">
+                                                                            <label for="new">New Product?</label>
+                                                                          </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+
+                                                                 <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="text-center m-t-20">
+                                                                    <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Save
+                                            </button>
+                                                                    <button type="button" class="btn btn-warning waves-effect waves-light">Discard
+                                            </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                               
+                                                        </div>
+
+                                                        <!-- <div class="tab-pane" id="price_stock" role="tabpanel">
+                                                            <form class="md-float-material card-block">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Price">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Discount Price">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
+                                                                            <input type="text" class="form-control" placeholder="Quantity">
+                                                                        </div>
+                                                                    </div> 
+                                                                </div>                      
+                                                            </form>
+                                                        </div> -->
+
+                                                       
+                                                        
+                                                        <div class="tab-pane" id="preview" role="tabpanel">
+                                                            <!-- <form method="POST" action="">
+                                                            {% csrf_token %}
+                                                            {{form}}
+                                                            <button type="submit" class="btn btn-danger waves-effect waves-light">Submit
+                                                                <i class="icofont icofont-close-circled f-16 m-l-5"></i>
+                                                            </button>
+                                                            </form> -->
+                                                            <div class="md-float-material card-block">
+                                                                <div class="row p-t-10 p-b-10">
+                                                                    <div class="col-lg-3 col-md-6 col-sm-12" id="imagePreview_1">
+                                                                            <img src="" class="image_preview_1" style="display: none;" width="350" alt="img-edit">
+                                                                            <img src="{% static 'dashboard\assets\images\product-edit\product-edit1.jpg' %}" class="image_default_1" width="350" alt="img-edit">
+                                                                    </div>
+                                                                    <div class="col-lg-9 col-md-6 col-sm-12">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6">
+                                                                                <div class="input-group">
+                                                                                    <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
+                                                                                    <input type="file" name="inpFile_1" id="inpFile_1" class="form-control" placeholder="Front View">
+                                                                                    
+                                                                                </div>
+
+                                                                                <div class="col-xs-6 edit-right text-right">
+                                                                                    <button type="button" class="btn btn-danger waves-effect waves-light">Remove
+                                                                                        <i class="icofont icofont-close-circled f-16 m-l-5"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="row p-t-10 p-b-10">
+                                                                    <div class="col-lg-3 col-md-6 col-sm-12" id="imagePreview_2">
+                                                                            <img src="" class="image_preview_2" style="display: none;" width="350" alt="img-edit">
+                                                                            <img src="{% static 'dashboard\assets\images\product-edit\product-edit1.jpg' %}" class="image_default_2" width="350" alt="img-edit">
+                                                                    </div>
+                                                                    <div class="col-lg-9 col-md-6 col-sm-12">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6">
+                                                                                <div class="input-group">
+                                                                                    <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
+                                                                                    <input type="file" name="inpFile_2" id="inpFile_2" class="form-control" placeholder="Front View">
+                                                                                    
+                                                                                </div>
+
+                                                                                <div class="col-xs-6 edit-right text-right">
+                                                                                    <button type="button" class="btn btn-danger waves-effect waves-light">Remove
+                                                                                        <i class="icofont icofont-close-circled f-16 m-l-5"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="row p-t-10 p-b-10">
+                                                                    <div class="col-lg-3 col-md-6 col-sm-12" id="imagePreview_3">
+                                                                            <img src="" class="image_preview_3" style="display: none;" width="350" alt="img-edit">
+                                                                            <img src="{% static 'dashboard\assets\images\product-edit\product-edit1.jpg' %}" class="image_default_3" width="350" alt="img-edit">
+                                                                    </div>
+                                                                    <div class="col-lg-9 col-md-6 col-sm-12">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6">
+                                                                                <div class="input-group">
+                                                                                    <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
+                                                                                    <input type="file" name="inpFile_3" id="inpFile_3" class="form-control" placeholder="Front View">
+                                                                                    
+                                                                                </div>
+
+                                                                                <div class="col-xs-6 edit-right text-right">
+                                                                                    <button type="button" class="btn btn-danger waves-effect waves-light">Remove
+                                                                                        <i class="icofont icofont-close-circled f-16 m-l-5"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <hr>
+                                                        
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Product edit card end -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Page body end -->
+                </div>
+            </div>
+            <!-- Main-body end -->
+            <div id="styleSelector">
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_scripts %}
+<!-- barrating js -->
+<script type="text/javascript" src="{% static 'dashboard\bower_components\jquery-bar-rating\js\jquery.barrating.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard\assets\pages\rating\rating.js' %}"></script>
+
+<script>
+    const inpFile = document.getElementById("inpFile_1");
+    const previewContainer = document.getElementById("imagePreview_1");
+    const previewImage = previewContainer.querySelector(".image_preview_1");
+    const previewImageDefault = previewContainer.querySelector(".image_default_1");
+
+    inpFile.addEventListener("change", function() {
+        const file = this.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+
+            previewImageDefault.style.display ="none";
+            previewImage.style.display ="block";
+
+            reader.addEventListener("load", function() {
+                previewImage.setAttribute("src", this.result);
+            });
+
+            reader.readAsDataURL(file);
+        } else {
+            previewImageDefault.style.display = null;
+            previewImage.style.display = "none";
+            previewImage.setAttribute("src", "")
+        }
+    });
+</script>
+
+<script>
+    const inpFile2 = document.getElementById("inpFile_2");
+    const previewContainer2 = document.getElementById("imagePreview_2");
+    const previewImage2 = previewContainer2.querySelector(".image_preview_2");
+    const previewImageDefault2 = previewContainer2.querySelector(".image_default_2");
+
+    inpFile2.addEventListener("change", function() {
+        const file = this.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+
+            previewImageDefault2.style.display ="none";
+            previewImage2.style.display ="block";
+
+            reader.addEventListener("load", function() {
+                previewImage2.setAttribute("src", this.result);
+            });
+
+            reader.readAsDataURL(file);
+        } else {
+            previewImageDefault2.style.display = null;
+            previewImage2.style.display = "none";
+            previewImage2.setAttribute("src", "")
+        }
+    });
+</script>
+
+<script>
+    const inpFile3 = document.getElementById("inpFile_3");
+    const previewContainer3 = document.getElementById("imagePreview_3");
+    const previewImage3 = previewContainer3.querySelector(".image_preview_3");
+    const previewImageDefault3 = previewContainer3.querySelector(".image_default_3");
+
+    inpFile3.addEventListener("change", function() {
+        const file = this.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+
+            previewImageDefault3.style.display ="none";
+            previewImage3.style.display ="block";
+
+            reader.addEventListener("load", function() {
+                previewImage3.setAttribute("src", this.result);
+            });
+
+            reader.readAsDataURL(file);
+        } else {
+            previewImageDefault3.style.display = null;
+            previewImage3.style.display = "none";
+            previewImage3.setAttribute("src", "")
+        }
+    });
+</script>
+
+{% endblock extra_scripts %}
+               

@@ -1,6 +1,10 @@
 {% extends 'dashboard_base.html' %}
 {% load static %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+{% endblock extra_head %}
+
 {% block content %}
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -257,9 +261,11 @@
                                         </ul>
                                     </div>
                                 </div>
+
+
                                 <div class="card-block">
                                     <div class="table-responsive">
-                                        <table class="table table-hover table-borderless">
+                                        <table id="myTable" class="table table-hover table-borderless">
                                             <thead>
                                                 <tr>
                                                     <th>Status</th>
@@ -292,6 +298,60 @@
                                                     <td>Restoring default settings</td>
                                                     <td>Support</td>
                                                     <td>Today 9:00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-primary">progress</label></td>
+                                                    <td>Loosing control on server</td>
+                                                    <td>Support</td>
+                                                    <td>Yesterday</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-success">open</label></td>
+                                                    <td>Restoring default settings</td>
+                                                    <td>Support</td>
+                                                    <td>Today 9:00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-danger">closed</label></td>
+                                                    <td>Authorizations keys</td>
+                                                    <td>Support</td>
+                                                    <td>27, Aug</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-primary">progress</label></td>
+                                                    <td>Loosing control on server</td>
+                                                    <td>Support</td>
+                                                    <td>Yesterday</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-success">open</label></td>
+                                                    <td>Restoring default settings</td>
+                                                    <td>Support</td>
+                                                    <td>Today 9:00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-danger">closed</label></td>
+                                                    <td>Authorizations keys</td>
+                                                    <td>Support</td>
+                                                    <td>27, Aug</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-primary">progress</label></td>
+                                                    <td>Loosing control on server</td>
+                                                    <td>Support</td>
+                                                    <td>Yesterday</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-success">open</label></td>
+                                                    <td>Restoring default settings</td>
+                                                    <td>Support</td>
+                                                    <td>Today 9:00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label class="label label-danger">closed</label></td>
+                                                    <td>Authorizations keys</td>
+                                                    <td>Support</td>
+                                                    <td>27, Aug</td>
                                                 </tr>
                                                 <tr>
                                                     <td><label class="label label-primary">progress</label></td>
@@ -555,3 +615,13 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block extra_scripts %}
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
+{% endblock extra_scripts %}
+               
