@@ -21,6 +21,31 @@
 <!-- Style.css -->
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard\assets\css\style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard\assets\css\jquery.mCustomScrollbar.css' %}">
+
+<!-- slick css -->
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\slick-carousel\css\slick.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard\bower_components\slick-carousel\css\slick-theme.css' %}">
+
+<!--SKY theme-->
+
+<!-- Fonts-->
+<link href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'sky/plugins/font-awesome/css/font-awesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/ps-icon/style.css' %}">
+<!-- CSS Library-->
+<!-- <link rel="stylesheet" href="{% static 'sky/plugins/bootstrap/dist/css/bootstrap.min.css' %}"> -->
+<link rel="stylesheet" href="{% static 'sky/plugins/owl-carousel/assets/owl.carousel.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/jquery-bar-rating/dist/themes/fontawesome-stars.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/slick/slick/slick.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/bootstrap-select/dist/css/bootstrap-select.min.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/Magnific-Popup/dist/magnific-popup.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/jquery-ui/jquery-ui.min.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/revolution/css/settings.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/revolution/css/layers.css' %}">
+<link rel="stylesheet" href="{% static 'sky/plugins/revolution/css/navigation.css' %}">
+<!-- Custom-->
+<link rel="stylesheet" href="{% static 'sky/css/dashhstyle.css' %}">
+
 {% endblock extra_head %}
 
 {% block content %}
@@ -270,7 +295,105 @@
                                                             </button>
                                                             </form> -->
                                                             <div class="md-float-material card-block">
-                                                                <div class="row p-t-10 p-b-10">
+                                                                
+                                                               <!--HERE HERE-->
+                                                               <div class="ps-product--detail pt-60">
+                                                                <div class="ps-container">
+                                                                  <div class="row">
+                                                                    <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                                                      <div class="ps-product__thumbnail">
+                                                                        <div class="ps-product__preview">
+                                                                          <div class="ps-product__variants" id="imagePreview_1">
+                                                                            <div class="image_default_1" style="margin: 10px;"><img src="{% static 'sky/images/shoe-detail/1.jpg' %}" alt=""></div>
+                                                                            <div class="image_default_2" style="margin: 10px;"><img src="{% static 'sky/images/shoe-detail/2.jpg' %}" alt=""></div>
+                                                                            <div class="image_default_3" style="margin: 10px;"><img src="{% static 'sky/images/shoe-detail/3.jpg' %}" alt=""></div>
+
+                                                                            <img class="image_preview_1" src="" style="display: none;" alt="">
+                                                                            <img class="image_preview_2" src="" style="display: none;" alt="">
+                                                                            <img class="image_preview_3" src="" style="display: none;" alt="">
+                                                                            <!-- <div class="item"><img src="{% static 'sky/images/shoe-detail/3.jpg' %}" alt=""></div>
+                                                                            <div class="item"><img src="{% static 'sky/images/shoe-detail/3.jpg' %}" alt=""></div> -->
+                                                                          </div><a class="popup-youtube ps-product__video" href=""><img src="{% static 'sky/images/shoe-detail/1.jpg' %}" alt=""><i class="fa fa-play"></i></a>
+                                                                        </div>
+                                                                        <div class="ps-product__image" id="imagePreviewBig">
+                                                                          <img class="image_default_big" src="{% static 'sky/images/shoe-detail/1.jpg' %}" alt="" data-zoom-image="{% static 'sky/images/shoe-detail/1.jpg' %}">
+                                                                          <img class="image_preview_big" src="" style="display: none;" alt="" data-zoom-image="">
+                                                                          <!-- <div class="item"><img class="zoom" src="{% static 'sky/images/shoe-detail/2.jpg' %}" alt="" data-zoom-image="{% static 'sky/images/shoe-detail/2.jpg' %}"></div>
+                                                                          <div class="item"><img class="zoom" src="{% static 'sky/images/shoe-detail/3.jpg' %}" alt="" data-zoom-image="{% static 'sky/images/shoe-detail/3.jpg' %}"></div> -->
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="ps-product__thumbnail--mobile">
+                                                                        <div class="ps-product__main-img"><img src="{% static 'sky/images/shoe-detail/1.jpg" alt=""></div>
+                                                                        <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on"><img src="images/shoe-detail/1.jpg" alt=""><img src="images/shoe-detail/2.jpg" alt=""><img src="images/shoe-detail/3.jpg" alt=""></div>
+                                                                      </div>
+                                                                      <div class="ps-product__info">
+                                                                        <div class="ps-product__rating">
+                                                                          <select class="ps-rating">
+                                                                            <option value="1">1</option>
+                                                                            <option value="1">2</option>
+                                                                            <option value="1">3</option>
+                                                                            <option value="1">4</option>
+                                                                            <option value="2">5</option>
+                                                                          </select><a href="#">(Read all 8 reviews)</a>
+                                                                        </div>
+                                                                        <h1>Air strong  training</h1>
+                                                                        <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
+                                                                        <h3 class="ps-product__price">£ 115 <del>£ 330</del></h3>
+                                                                        <div class="ps-product__block ps-product__quickview">
+                                                                          <h4>QUICK REVIEW</h4>
+                                                                          <p>The Nike Free RN 2017 Men's Running Sky weighs less than previous versions and features an updated knit material…</p>
+                                                                        </div>
+                                                                        <div class="ps-product__block ps-product__style">
+                                                                          <h4>CHOOSE YOUR STYLE</h4>
+                                                                          <ul>
+                                                                            <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/1.jpg' %}" alt=""></a></li>
+                                                                            <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/2.jpg' %}" alt=""></a></li>
+                                                                            <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/3.jpg' %}" alt=""></a></li>
+                                                                            <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/2.jpg' %}" alt=""></a></li>
+                                                                          </ul>
+                                                                        </div>
+                                                                        <!-- <div class="ps-product__block ps-product__size">
+                                                                          <h4>CHOOSE SIZE<a href="#">Size chart</a></h4>
+                                                                          <select class="ps-select selectpicker">
+                                                                            <option value="1">Select Size</option>
+                                                                            <option value="2">4</option>
+                                                                            <option value="3">4.5</option>
+                                                                            <option value="3">5</option>
+                                                                            <option value="3">6</option>
+                                                                            <option value="3">6.5</option>
+                                                                            <option value="3">7</option>
+                                                                            <option value="3">7.5</option>
+                                                                            <option value="3">8</option>
+                                                                            <option value="3">8.5</option>
+                                                                            <option value="3">9</option>
+                                                                            <option value="3">9.5</option>
+                                                                            <option value="3">10</option>
+                                                                          </select>
+                                                                          <div class="form-group">
+                                                                            <input class="form-control" type="number" value="1">
+                                                                          </div>
+                                                                        </div> -->
+                                                                        <!-- <div class="ps-product__shopping"><a class="ps-btn mb-10" href="cart.html">Add to cart<i class="ps-icon-next"></i></a>
+                                                                          <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
+                                                                        </div> -->
+                                                                      </div>
+                                                                      <div class="clearfix"></div>
+                                                                      <!-- <div class="ps-product__content mt-50">
+                                                                        <ul class="tab-list" role="tablist">
+                                                                          <li class="active"><a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a></li>
+                                                                          <li><a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">Review</a></li>
+                                                                          <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">PRODUCT TAG</a></li>
+                                                                          <li><a href="#tab_04" aria-controls="tab_04" role="tab" data-toggle="tab">ADDITIONAL</a></li>
+                                                                        </ul>
+                                                                      </div> -->
+                                                                      
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+
+
+                                                                <!-- <div class="row p-t-10 p-b-10">
                                                                     <div class="col-lg-3 col-md-6 col-sm-12" id="imagePreview_1">
                                                                             <img src="" class="image_preview_1" style="display: none;" width="350" alt="img-edit">
                                                                             <img src="{% static 'dashboard\assets\images\product-edit\product-edit1.jpg' %}" class="image_default_1" width="350" alt="img-edit">
@@ -292,8 +415,8 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <hr>
+                                                                </div> -->
+                                                                <!-- <hr>
                                                                 <div class="row p-t-10 p-b-10">
                                                                     <div class="col-lg-3 col-md-6 col-sm-12" id="imagePreview_2">
                                                                             <img src="" class="image_preview_2" style="display: none;" width="350" alt="img-edit">
@@ -342,7 +465,7 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <hr>
+                                                                <hr> -->
                                                         
                                                                 
                                                             </div>
@@ -373,6 +496,37 @@
 <!-- barrating js -->
 <script type="text/javascript" src="{% static 'dashboard\bower_components\jquery-bar-rating\js\jquery.barrating.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'dashboard\assets\pages\rating\rating.js' %}"></script>
+<!-- slick js -->
+<script type="text/javascript" src="{% static 'dashboard\bower_components\slick-carousel\js\slick.min.js' %}"></script>
+<!-- product detail js -->
+<script type="text/javascript" src="{% static 'dashboard\assets\pages\product-detail\product-detail.js' %}"></script>
+
+<!--SKY Theme-->
+
+    <!-- JS Library-->
+    <!-- <script type="text/javascript" src="{% static 'sky/plugins/jquery/dist/jquery.min.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'sky/plugins/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/jquery-bar-rating/dist/jquery.barrating.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/gmap3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/imagesloaded.pkgd.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/isotope.pkgd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/jquery.matchHeight-min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/slick/slick/slick.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/elevatezoom/jquery.elevatezoom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/Magnific-Popup/dist/jquery.magnific-popup.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx39JFH5nhxze1ZydH-Kl8xXM3OK4fvcg&amp;region=GB"></script><script type="text/javascript" src="{% static 'sky/plugins/revolution/js/jquery.themepunch.tools.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/revolution/js/jquery.themepunch.revolution.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/revolution/js/extensions/revolution.extension.video.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/revolution/js/extensions/revolution.extension.navigation.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/revolution/js/extensions/revolution.extension.parallax.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'sky/plugins/revolution/js/extensions/revolution.extension.actions.min.js' %}"></script>
+    <!-- Custom scripts-->
+    <script type="text/javascript" src="{% static 'sky/js/main.js' %}"></script>
 
 <script>
     const inpFile = document.getElementById("inpFile_1");
@@ -380,17 +534,25 @@
     const previewImage = previewContainer.querySelector(".image_preview_1");
     const previewImageDefault = previewContainer.querySelector(".image_default_1");
 
+    const previewContainerBig = document.getElementById("imagePreviewBig");
+    const previewImageBig = previewContainerBig.querySelector(".image_preview_big");
+    const previewImageDefaultBig = previewContainerBig.querySelector(".image_default_big");
+    
     inpFile.addEventListener("change", function() {
         const file = this.files[0];
         
         if (file) {
             const reader = new FileReader();
-
+         
             previewImageDefault.style.display ="none";
             previewImage.style.display ="block";
 
+            previewImageDefaultBig.style.display ="none";
+            previewImageBig.style.display ="block";
+
             reader.addEventListener("load", function() {
                 previewImage.setAttribute("src", this.result);
+                previewImageBig.setAttribute("src", this.result);
             });
 
             reader.readAsDataURL(file);
@@ -398,13 +560,17 @@
             previewImageDefault.style.display = null;
             previewImage.style.display = "none";
             previewImage.setAttribute("src", "")
+
+            previewImageDefaultBig.style.display = null;
+            previewImageBig.style.display = "none";
+            previewImageBig.setAttribute("src", "")
         }
     });
 </script>
 
 <script>
     const inpFile2 = document.getElementById("inpFile_2");
-    const previewContainer2 = document.getElementById("imagePreview_2");
+    const previewContainer2 = document.getElementById("imagePreview_1");
     const previewImage2 = previewContainer2.querySelector(".image_preview_2");
     const previewImageDefault2 = previewContainer2.querySelector(".image_default_2");
 
@@ -432,7 +598,7 @@
 
 <script>
     const inpFile3 = document.getElementById("inpFile_3");
-    const previewContainer3 = document.getElementById("imagePreview_3");
+    const previewContainer3 = document.getElementById("imagePreview_1");
     const previewImage3 = previewContainer3.querySelector(".image_preview_3");
     const previewImageDefault3 = previewContainer3.querySelector(".image_default_3");
 
