@@ -28,9 +28,9 @@ TSHIRT_SIZES = (
 
 class ProductForm(forms.Form):
     title = forms.CharField()
-    category = forms.ChoiceField(choices=CATEGORY_CHOICES)
+    category = forms.ChoiceField(choices=CATEGORY_CHOICES, widget=forms.Select(attrs={'class': 'form-control form-control-primary', 'id':'input_category'}))
     description = forms.CharField()
-    size = forms.ChoiceField(choices=TSHIRT_SIZES)
+    size = forms.ChoiceField(choices=TSHIRT_SIZES, widget=forms.Select(attrs={'class': 'form-control form-control-primary'}))
     slug = forms.CharField()
     price = forms.FloatField()
     discount_price = forms.FloatField()

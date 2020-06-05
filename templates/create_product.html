@@ -53,6 +53,18 @@
     <div class="pcoded-inner-content">
         <!-- Main-body start -->
         <div class="main-body">
+            <div class="pt-4">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} background-{{ message.tags }}" role="alert">
+                      {{ message }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="icofont icofont-close-line-circled text-white"></i>
+                      </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
             <div class="page-wrapper">
                 <!-- Page-header start -->
                 <div class="page-header">
@@ -137,10 +149,11 @@
                                                                 
                                                                 {% csrf_token %}
                                                                 <div class="row">
+                                                                    
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-note"></i></span>
-                                                                            <input type="text" name="title" class="form-control" placeholder="Title">
+                                                                            <input type="text" name="title" id="input_title" class="form-control" placeholder="Title">
                                                                         </div>
                                                                     </div>
                                                                    
@@ -169,7 +182,7 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-copy-alt"></i></span>
-                                                                            <input type="text" name="description" class="form-control" placeholder="Description">
+                                                                            <input type="text" name="description" id="input_description" class="form-control" placeholder="Description">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
@@ -202,13 +215,13 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
-                                                                            <input type="text" name="price" class="form-control" placeholder="Price">
+                                                                            <input type="text" name="price" id="input_price" class="form-control" placeholder="Price">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
-                                                                            <input type="text" name="discount_price" class="form-control" placeholder="Discount Price">
+                                                                            <input type="text" name="discount_price" id="input_discount_price" class="form-control" placeholder="Discount Price">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -234,11 +247,18 @@
                                                                             <input type="file" name="side_image" id="inpFile_3" class="form-control" placeholder="Front View">
                                                                         </div>
                                                                     </div>
+                                                                    
+
                                                                     <div class="col-sm-6">
-                                                                        <div>
-                                                                            <input type="checkbox" id="new" name="new" value="new">
-                                                                            <label for="new">New Product?</label>
-                                                                          </div>
+                                                                        <div class="checkbox-fade fade-in-primary">
+                                                                            <label>
+                                                                                <input type="checkbox" id="new" name="new" value="new">
+                                                                                <span class="cr">
+                                                                                    <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
+                                                                                </span>
+                                                                                <span>New Product?</span>
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 
@@ -313,7 +333,7 @@
                                                                             <img class="image_preview_3" src="" style="display: none;" alt="">
                                                                             <!-- <div class="item"><img src="{% static 'sky/images/shoe-detail/3.jpg' %}" alt=""></div>
                                                                             <div class="item"><img src="{% static 'sky/images/shoe-detail/3.jpg' %}" alt=""></div> -->
-                                                                          </div><a class="popup-youtube ps-product__video" href=""><img src="{% static 'sky/images/shoe-detail/1.jpg' %}" alt=""><i class="fa fa-play"></i></a>
+                                                                          </div><img src="" alt=""></a>
                                                                         </div>
                                                                         <div class="ps-product__image" id="imagePreviewBig">
                                                                           <img class="image_default_big" src="{% static 'sky/images/shoe-detail/1.jpg' %}" alt="" data-zoom-image="{% static 'sky/images/shoe-detail/1.jpg' %}">
@@ -327,7 +347,7 @@
                                                                         <div class="ps-product__preview owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="3" data-owl-item-xs="3" data-owl-item-sm="3" data-owl-item-md="3" data-owl-item-lg="3" data-owl-duration="1000" data-owl-mousedrag="on"><img src="images/shoe-detail/1.jpg" alt=""><img src="images/shoe-detail/2.jpg" alt=""><img src="images/shoe-detail/3.jpg" alt=""></div>
                                                                       </div>
                                                                       <div class="ps-product__info">
-                                                                        <div class="ps-product__rating">
+                                                                        <!-- <div class="ps-product__rating">
                                                                           <select class="ps-rating">
                                                                             <option value="1">1</option>
                                                                             <option value="1">2</option>
@@ -335,15 +355,17 @@
                                                                             <option value="1">4</option>
                                                                             <option value="2">5</option>
                                                                           </select><a href="#">(Read all 8 reviews)</a>
-                                                                        </div>
-                                                                        <h1>Air strong  training</h1>
-                                                                        <p class="ps-product__category"><a href="#"> Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p>
-                                                                        <h3 class="ps-product__price">£ 115 <del>£ 330</del></h3>
+                                                                        </div> -->
+                                                             
+                                                                        <h1 id="item_title">Enter Product Title</h1>
+                                                                        
+                                                                        <p class="ps-product__category" id="item_category">Select Category</p>
+                                                                        <h3 class="ps-product__price">&#8377; <div id="show_price" style="display: inline-block;">Amount</div> <del>&#8377;</del><div id="show_discount_price" style="display: inline-block;"></div></h3>
                                                                         <div class="ps-product__block ps-product__quickview">
                                                                           <h4>QUICK REVIEW</h4>
-                                                                          <p>The Nike Free RN 2017 Men's Running Sky weighs less than previous versions and features an updated knit material…</p>
+                                                                          <p id="item_description">Enter Description...</p>
                                                                         </div>
-                                                                        <div class="ps-product__block ps-product__style">
+                                                                        <!-- <div class="ps-product__block ps-product__style">
                                                                           <h4>CHOOSE YOUR STYLE</h4>
                                                                           <ul>
                                                                             <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/1.jpg' %}" alt=""></a></li>
@@ -351,7 +373,7 @@
                                                                             <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/3.jpg' %}" alt=""></a></li>
                                                                             <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/2.jpg' %}" alt=""></a></li>
                                                                           </ul>
-                                                                        </div>
+                                                                        </div> -->
                                                                         <!-- <div class="ps-product__block ps-product__size">
                                                                           <h4>CHOOSE SIZE<a href="#">Size chart</a></h4>
                                                                           <select class="ps-select selectpicker">
@@ -527,6 +549,56 @@
     <script type="text/javascript" src="{% static 'sky/plugins/revolution/js/extensions/revolution.extension.actions.min.js' %}"></script>
     <!-- Custom scripts-->
     <script type="text/javascript" src="{% static 'sky/js/main.js' %}"></script>
+
+<script>
+    const inpTitle = document.getElementById("input_title");
+    const inpDescription = document.getElementById("input_description");
+    const inpCategory = document.getElementById("input_category");
+    const inpPrice = document.getElementById("input_price");
+    const inpDiscountPrice = document.getElementById("input_discount_price");
+
+    inpTitle.addEventListener("change", function() {
+        if(inpTitle != "") {
+            document.getElementById("item_title").innerHTML = inpTitle.value;
+        }    
+    });
+
+    inpDescription.addEventListener("change", function() {
+        if(inpDescription != "") {
+            document.getElementById("item_description").innerHTML = inpDescription.value;
+        }    
+    });
+
+    inpCategory.addEventListener("change", function(selTag) {
+    
+        const categoryContent = inpCategory[inpCategory.selectedIndex].text
+        // var x = selTag.options[selTag.selectedIndex].text;
+        // console.log(x)
+        if(inpCategory != "") {
+            document.getElementById("item_category").innerHTML = categoryContent;
+        }    
+    });
+
+    inpDiscountPrice.addEventListener("change", function() {
+        if(inpDiscountPrice != "") {
+          
+            document.getElementById("show_price").innerHTML = inpDiscountPrice.value;
+        }    
+    });
+
+    inpPrice.addEventListener("change", function() {
+        if(inpPrice != "") {
+            const deletedPrice = document.createElement('del');
+            const priceContent = inpPrice.value;
+
+            deletedPrice.textContent = priceContent;
+
+            showPrice = document.getElementById("show_discount_price");
+            showPrice.appendChild(deletedPrice);
+        }    
+    });
+
+</script>
 
 <script>
     const inpFile = document.getElementById("inpFile_1");

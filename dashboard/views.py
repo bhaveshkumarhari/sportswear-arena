@@ -69,9 +69,10 @@ class createProduct(View):
                 new = new
             )
             items.save() 
-        messages.success(self.request,'Successfully added item to your inventory')
-        return redirect('dashboard:dashboard-product-list')
-
+            messages.success(self.request,'Successfully added item to your inventory')
+            return redirect('dashboard:dashboard-product-list')
+        messages.warning(self.request,'Please enter all the information')
+        return redirect('dashboard:create-product')
 
 
 @unauthenticated_user
