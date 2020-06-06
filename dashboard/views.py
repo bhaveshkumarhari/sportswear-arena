@@ -85,9 +85,9 @@ def update_product(request, slug):
         form.save()
         messages.success(request,'Successfully updated product of your inventory')
         return redirect('dashboard:dashboard-product-list')
-
-    context = {'form':form}
-    messages.warning(request,'You are updating product information')
+    print(product)
+    context = {'form':form, 'product':product}
+    # messages.warning(request,'You are updating product information')
     return render(request, 'update_product.html', context)
 
 
