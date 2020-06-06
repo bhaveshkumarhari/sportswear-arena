@@ -109,12 +109,21 @@
                                                                 </td>
                                                                 <td class="action-icon">
                                                                     <a href="{{ item.get_update_product_url }}" class="m-r-15 text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="icofont icofont-ui-edit"></i></a>
-                                                                    <a href="#!" class="text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="icofont icofont-delete-alt"></i></a>
+                                                                    <a href="{{ item.get_delete_product_url }}"  class="text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="icofont icofont-delete-alt"></i></a>
+                  
+                                                                    <div id="show_delete" style="color: #d33333; display: none;">Are you sure? <a href="{% url 'dashboard:dashboard-product-list' %}"><button type="button" class="btn btn-primary waves-effect waves-light f-right d-inline-block md-trigger"> No
+                                                                    </button></a> <a href="{{ item.get_delete_product_url }}"><button type="button" class="btn btn-warning waves-effect waves-light f-right d-inline-block md-trigger"> Yes
+                                                                    </button></a></div>
+                                                                    
+                                                                    <!-- <button id="input_delete">Try it</button>
+
+                                                    <p id="show_delete"></p> -->
                                                                 </td>
                                                             </tr>
                                                             {% endfor %}
                                                          </tbody>
                                                     </table>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -124,6 +133,7 @@
                             </div>
                         </div>
                         <!-- Add Contact Start Model start-->
+                        
                         <div class="md-modal md-effect-13 addcontact" id="modal-13">
                             <div class="md-content">
                                 <h3 class="f-26">Add Product</h3>
@@ -171,6 +181,24 @@
 
 {% block extra_scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+<script>
+const inpDelete = document.getElementById("input_delete");
+const showDelete = document.getElementById("show_delete");
+console.log(inpDelete)
+
+inpDelete.addEventListener("click", function() {
+        console.log("clicked")
+});
+
+// document.getElementById("myBtn").addEventListener("click", displayDate);
+
+// function displayDate() {
+//   document.getElementById("demo").innerHTML = Date();
+// }
+
+</script>
+
 <script>
 $(document).ready( function () {
     $('#myTable').DataTable();

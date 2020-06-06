@@ -72,6 +72,11 @@ class Item(models.Model):
         return reverse("dashboard:update-product", kwargs={
             'slug': self.slug
         })
+
+    def get_delete_product_url(self):
+        return reverse("dashboard:delete-product", kwargs={
+            'slug': self.slug
+        })
     
     def get_add_to_cart_url(self):
         return reverse("core:add-to-cart", kwargs={

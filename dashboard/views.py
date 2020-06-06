@@ -83,12 +83,22 @@ def update_product(request, slug):
 
     if form.is_valid():
         form.save()
-        messages.success(request,'Successfully updated product of your inventory')
+        messages.success(request,'Successfully updated product of inventory')
         return redirect('dashboard:dashboard-product-list')
     print(product)
     context = {'form':form, 'product':product}
-    # messages.warning(request,'You are updating product information')
     return render(request, 'update_product.html', context)
+
+
+def delete_product(request, slug):
+    try:
+        product = Item.objects.get(slug=slug)
+    except Item.DoesNotExist:
+        return redirect('dashboard:dashboard-product-list')
+
+    product.delete()
+    messages.warning(request,'Successfully deleted product from inventory')
+    return redirect('dashboard:dashboard-product-list')
 
 
 @unauthenticated_user
