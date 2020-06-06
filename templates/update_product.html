@@ -72,7 +72,7 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>Create Product</h4>
+                                    <h4>Update Product</h4>
                                     <span>Please enter all the information for the product</span>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                                     </li>
                                     <li class="breadcrumb-item"><a href="{% url 'dashboard:dashboard-product-list' %}">Product List</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#!">Create Product</a>
+                                    <li class="breadcrumb-item"><a href="#!">Update Product</a>
                                     </li>
                                 </ul>
                             </div>
@@ -102,8 +102,9 @@
                                 <!-- Product edit card start -->
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Create Product</h5>
+                                        <h5>Update Product</h5>
                                     </div>
+                                    
                                     <div class="card-block">
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -153,7 +154,8 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-note"></i></span>
-                                                                            <input type="text" name="title" id="input_title" class="form-control" placeholder="Title">
+                                                                            <!-- <input type="text" name="title" id="input_title" class="form-control" placeholder="Title"> -->
+                                                                            {{form.title}}
                                                                         </div>
                                                                     </div>
                                                                    
@@ -182,7 +184,8 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-copy-alt"></i></span>
-                                                                            <input type="text" name="description" id="input_description" class="form-control" placeholder="Description">
+                                                                            <!-- <input type="text" name="description" id="input_description" class="form-control" placeholder="Description"> -->
+                                                                            {{form.description}}
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
@@ -201,13 +204,15 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
-                                                                            <input type="text" name="slug" class="form-control" placeholder="Slug">
+                                                                            <!-- <input type="text" name="slug" class="form-control" placeholder="Slug"> -->
+                                                                            {{form.slug}}
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
-                                                                            <input type="text" name="quantity" class="form-control" placeholder="Quantity">
+                                                                            <!-- <input type="text" name="quantity" class="form-control" placeholder="Quantity"> -->
+                                                                            {{form.quantity}}
                                                                         </div>
                                                                     </div> 
                                                                 </div>
@@ -215,13 +220,15 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
-                                                                            <input type="text" name="price" id="input_price" class="form-control" placeholder="Price">
+                                                                            <!-- <input type="text" name="price" id="input_price" class="form-control" placeholder="Price"> -->
+                                                                            {{form.price}}
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
-                                                                            <input type="text" name="discount_price" id="input_discount_price" class="form-control" placeholder="Discount Price">
+                                                                            <!-- <input type="text" name="discount_price" id="input_discount_price" class="form-control" placeholder="Discount Price"> -->
+                                                                            {{form.discount_price}}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -229,14 +236,16 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-image"></i>| Front Image</span>
-                                                                            <input type="file" name="front_image" id="inpFile_1" class="form-control" placeholder="Front View">
+                                                                            <!-- <input type="file" name="front_image" id="inpFile_1" class="form-control" placeholder="Front View"> -->
+                                                                            {{form.front_image}}
                                                                         </div>
                                                                     </div>
                                                                    
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-image"></i>| Back Image</span>
-                                                                            <input type="file" name="back_image" id="inpFile_2" class="form-control" placeholder="Front View">
+                                                                            <!-- <input type="file" name="back_image" id="inpFile_2" class="form-control" placeholder="Front View"> -->
+                                                                            {{form.back_image}}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -244,7 +253,8 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-image"></i>| Side Image</span>
-                                                                            <input type="file" name="side_image" id="inpFile_3" class="form-control" placeholder="Front View">
+                                                                            <!-- <input type="file" name="side_image" id="inpFile_3" class="form-control" placeholder="Front View"> -->
+                                                                            {{form.side_image}}
                                                                         </div>
                                                                     </div>
                                                                     
@@ -252,7 +262,8 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="checkbox-fade fade-in-primary">
                                                                             <label>
-                                                                                <input type="checkbox" id="new" name="new" value="new">
+                                                                                <!-- <input type="checkbox" id="new" name="new" value="new"> -->
+                                                                                {{form.new}}
                                                                                 <span class="cr">
                                                                                     <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
                                                                                 </span>
@@ -277,43 +288,12 @@
                                                                
                                                         </div>
 
-                                                        <!-- <div class="tab-pane" id="price_stock" role="tabpanel">
-                                                            <form class="md-float-material card-block">
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
-                                                                            <input type="text" class="form-control" placeholder="Price">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-6">
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
-                                                                            <input type="text" class="form-control" placeholder="Discount Price">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
-                                                                            <input type="text" class="form-control" placeholder="Quantity">
-                                                                        </div>
-                                                                    </div> 
-                                                                </div>                      
-                                                            </form>
-                                                        </div> -->
+                                                        
 
                                                        
                                                         
                                                         <div class="tab-pane" id="preview" role="tabpanel">
-                                                            <!-- <form method="POST" action="">
-                                                            {% csrf_token %}
-                                                            {{form}}
-                                                            <button type="submit" class="btn btn-danger waves-effect waves-light">Submit
-                                                                <i class="icofont icofont-close-circled f-16 m-l-5"></i>
-                                                            </button>
-                                                            </form> -->
+                                                         
                                                             <div class="md-float-material card-block">
                                                                 
                                                                <!--HERE HERE-->
@@ -365,131 +345,16 @@
                                                                           <h4>QUICK REVIEW</h4>
                                                                           <p id="item_description">Enter Description...</p>
                                                                         </div>
-                                                                        <!-- <div class="ps-product__block ps-product__style">
-                                                                          <h4>CHOOSE YOUR STYLE</h4>
-                                                                          <ul>
-                                                                            <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/1.jpg' %}" alt=""></a></li>
-                                                                            <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/2.jpg' %}" alt=""></a></li>
-                                                                            <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/3.jpg' %}" alt=""></a></li>
-                                                                            <li><a href="product-detail.html"><img src="{% static 'sky/images/shoe/sidebar/2.jpg' %}" alt=""></a></li>
-                                                                          </ul>
-                                                                        </div> -->
-                                                                        <!-- <div class="ps-product__block ps-product__size">
-                                                                          <h4>CHOOSE SIZE<a href="#">Size chart</a></h4>
-                                                                          <select class="ps-select selectpicker">
-                                                                            <option value="1">Select Size</option>
-                                                                            <option value="2">4</option>
-                                                                            <option value="3">4.5</option>
-                                                                            <option value="3">5</option>
-                                                                            <option value="3">6</option>
-                                                                            <option value="3">6.5</option>
-                                                                            <option value="3">7</option>
-                                                                            <option value="3">7.5</option>
-                                                                            <option value="3">8</option>
-                                                                            <option value="3">8.5</option>
-                                                                            <option value="3">9</option>
-                                                                            <option value="3">9.5</option>
-                                                                            <option value="3">10</option>
-                                                                          </select>
-                                                                          <div class="form-group">
-                                                                            <input class="form-control" type="number" value="1">
-                                                                          </div>
-                                                                        </div> -->
-                                                                        <!-- <div class="ps-product__shopping"><a class="ps-btn mb-10" href="cart.html">Add to cart<i class="ps-icon-next"></i></a>
-                                                                          <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
-                                                                        </div> -->
+                                                                        
                                                                       </div>
                                                                       <div class="clearfix"></div>
-                                                                      <!-- <div class="ps-product__content mt-50">
-                                                                        <ul class="tab-list" role="tablist">
-                                                                          <li class="active"><a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a></li>
-                                                                          <li><a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">Review</a></li>
-                                                                          <li><a href="#tab_03" aria-controls="tab_03" role="tab" data-toggle="tab">PRODUCT TAG</a></li>
-                                                                          <li><a href="#tab_04" aria-controls="tab_04" role="tab" data-toggle="tab">ADDITIONAL</a></li>
-                                                                        </ul>
-                                                                      </div> -->
+                                                                     
                                                                       
                                                                     </div>
                                                                   </div>
                                                                 </div>
                                                               </div>
-
-
-                                                                <!-- <div class="row p-t-10 p-b-10">
-                                                                    <div class="col-lg-3 col-md-6 col-sm-12" id="imagePreview_1">
-                                                                            <img src="" class="image_preview_1" style="display: none;" width="350" alt="img-edit">
-                                                                            <img src="{% static 'dashboard\assets\images\product-edit\product-edit1.jpg' %}" class="image_default_1" width="350" alt="img-edit">
-                                                                    </div>
-                                                                    <div class="col-lg-9 col-md-6 col-sm-12">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-6">
-                                                                                <div class="input-group">
-                                                                                    <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
-                                                                                    <input type="file" name="inpFile_1" id="inpFile_1" class="form-control" placeholder="Front View">
-                                                                                    
-                                                                                </div>
-
-                                                                                <div class="col-xs-6 edit-right text-right">
-                                                                                    <button type="button" class="btn btn-danger waves-effect waves-light">Remove
-                                                                                        <i class="icofont icofont-close-circled f-16 m-l-5"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div> -->
-                                                                <!-- <hr>
-                                                                <div class="row p-t-10 p-b-10">
-                                                                    <div class="col-lg-3 col-md-6 col-sm-12" id="imagePreview_2">
-                                                                            <img src="" class="image_preview_2" style="display: none;" width="350" alt="img-edit">
-                                                                            <img src="{% static 'dashboard\assets\images\product-edit\product-edit1.jpg' %}" class="image_default_2" width="350" alt="img-edit">
-                                                                    </div>
-                                                                    <div class="col-lg-9 col-md-6 col-sm-12">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-6">
-                                                                                <div class="input-group">
-                                                                                    <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
-                                                                                    <input type="file" name="inpFile_2" id="inpFile_2" class="form-control" placeholder="Front View">
-                                                                                    
-                                                                                </div>
-
-                                                                                <div class="col-xs-6 edit-right text-right">
-                                                                                    <button type="button" class="btn btn-danger waves-effect waves-light">Remove
-                                                                                        <i class="icofont icofont-close-circled f-16 m-l-5"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <hr>
-                                                                <div class="row p-t-10 p-b-10">
-                                                                    <div class="col-lg-3 col-md-6 col-sm-12" id="imagePreview_3">
-                                                                            <img src="" class="image_preview_3" style="display: none;" width="350" alt="img-edit">
-                                                                            <img src="{% static 'dashboard\assets\images\product-edit\product-edit1.jpg' %}" class="image_default_3" width="350" alt="img-edit">
-                                                                    </div>
-                                                                    <div class="col-lg-9 col-md-6 col-sm-12">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-6">
-                                                                                <div class="input-group">
-                                                                                    <span class="input-group-addon"><i class="icofont icofont-ui-image"></i></span>
-                                                                                    <input type="file" name="inpFile_3" id="inpFile_3" class="form-control" placeholder="Front View">
-                                                                                    
-                                                                                </div>
-
-                                                                                <div class="col-xs-6 edit-right text-right">
-                                                                                    <button type="button" class="btn btn-danger waves-effect waves-light">Remove
-                                                                                        <i class="icofont icofont-close-circled f-16 m-l-5"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <hr> -->
-                                                        
-                                                                
+                                           
                                                             </div>
                                                         </div>
                                                         
@@ -694,5 +559,27 @@
     });
 </script>
 
+<script>
+    /* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
+//We start indexing at one because CSRF_token is considered and input field 
+*/
+
+//Query All input fields
+var form_fields = document.getElementsByTagName('input')
+var form_select_fields = document.getElementsByTagName('select')
+form_select_fields[0].className += 'form-control form-control-primary';
+form_select_fields[1].className += 'form-control form-control-primary';
+form_fields[4].placeholder='Title';
+form_fields[5].placeholder='Description';
+form_fields[6].placeholder='Slug';
+form_fields[7].placeholder='Quantity';
+form_fields[8].placeholder='Price';
+form_fields[9].placeholder='Discount Price';
+
+
+for (var field in form_fields){	
+form_fields[field].className += ' form-control'
+}
+</script>
 {% endblock extra_scripts %}
                

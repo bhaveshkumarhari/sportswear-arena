@@ -38,7 +38,6 @@ class createProduct(View):
         return render(self.request, 'create_product.html', context)
     def post(self, *args, **kwargs):
         form = ProductForm(self.request.POST, self.request.FILES)
-        print(self.request.POST)
         if form.is_valid():
             title = form.cleaned_data.get('title')
             category = form.cleaned_data.get('category')
@@ -69,10 +68,27 @@ class createProduct(View):
                 new = new
             )
             items.save() 
-            messages.success(self.request,'Successfully added item to your inventory')
+            messages.success(self.request,'Successfully added product to your inventory')
             return redirect('dashboard:dashboard-product-list')
         messages.warning(self.request,'Please enter all the information')
         return redirect('dashboard:create-product')
+
+def update_product(request, slug):
+    try:
+        product = Item.objects.get(slug=slug)
+    except Item.DoesNotExist:
+        return redirect('dashboard:dashboard-product-list')
+
+    form = ItemForm(request.POST or None, instance = product)
+
+    if form.is_valid():
+        form.save()
+        messages.success(request,'Successfully updated product of your inventory')
+        return redirect('dashboard:dashboard-product-list')
+
+    context = {'form':form}
+    messages.warning(request,'You are updating product information')
+    return render(request, 'update_product.html', context)
 
 
 @unauthenticated_user

@@ -52,7 +52,7 @@ class Item(models.Model):
     discount_price = models.FloatField(blank=True, null=True)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
     slug = models.SlugField()
-    description = models.TextField()
+    description = models.CharField(max_length=100)
     front_image = models.ImageField()
     back_image = models.ImageField()
     side_image = models.ImageField()
@@ -65,6 +65,11 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return reverse("core:product", kwargs={
+            'slug': self.slug
+        })
+
+    def get_update_product_url(self):
+        return reverse("dashboard:update-product", kwargs={
             'slug': self.slug
         })
     
