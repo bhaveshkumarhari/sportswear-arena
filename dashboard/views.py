@@ -13,6 +13,8 @@ from django.contrib.auth.models import Group
 
 from core.models import Item
 
+from django.contrib.auth.models import User
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -29,6 +31,11 @@ def productList(request):
     items = Item.objects.all()
     context = {'items':items}
     return render(request, 'dashboard_product_list.html', context)
+
+def customerList(request):
+    users = User.objects.all()
+    context = {'users':users}
+    return render(request, 'customer_list.html', context)
 
 class createProduct(View):
 

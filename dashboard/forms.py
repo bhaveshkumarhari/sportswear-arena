@@ -7,6 +7,7 @@ from core.models import Item
 from django import forms
 
 CATEGORY_CHOICES = (
+    ('','Choose category'),
     ('TP','Track Pants'),
     ('ET','Event T-Shirt'),
     ('CUT','Customized T-Shirt'),
@@ -19,6 +20,7 @@ CATEGORY_CHOICES = (
 )
 
 TSHIRT_SIZES = (
+    ('','Choose size'),
     ('B','S'),
     ('M','M'),
     ('L','L'),
