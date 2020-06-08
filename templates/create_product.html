@@ -153,7 +153,7 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-note"></i></span>
-                                                                            <input type="text" name="title" id="input_title" class="form-control" placeholder="Title">
+                                                                            <input type="text" name="title" id="input_title" required class="form-control" placeholder="Title">
                                                                         </div>
                                                                     </div>
                                                                    
@@ -182,7 +182,7 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-copy-alt"></i></span>
-                                                                            <input type="text" name="description" id="input_description" class="form-control" placeholder="Description">
+                                                                            <input type="text" name="description" id="input_description" required class="form-control" placeholder="Description">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
@@ -201,13 +201,13 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
-                                                                            <input type="text" name="slug" class="form-control" placeholder="Slug">
+                                                                            <input type="text" name="slug" class="form-control" required placeholder="Slug">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
-                                                                            <input type="text" name="quantity" class="form-control" placeholder="Quantity">
+                                                                            <input type="text" name="quantity" class="form-control" required placeholder="Quantity">
                                                                         </div>
                                                                     </div> 
                                                                 </div>
@@ -215,13 +215,13 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
-                                                                            <input type="text" name="price" id="input_price" class="form-control" placeholder="Price">
+                                                                            <input type="text" name="price" id="input_price" required class="form-control" placeholder="Price">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-cur-dollar"></i></span>
-                                                                            <input type="text" name="discount_price" id="input_discount_price" class="form-control" placeholder="Discount Price">
+                                                                            <input type="text" name="discount_price" id="input_discount_price" required class="form-control" placeholder="Discount Price">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -229,14 +229,14 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-image"></i>| Front Image</span>
-                                                                            <input type="file" name="front_image" id="inpFile_1" class="form-control" placeholder="Front View">
+                                                                            <input type="file" name="front_image" id="inpFile_1" required class="form-control" placeholder="Front View">
                                                                         </div>
                                                                     </div>
                                                                    
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-image"></i>| Back Image</span>
-                                                                            <input type="file" name="back_image" id="inpFile_2" class="form-control" placeholder="Front View">
+                                                                            <input type="file" name="back_image" id="inpFile_2" required class="form-control" placeholder="Front View">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -244,7 +244,7 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-image"></i>| Side Image</span>
-                                                                            <input type="file" name="side_image" id="inpFile_3" class="form-control" placeholder="Front View">
+                                                                            <input type="file" name="side_image" id="inpFile_3" required class="form-control" placeholder="Front View">
                                                                         </div>
                                                                     </div>
                                                                     
@@ -585,7 +585,10 @@
     });
 
     inpPrice.addEventListener("change", function() {
+        
+
         if(inpPrice != "") {
+
             const deletedPrice = document.createElement('del');
             const priceContent = inpPrice.value;
 

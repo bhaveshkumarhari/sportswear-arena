@@ -70,7 +70,7 @@ class createProduct(View):
             items.save() 
             messages.success(self.request,'Successfully added product to your inventory')
             return redirect('dashboard:dashboard-product-list')
-        messages.warning(self.request,'Please enter all the information')
+        messages.warning(self.request,'Please enter valid information')
         return redirect('dashboard:create-product')
 
 def update_product(request, slug):

@@ -108,16 +108,12 @@
                                                                     {% endif %}
                                                                 </td>
                                                                 <td class="action-icon">
-                                                                    <a href="{{ item.get_update_product_url }}" class="m-r-15 text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="icofont icofont-ui-edit"></i></a>
-                                                                    <a href="{{ item.get_delete_product_url }}"  class="text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="icofont icofont-delete-alt"></i></a>
+                                                                    <a href="{{ item.get_update_product_url }}" class="m-r-15" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="icofont icofont-ui-edit"></i></a>
+                                                                    <!-- <a href="{{ item.get_delete_product_url }}"  class="text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="icofont icofont-delete-alt"></i></a> -->
                   
-                                                                    <div id="show_delete" style="color: #d33333; display: none;">Are you sure? <a href="{% url 'dashboard:dashboard-product-list' %}"><button type="button" class="btn btn-primary waves-effect waves-light f-right d-inline-block md-trigger"> No
-                                                                    </button></a> <a href="{{ item.get_delete_product_url }}"><button type="button" class="btn btn-warning waves-effect waves-light f-right d-inline-block md-trigger"> Yes
-                                                                    </button></a></div>
+                                                                    <a href="{{ item.get_delete_product_url }}" class="confirm-delete" title="Delete" data-toggle="modal" data-target="#confirmDeleteModal" id="deleteButton{{item.slug}}"><i class="icofont icofont-delete-alt"></i></a>
                                                                     
-                                                                    <!-- <button id="input_delete">Try it</button>
-
-                                                    <p id="show_delete"></p> -->
+                                                                    
                                                                 </td>
                                                             </tr>
                                                             {% endfor %}
@@ -177,6 +173,23 @@
             </div>
         </div>
     </div>
+
+    <!--Delete button will redirect to the href of the element with 'id = caller-id' property in this modal-->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" caller-id="" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body confirm-delete">
+                Are you sure want to delete this product?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="{{ item.get_delete_product_url }}"><button type="button" class="btn btn-danger" data-dismiss="modal" id="confirmDeleteButtonModal">Delete</button></a>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock content %}
 
 {% block extra_scripts %}
@@ -203,6 +216,17 @@ inpDelete.addEventListener("click", function() {
 $(document).ready( function () {
     $('#myTable').DataTable();
 } );
+</script>
+
+<script>
+    $(document).on('click', '.confirm-delete', function () {
+    $("#confirmDeleteModal").attr("caller-id", $(this).attr("id"));
+    });
+
+    $(document).on('click', '#confirmDeleteButtonModal', function () {
+    var caller = $("#confirmDeleteButtonModal").closest(".modal").attr("caller-id");
+    window.location = $("#".concat(caller)).attr("href");
+    });
 </script>
 {% endblock extra_scripts %}
                
