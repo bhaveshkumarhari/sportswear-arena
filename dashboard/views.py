@@ -24,6 +24,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def HomeView(request):
     return render(request, 'dashboard.html')
 
+def userProfile(request):
+    return render(request, 'dashboard_user_profile.html')
+
 
 @login_required(login_url='dashboard:dashboard-login')
 @admin_only
@@ -33,7 +36,7 @@ def productList(request):
     return render(request, 'dashboard_product_list.html', context)
 
 def customerList(request):
-    users = User.objects.all()
+    users = User.objects.filter(groups__name='customer')
     context = {'users':users}
     return render(request, 'customer_list.html', context)
 

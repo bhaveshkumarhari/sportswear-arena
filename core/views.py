@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
 
 from django.utils import timezone
 
@@ -32,12 +33,12 @@ def registerPage(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get('username')
 
-    #         # For every user registration, add user to customer group
-    #         group = Group.objects.get(name='customer')
-    #         user.groups.add(group)
+            # For every user registration, add user to customer group
+            group = Group.objects.get(name='customer')
+            user.groups.add(group)
 
             messages.success(request,'Account was created for ' + username)
             return redirect('core:login')
@@ -141,20 +142,20 @@ def ProductListView(request, title):
 
     #--------------------------------------------------
 
-    fitlered_items = Item.objects.filter(category=title)
+    filtered_items = Item.objects.filter(category=title)
 
-    context = {'item_list': fitlered_items, 'count_all': count_all, 'count_round': count_round, 'count_collar': count_collar,
+    context = {'item_list': filtered_items, 'count_all': count_all, 'count_round': count_round, 'count_collar': count_collar,
                    'count_track': count_track, 'count_customise': count_customise, 'count_corporate': count_corporate,'count_graphics': count_graphics,
                     'count_sports': count_sports, 'count_sublimation': count_sublimation, 'count_event': count_event}
 
     #---------------------------------------------------
 
-    if self.request.user.is_authenticated:
+    if request.user.is_authenticated:
             try:
-                context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+                context['cart'] = Order.objects.get(user=request.user, ordered=False)
             except:
                 ordered_date = timezone.now() # get current date
-                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+                context['cart'] = Order.objects.create(user=request.user, ordered_date=ordered_date)
 
     if title == 'RNT':
         context['RNT'] = True

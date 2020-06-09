@@ -150,6 +150,14 @@
                                                                 
                                                                 {% csrf_token %}
                                                                 <div class="row">
+
+                                                                    <div class="card borderless-card col-sm-12">
+                                                                        <div class="card-block inverse-breadcrumb">
+                                                                            <div class="breadcrumb-header">
+                                                                                <h5>Product Description</h5>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                     
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
@@ -201,6 +209,13 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
+                                                                    <div class="card borderless-card col-sm-12">
+                                                                        <div class="card-block inverse-breadcrumb">
+                                                                            <div class="breadcrumb-header">
+                                                                                <h5>Price, Stock and Shipping Information</h5>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-numbered"></i></span>
@@ -233,6 +248,13 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
+                                                                    <div class="card borderless-card col-sm-12">
+                                                                        <div class="card-block inverse-breadcrumb">
+                                                                            <div class="breadcrumb-header">
+                                                                                <h5>Product Images</h5>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <span class="input-group-addon"><i class="icofont icofont-ui-image"></i>| Front Image</span>
@@ -423,6 +445,7 @@
 //Query All input fields
 var form_fields = document.getElementsByTagName('input')
 var form_select_fields = document.getElementsByTagName('select')
+var a_tag = document.getElementsByTagName('a')
 form_select_fields[0].className += 'form-control form-control-primary';
 form_select_fields[1].className += 'form-control form-control-primary';
 form_fields[4].placeholder='Title';
@@ -435,6 +458,7 @@ form_fields[8].placeholder='Price';
 form_fields[8].id='input_price';
 form_fields[9].placeholder='Discount Price';
 form_fields[9].id='input_discount_price';
+console.log(a_tag);
 
 
 for (var field in form_fields){	
