@@ -3,7 +3,7 @@ from django.views.generic import View
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from .forms import CreateUserForm, ItemForm, ProductForm
+from .forms import CreateUserForm, ItemForm, ProductForm, ShippingAddressForm
 
 from django.contrib import messages
 
@@ -41,14 +41,35 @@ def customerProfile(request, user):
         billing_address = Address.objects.get(user=user, address_type='B')
     except ObjectDoesNotExist:
         billing_address = False
-    
-    print(shipping_address)
-    print(billing_address)
+
+    if request.method == 'POST':
+        shipping_address = Address.objects.get(user=user, address_type = 'S')
+        shipping_address.delete()
+        form = ShippingAddressForm(request.POST or None)
+
+        if form.is_valid():
+            shipping_address = form.cleaned_data.get('shipping_address')
+            shipping_address2 = form.cleaned_data.get('shipping_address2')
+            shipping_country = form.cleaned_data.get('shipping_country')
+            shipping_zip = form.cleaned_data.get('shipping_zip')
+            shipping_state = form.cleaned_data.get('shipping_state')
+            
+            shipping_address = Address(
+                    user = user,
+                    street_address = shipping_address,
+                    apartment_address = shipping_address2,
+                    country = shipping_country,
+                    zip = shipping_zip,
+                    state = shipping_state,
+                    address_type = 'S',
+                    default = True
+                )
+            shipping_address.save()
 
     context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address}
 
     return render(request, 'dashboard_user_profile.html', context)
-    
+
 
 @login_required(login_url='dashboard:dashboard-login')
 @admin_only
@@ -181,6 +202,12 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('dashboard:dashboard-login')
+
+
+# def updateShippingAddress(request):
+
+#     return render(request, 'update_product.html', context)
+
 
 class userPage(View):
 

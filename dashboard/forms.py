@@ -51,3 +51,15 @@ class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
         fields= ['username','email','password1','password2']
+
+class ShippingAddressForm(forms.Form):
+    shipping_address = forms.CharField(required=False)
+    shipping_address2 = forms.CharField(required=False)
+    shipping_country = forms.CharField(required=False)
+    # shipping_country = CountryField(blank_label='select country').formfield(
+    #     required=False,
+    #     widget=CountrySelectWidget(attrs={
+    #         'class': 'ps-select selectpicker',
+    # }))
+    shipping_zip = forms.CharField(required=False)
+    shipping_state = forms.CharField(required=False)

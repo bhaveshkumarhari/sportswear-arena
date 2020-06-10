@@ -32,9 +32,17 @@ def registerPage(request):
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
+        print(request.POST)
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
+            # phone_number = form.cleaned_data.get('phone_number')
+            # print(phone_number)
+
+            # phone = User(
+            #     phone_number = phone_number,
+            # )
+            # phone.save() 
 
             # For every user registration, add user to customer group
             group = Group.objects.get(name='customer')
@@ -69,6 +77,10 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('/')
+
+def userProfile(request):
+    
+    return render(request, 'user_profile.html')
 
 
 class HomeView(View):
