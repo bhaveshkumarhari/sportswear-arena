@@ -446,40 +446,41 @@
                                                                         <div class="table-responsive" id="billing-form" style="display: none;">
                                                                             <div class="card-block">
                                                                             
-                                                                                <form>
+                                                                                <form method="POST">
+                                                                                    {% csrf_token %}
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>Street Address</strong></label>
                                                                                         <div class="col-sm-7">
-                                                                                            <input type="text" id="billing-street-address" class="form-control">
+                                                                                            <input type="text" name="billing_address" id="billing-street-address" required class="form-control">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>Apartment Address</strong></label>
                                                                                         <div class="col-sm-7">
-                                                                                            <input type="text" id="billing-apartment-address" class="form-control">
+                                                                                            <input type="text" name="billing_address2" id="billing-apartment-address" required class="form-control">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>Country</strong></label>
                                                                                         <div class="col-sm-7">
-                                                                                            <input type="text" id="billing-country"class="form-control">
+                                                                                            <input type="text" name="billing_country" id="billing-country" required class="form-control">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>Zip Code</strong></label>
                                                                                         <div class="col-sm-7">
-                                                                                            <input type="text" id="billing-zip" class="form-control">
+                                                                                            <input type="text" name="billing_zip" id="billing-zip" required class="form-control">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>State</strong></label>
                                                                                         <div class="col-sm-7">
-                                                                                            <input type="text" id="billing-state" class="form-control">
+                                                                                            <input type="text" name="billing_state" id="billing-state" required class="form-control">
                                                                                         </div>
                                                                                     </div>
 
                                                                                 
-                                                                                    <button id="billing-edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right" style="margin: 5px;">
+                                                                                    <button id="billing-edit-btn" type="submit" class="btn btn-sm btn-primary waves-effect waves-light f-right" style="margin: 5px;">
                                                                                         Save changes
                                                                                     </button>
 
@@ -2089,6 +2090,9 @@
     shippingEditButton.addEventListener("click", function() {
         shippingTable.style.display = "none";
         shippingEditButton.style.display = "none";
+        billingForm.style.display = "none";
+        billingTable.style.display = "block";
+        billingEditButton.style.display = "block";
         shippingForm.style.display = "block";
 
         shippingAddressField1.value = shippingGetTable1;
@@ -2130,6 +2134,9 @@
     billingEditButton.addEventListener("click", function() {
         billingTable.style.display = "none";
         billingEditButton.style.display = "none";
+        shippingForm.style.display = "none";
+        shippingTable.style.display = "block";
+        shippingEditButton.style.display = "block";
         billingForm.style.display = "block";
 
         billingAddressField1.value = billingGetTable1;

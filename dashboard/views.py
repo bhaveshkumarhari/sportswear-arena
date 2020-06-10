@@ -3,7 +3,7 @@ from django.views.generic import View
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from .forms import CreateUserForm, ItemForm, ProductForm, ShippingAddressForm
+from .forms import CreateUserForm, ItemForm, ProductForm, ShippingAddressForm, BillingAddressForm
 
 from django.contrib import messages
 
@@ -26,25 +26,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def HomeView(request):
     return render(request, 'dashboard.html')
 
+def is_valid_form(values):
+    valid = True
+    for field in values:
+        if field == '':
+            valid = False
+    return valid
+
 @login_required(login_url='dashboard:dashboard-login')
 @admin_only
 def customerProfile(request, user):
 
     user = User.objects.get(username=user)
 
-    try:
-        shipping_address = Address.objects.get(user=user, address_type='S')
-    except ObjectDoesNotExist:
-        shipping_address = False
-
-    try:
-        billing_address = Address.objects.get(user=user, address_type='B')
-    except ObjectDoesNotExist:
-        billing_address = False
-
     if request.method == 'POST':
-        shipping_address = Address.objects.get(user=user, address_type = 'S')
-        shipping_address.delete()
+        
         form = ShippingAddressForm(request.POST or None)
 
         if form.is_valid():
@@ -54,17 +50,56 @@ def customerProfile(request, user):
             shipping_zip = form.cleaned_data.get('shipping_zip')
             shipping_state = form.cleaned_data.get('shipping_state')
             
-            shipping_address = Address(
-                    user = user,
-                    street_address = shipping_address,
-                    apartment_address = shipping_address2,
-                    country = shipping_country,
-                    zip = shipping_zip,
-                    state = shipping_state,
-                    address_type = 'S',
-                    default = True
-                )
-            shipping_address.save()
+            if is_valid_form([shipping_address, shipping_country, shipping_zip, shipping_state]):
+                old_shipping_address = Address.objects.get(user=user, address_type = 'S')
+                old_shipping_address.delete()
+                shipping_address = Address(
+                        user = user,
+                        street_address = shipping_address,
+                        apartment_address = shipping_address2,
+                        country = shipping_country,
+                        zip = shipping_zip,
+                        state = shipping_state,
+                        address_type = 'S',
+                        default = True
+                    )
+                shipping_address.save()
+
+    if request.method == 'POST':
+        
+        form = BillingAddressForm(request.POST or None)
+
+        if form.is_valid():
+            billing_address = form.cleaned_data.get('billing_address')
+            billing_address2 = form.cleaned_data.get('billing_address2')
+            billing_country = form.cleaned_data.get('billing_country')
+            billing_zip = form.cleaned_data.get('billing_zip')
+            billing_state = form.cleaned_data.get('billing_state')
+            
+            if is_valid_form([billing_address, billing_country, billing_zip, billing_state]):
+                old_billing_address = Address.objects.get(user=user, address_type = 'B')
+                old_billing_address.delete()
+                billing_address = Address(
+                        user = user,
+                        street_address = billing_address,
+                        apartment_address = billing_address2,
+                        country = billing_country,
+                        zip = billing_zip,
+                        state = billing_state,
+                        address_type = 'B',
+                        default = True
+                    )
+                billing_address.save()
+
+    try:
+        shipping_address = Address.objects.get(user=user, address_type='S', default=True)
+    except ObjectDoesNotExist:
+        shipping_address = False
+
+    try:
+        billing_address = Address.objects.get(user=user, address_type='B', default=True)
+    except ObjectDoesNotExist:
+        billing_address = False
 
     context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address}
 

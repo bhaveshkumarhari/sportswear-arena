@@ -63,3 +63,15 @@ class ShippingAddressForm(forms.Form):
     # }))
     shipping_zip = forms.CharField(required=False)
     shipping_state = forms.CharField(required=False)
+
+class BillingAddressForm(forms.Form):
+    billing_address = forms.CharField(required=False)
+    billing_address2 = forms.CharField(required=False)
+    billing_country = forms.CharField(required=False)
+    # shipping_country = CountryField(blank_label='select country').formfield(
+    #     required=False,
+    #     widget=CountrySelectWidget(attrs={
+    #         'class': 'ps-select selectpicker',
+    # }))
+    billing_zip = forms.CharField(required=False)
+    billing_state = forms.CharField(required=False)
