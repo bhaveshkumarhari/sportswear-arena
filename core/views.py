@@ -587,9 +587,7 @@ class CheckoutView(LoginRequiredMixin, View):
             # if there is no active order then shows message
             messages.error(self.request, "You do not have active order")
             return redirect("core:order-summary")
-
-        
-
+            
 
 class ContactView(View):
     def get(self, *args, **kwargs):

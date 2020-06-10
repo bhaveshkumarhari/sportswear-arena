@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View
+
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import CreateUserForm, ItemForm, ProductForm
 
@@ -11,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.models import Group
 
-from core.models import Item
+from core.models import Item, Address
 
 from django.contrib.auth.models import User
 
@@ -24,9 +26,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def HomeView(request):
     return render(request, 'dashboard.html')
 
-def userProfile(request):
-    return render(request, 'dashboard_user_profile.html')
+@login_required(login_url='dashboard:dashboard-login')
+@admin_only
+def customerProfile(request, user):
 
+    user = User.objects.get(username=user)
+
+    try:
+        shipping_address = Address.objects.get(user=user, address_type='S')
+    except ObjectDoesNotExist:
+        shipping_address = False
+
+    try:
+        billing_address = Address.objects.get(user=user, address_type='B')
+    except ObjectDoesNotExist:
+        billing_address = False
+    
+    print(shipping_address)
+    print(billing_address)
+
+    context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address}
+
+    return render(request, 'dashboard_user_profile.html', context)
+    
 
 @login_required(login_url='dashboard:dashboard-login')
 @admin_only
@@ -35,6 +57,8 @@ def productList(request):
     context = {'items':items}
     return render(request, 'dashboard_product_list.html', context)
 
+@login_required(login_url='dashboard:dashboard-login')
+@admin_only
 def customerList(request):
     users = User.objects.filter(groups__name='customer')
     context = {'users':users}
@@ -61,7 +85,6 @@ class createProduct(View):
             back_image = form.cleaned_data.get('back_image')
             side_image = form.cleaned_data.get('side_image')
             new = form.cleaned_data.get('new')
-            # print(discount_price)
 
             items = Item(
                 title = title,
@@ -83,6 +106,8 @@ class createProduct(View):
         messages.warning(self.request,'Please enter valid information')
         return redirect('dashboard:create-product')
 
+@login_required(login_url='dashboard:dashboard-login')
+@admin_only
 def update_product(request, slug):
     try:
         product = Item.objects.get(slug=slug)
@@ -99,7 +124,8 @@ def update_product(request, slug):
     context = {'form':form, 'product':product}
     return render(request, 'update_product.html', context)
 
-
+@login_required(login_url='dashboard:dashboard-login')
+@admin_only
 def delete_product(request, slug):
     try:
         product = Item.objects.get(slug=slug)

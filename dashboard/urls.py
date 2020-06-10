@@ -1,11 +1,11 @@
 from django.urls import path
-from .views import HomeView, userProfile, productList, createProduct, update_product, delete_product, registerPage, loginPage, logoutUser, userPage, customerList
+from .views import HomeView, customerProfile, productList, createProduct, update_product, delete_product, registerPage, loginPage, logoutUser, userPage, customerList
 
 app_name = 'dashboard'
 
 urlpatterns = [
     path('dashboard/', HomeView, name="dashboard-home"),
-    path('dashboard/user-profile/', userProfile, name="user-profile"),
+    path('dashboard/customer-profile/<user>/', customerProfile, name="customer-profile"),
     path('dashboard/product-list/', productList, name="dashboard-product-list"),
     path('dashboard/create-product/', createProduct.as_view(), name="create-product"),
     path('dashboard/update-product/<slug>/', update_product, name="update-product"),

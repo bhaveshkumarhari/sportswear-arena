@@ -17,8 +17,8 @@
                         <div class="col-lg-8">
                             <div class="page-header-title">
                                 <div class="d-inline">
-                                    <h4>User Profile</h4>
-                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                    <h4>Customer Profile of <strong>{{user}}</strong></h4>
+                                    <!-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> -->
                                 </div>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                                     </li>
                                     <li class="breadcrumb-item"><a href="{% url 'dashboard:customer-list' %}">Customers</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                    <li class="breadcrumb-item"><a href="#!">Customer Profile</a>
                                     </li>
                                 </ul>
                             </div>
@@ -85,7 +85,7 @@
                                             <div class="slide"></div>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#binfo" role="tab">User's Orders</a>
+                                            <a class="nav-link" data-toggle="tab" href="#binfo" role="tab">Customer's Orders</a>
                                             <div class="slide"></div>
                                         </li>
                                         <!-- <li class="nav-item">
@@ -106,7 +106,7 @@
                                         <!-- personal card start -->
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5 class="card-header-text">About Me</h5>
+                                                <h5 class="card-header-text">Customer's Details</h5>
                                                 <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
                             <i class="icofont icofont-edit"></i>
                         </button>
@@ -122,14 +122,14 @@
                                                                             <table class="table m-0">
                                                                                 <tbody>
                                                                                     <tr>
-                                                                                        <th scope="row">Full Name</th>
-                                                                                        <td>Josephine Villa</td>
+                                                                                        <th scope="row">First Name</th>
+                                                                                        <td>{{user.first_name}}</td>
                                                                                     </tr>
                                                                                     <tr>
-                                                                                        <th scope="row">Gender</th>
-                                                                                        <td>Female</td>
+                                                                                        <th scope="row">Last Name</th>
+                                                                                        <td>{{user.last_name}}</td>
                                                                                     </tr>
-                                                                                    <tr>
+                                                                                    <!-- <tr>
                                                                                         <th scope="row">Birth Date</th>
                                                                                         <td>October 25th, 1990</td>
                                                                                     </tr>
@@ -140,7 +140,7 @@
                                                                                     <tr>
                                                                                         <th scope="row">Location</th>
                                                                                         <td>New York, USA</td>
-                                                                                    </tr>
+                                                                                    </tr> -->
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -152,13 +152,14 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <th scope="row">Email</th>
-                                                                                        <td><a href="#!"><span class="__cf_email__" data-cfemail="4206272f2d02273a232f322e276c212d2f">[email&#160;protected]</span></a></td>
+                                                                                        <td>{{user.email}}</td>
+                                                                                        <!-- <td><a href="#!"><span class="__cf_email__" data-cfemail="4206272f2d02273a232f322e276c212d2f">[email&#160;protected]</span></a></td> -->
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <th scope="row">Mobile Number</th>
-                                                                                        <td>(0123) - 4567891</td>
+                                                                                        <td>{{user.phone}}</td>
                                                                                     </tr>
-                                                                                    <tr>
+                                                                                    <!-- <tr>
                                                                                         <th scope="row">Twitter</th>
                                                                                         <td>@xyz</td>
                                                                                     </tr>
@@ -169,11 +170,236 @@
                                                                                     <tr>
                                                                                         <th scope="row">Website</th>
                                                                                         <td><a href="#!">www.demo.com</a></td>
-                                                                                    </tr>
+                                                                                    </tr> -->
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
                                                                     </div>
+                                                                    <!-- end of table col-lg-6 -->
+                                                                </div>
+                                                                <!-- end of row -->
+                                                            </div>
+                                                            <!-- end of general info -->
+                                                        </div>
+                                                        <!-- end of col-lg-12 -->
+                                                    </div>
+                                                    <!-- end of row -->
+                                                </div>
+                                                <!-- end of view-info -->
+                                                <div class="edit-info">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="general-info">
+                                                                <div class="row">
+                                                                    <!-- <div class="col-lg-6">
+                                                                        <table class="table">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-user"></i></span>
+                                                                                            <input type="text" class="form-control" placeholder="Full Name">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="form-radio">
+                                                                                            <div class="group-add-on">
+                                                                                                <div class="radio radiofill radio-inline">
+                                                                                                    <label>
+                                                                                <input type="radio" name="radio" checked=""><i class="helper"></i> Male
+                                                                            </label>
+                                                                                                </div>
+                                                                                                <div class="radio radiofill radio-inline">
+                                                                                                    <label>
+                                                                                <input type="radio" name="radio"><i class="helper"></i> Female
+                                                                            </label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <input id="dropper-default" class="form-control" type="text" placeholder="Select Your Birth Date">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <select id="hello-single" class="form-control">
+                                                                    <option value="">---- Marital Status ----</option>
+                                                                    <option value="married">Married</option>
+                                                                    <option value="unmarried">Unmarried</option>
+                                                                </select>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-location-pin"></i></span>
+                                                                                            <input type="text" class="form-control" placeholder="Address">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div> -->
+                                                                    <!-- end of table col-lg-6 -->
+                                                                    <!-- <div class="col-lg-6">
+                                                                        <table class="table">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-mobile-phone"></i></span>
+                                                                                            <input type="text" class="form-control" placeholder="Mobile Number">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-social-twitter"></i></span>
+                                                                                            <input type="text" class="form-control" placeholder="Twitter Id">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                            <td>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon" id="basic-addon1">@</span>
+                                                                    <input type="text" class="form-control" placeholder="Twitter Id">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-social-skype"></i></span>
+                                                                                            <input type="email" class="form-control" placeholder="Skype Id">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <span class="input-group-addon"><i class="icofont icofont-earth"></i></span>
+                                                                                            <input type="text" class="form-control" placeholder="website">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div> -->
+                                                                    <!-- end of table col-lg-6 -->
+                                                                </div>
+                                                                <!-- end of row -->
+                                                                <!-- <div class="text-center">
+                                                                    <a href="#!" class="btn btn-primary waves-effect waves-light m-r-20">Save</a>
+                                                                    <a href="#!" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
+                                                                </div> -->
+                                                            </div>
+                                                            <!-- end of edit info -->
+                                                        </div>
+                                                        <!-- end of col-lg-12 -->
+                                                    </div>
+                                                    <!-- end of row -->
+                                                </div>
+                                                <!-- end of edit-info -->
+                                            </div>
+                                            <!-- end of card-block -->
+                                        </div>
+                                        <div class="card">
+                                            <!-- <div class="card-header">
+                                                <h5 class="card-header-text">Customer's Address</h5>
+                                                <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                            <i class="icofont icofont-edit"></i>
+                        </button>
+                                            </div> -->
+                                            <div class="card-block">
+                                                <div class="view-info">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="general-info">
+                                                                <div class="row">
+                                                                    
+                                                                    <div class="col-lg-12 col-xl-6">
+                                                                        {% if shipping_address %}
+                                                                        <h5 class="card-header-text">Shipping Address</h5>
+                                                                        <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                                                            <i class="icofont icofont-edit"></i>
+                                                                        </button>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table m-0">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <th scope="row">Street Address</th>
+                                                                                        <td>{{shipping_address.street_address}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Apartment Address</th>
+                                                                                        <td>{{shipping_address.apartment_address}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Country</th>
+                                                                                        <td>{{shipping_address.country}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Zip Code</th>
+                                                                                        <td>{{shipping_address.zip}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">State</th>
+                                                                                        <td>{{shipping_address.state}}</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        {% else %}
+                                                                            <h5 class="card-header-text">Shipping Address is not available</h5>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    
+                                                                    <!-- end of table col-lg-6 -->
+                                                                    
+                                                                    <div class="col-lg-12 col-xl-6">
+                                                                        {% if billing_address %}
+                                                                        <h5 class="card-header-text">Billing Address</h5>
+                                                                        <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                                                            <i class="icofont icofont-edit"></i>
+                                                                        </button>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table m-0">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <th scope="row">Street Address</th>
+                                                                                        <td>{{billing_address.street_address}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Apartment Address</th>
+                                                                                        <td>{{billing_address.apartment_address}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Country</th>
+                                                                                        <td>{{billing_address.country}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Zip Code</th>
+                                                                                        <td>{{billing_address.zip}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">State</th>
+                                                                                        <td>{{billing_address.state}}</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        {% else %}
+                                                                            <h5 class="card-header-text">Billing Address is not available</h5>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                  
                                                                     <!-- end of table col-lg-6 -->
                                                                 </div>
                                                                 <!-- end of row -->
