@@ -3,7 +3,7 @@ from django.views.generic import View
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from .forms import CreateUserForm, ItemForm, ProductForm, ShippingAddressForm, BillingAddressForm
+from .forms import CreateUserForm, ItemForm, ProductForm, ShippingAddressForm, BillingAddressForm, UserInfoForm
 
 from django.contrib import messages
 
@@ -64,6 +64,7 @@ def customerProfile(request, user):
                         default = True
                     )
                 shipping_address.save()
+                return redirect('dashboard:customer-profile', user=user)
 
     if request.method == 'POST':
         
@@ -90,6 +91,19 @@ def customerProfile(request, user):
                         default = True
                     )
                 billing_address.save()
+                return redirect('dashboard:customer-profile', user=user)
+    
+    userform = UserInfoForm(request.POST or None, instance=user)
+
+    if request.method == 'POST':
+        if userform.is_valid():
+            first_name = userform.cleaned_data.get('first_name')
+            last_name = userform.cleaned_data.get('last_name')
+            email = userform.cleaned_data.get('email')
+            
+            if is_valid_form([first_name, last_name, email]):
+                userform.save()
+                return redirect('dashboard:customer-profile', user=user)
 
     try:
         shipping_address = Address.objects.get(user=user, address_type='S', default=True)
@@ -101,7 +115,7 @@ def customerProfile(request, user):
     except ObjectDoesNotExist:
         billing_address = False
 
-    context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address}
+    context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address, 'form':userform}
 
     return render(request, 'dashboard_user_profile.html', context)
 
@@ -176,7 +190,7 @@ def update_product(request, slug):
         form.save()
         messages.success(request,'Successfully updated product of inventory')
         return redirect('dashboard:dashboard-product-list')
-    print(product)
+
     context = {'form':form, 'product':product}
     return render(request, 'update_product.html', context)
 

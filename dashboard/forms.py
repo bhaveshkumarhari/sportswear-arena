@@ -75,3 +75,9 @@ class BillingAddressForm(forms.Form):
     # }))
     billing_zip = forms.CharField(required=False)
     billing_state = forms.CharField(required=False)
+    
+
+class UserInfoForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']

@@ -107,7 +107,7 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <h5 class="card-header-text">Customer's Details</h5>
-                                                <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                                <button id="info-edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
                                                     <i class="icofont icofont-edit"></i>
                                                 </button>
                                             </div>
@@ -116,10 +116,11 @@
                                                     <div class="row">
                                                         <div class="col-lg-12">
                                                             <div class="general-info">
+                                                                <div id="info-table">
                                                                 <div class="row">
                                                                     <div class="col-lg-12 col-xl-6">
                                                                         <div class="table-responsive">
-                                                                            <table class="table m-0">
+                                                                            <table id="info-get-table1" class="table m-0">
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <th scope="row">First Name</th>
@@ -144,11 +145,13 @@
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
+
+                            
                                                                     </div>
                                                                     <!-- end of table col-lg-6 -->
                                                                     <div class="col-lg-12 col-xl-6">
                                                                         <div class="table-responsive">
-                                                                            <table class="table">
+                                                                            <table id="info-get-table2" class="table">
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <th scope="row">Email</th>
@@ -177,7 +180,66 @@
                                                                     </div>
                                                                     <!-- end of table col-lg-6 -->
                                                                 </div>
+                                                            </div>
+                                                           
                                                                 <!-- end of row -->
+                                                                <div id="info-form" style="display: none;">
+                                                                <form method="POST">
+                                                                    
+                                                                {% csrf_token %}
+                                                                <div class="row">
+                                                                    
+                                                                    <div class="col-lg-12 col-xl-6">
+                                                                        <div class="">
+                                                                            <div class="form-group row">
+                                                                                <label class="col-sm-5 col-form-label"><strong>First Name</strong></label>
+                                                                                <div class="col-sm-7">
+                                                                                    <!-- <input type="text" name="first_name" id="info-firstname" required class="form-control"> -->
+                                                                                    {{form.first_name}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-sm-5 col-form-label"><strong>Last Name</strong></label>
+                                                                                <div class="col-sm-7">
+                                                                                    <!-- <input type="text" name="last_name" id="info-lastname" required class="form-control"> -->
+                                                                                    {{form.last_name}}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                            
+                                                                    </div>
+                                                                    <!-- end of table col-lg-6 -->
+                                                                    <div class="col-lg-12 col-xl-6">
+                                                                        <div class="">
+                                                                            <div class="form-group row">
+                                                                                <label class="col-sm-5 col-form-label"><strong>Email</strong></label>
+                                                                                <div class="col-sm-7">
+                                                                                    <!-- <input type="text" name="email" id="info-email" required class="form-control"> -->
+                                                                                    {{form.email}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-sm-5 col-form-label"><strong>Mobile Number</strong></label>
+                                                                                <div class="col-sm-7">
+                                                                                    <!-- <input type="text" name="phone" id="info-phone" class="form-control"> -->
+                                                                                    {{form.phone}}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <button id="info-save-btn" type="submit" class="btn btn-sm btn-primary waves-effect waves-light f-right" style="margin: 5px;">
+                                                                    Save changes
+                                                                </button>
+
+                                                                <button id="info-cancel-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right" style="margin: 5px;">
+                                                                    Cancel
+                                                                </button>
+                                                                </form>
+                                                                    <!-- end of table col-lg-6 -->
+                                                                </div>
                                                             </div>
                                                             <!-- end of general info -->
                                                         </div>
@@ -191,108 +253,7 @@
                                                         <div class="col-lg-12">
                                                             <div class="general-info">
                                                                 <div class="row">
-                                                                    <!-- <div class="col-lg-6">
-                                                                        <table class="table">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-user"></i></span>
-                                                                                            <input type="text" class="form-control" placeholder="Full Name">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="form-radio">
-                                                                                            <div class="group-add-on">
-                                                                                                <div class="radio radiofill radio-inline">
-                                                                                                    <label>
-                                                                                <input type="radio" name="radio" checked=""><i class="helper"></i> Male
-                                                                            </label>
-                                                                                                </div>
-                                                                                                <div class="radio radiofill radio-inline">
-                                                                                                    <label>
-                                                                                <input type="radio" name="radio"><i class="helper"></i> Female
-                                                                            </label>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <input id="dropper-default" class="form-control" type="text" placeholder="Select Your Birth Date">
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <select id="hello-single" class="form-control">
-                                                                    <option value="">---- Marital Status ----</option>
-                                                                    <option value="married">Married</option>
-                                                                    <option value="unmarried">Unmarried</option>
-                                                                </select>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-location-pin"></i></span>
-                                                                                            <input type="text" class="form-control" placeholder="Address">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div> -->
-                                                                    <!-- end of table col-lg-6 -->
-                                                                    <!-- <div class="col-lg-6">
-                                                                        <table class="table">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-mobile-phone"></i></span>
-                                                                                            <input type="text" class="form-control" placeholder="Mobile Number">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-social-twitter"></i></span>
-                                                                                            <input type="text" class="form-control" placeholder="Twitter Id">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                            <td>
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon" id="basic-addon1">@</span>
-                                                                    <input type="text" class="form-control" placeholder="Twitter Id">
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-social-skype"></i></span>
-                                                                                            <input type="email" class="form-control" placeholder="Skype Id">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <span class="input-group-addon"><i class="icofont icofont-earth"></i></span>
-                                                                                            <input type="text" class="form-control" placeholder="website">
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div> -->
-                                                                    <!-- end of table col-lg-6 -->
+                                                                  
                                                                 </div>
                                                                 <!-- end of row -->
                                                                 <!-- <div class="text-center">
@@ -2069,6 +2030,60 @@
     </div>
 
 <script>
+    const firstName = document.getElementById("id_first_name");
+    const LastName = document.getElementById("id_last_name");
+    const Email = document.getElementById("id_email");
+    const Phone = document.getElementById("id_phone");
+    firstName.className += 'form-control';
+    LastName.className += 'form-control';
+    Email.className += 'form-control';
+    Phone.className += 'form-control';
+</script>
+
+<script>
+    const infoEditButton = document.getElementById("info-edit-btn");
+    const infoTable = document.getElementById("info-table");
+    const infoForm = document.getElementById("info-form");
+    const infoCancelButton = document.getElementById("info-cancel-btn");
+
+    const infoGetTable1 = document.getElementById("info-get-table1").rows[0].cells[1].innerHTML
+    const infoGetTable2 = document.getElementById("info-get-table1").rows[1].cells[1].innerHTML
+
+    const infoGetTable3 = document.getElementById("info-get-table2").rows[0].cells[1].innerHTML
+    const infoGetTable4 = document.getElementById("info-get-table2").rows[1].cells[1].innerHTML
+
+    const infoField1 = document.getElementById("info-firstname");
+    const infoField2 = document.getElementById("info-lastname");
+    const infoField3 = document.getElementById("info-email");
+    const infoField4 = document.getElementById("info-phone");
+
+    infoEditButton.addEventListener("click", function() {
+        infoTable.style.display = "none";
+        infoEditButton.style.display = "none";
+        infoForm.style.display = "block";
+
+        billingTable.style.display = "block";
+        billingEditButton.style.display = "block";
+        billingForm.style.display = "none";
+
+        shippingTable.style.display = "block";
+        shippingEditButton.style.display = "block";
+        shippingForm.style.display = "none";
+
+        infoField1.value = infoGetTable1;
+        infoField2.value = infoGetTable2;
+        infoField3.value = infoGetTable3;
+        infoField4.value = infoGetTable4;
+    });
+
+    infoCancelButton.addEventListener("click", function() {
+        infoForm.style.display = "none";
+        infoTable.style.display = "block";
+        infoEditButton.style.display = "block";
+    });
+</script>
+
+<script>
     const shippingEditButton = document.getElementById("shipping-edit-btn");
     const shippingTable = document.getElementById("shipping-table");
     const shippingForm = document.getElementById("shipping-form");
@@ -2095,12 +2110,16 @@
         billingEditButton.style.display = "block";
         shippingForm.style.display = "block";
 
+        infoForm.style.display = "none";
+        infoTable.style.display = "block";
+        infoEditButton.style.display = "block";
+
         shippingAddressField1.value = shippingGetTable1;
         shippingAddressField2.value = shippingGetTable2;
         shippingAddressField3.value = shippingGetTable3;
         shippingAddressField4.value = shippingGetTable4;
         shippingAddressField5.value = shippingGetTable5;
-        
+
     });
 
     shippingCancelButton.addEventListener("click", function() {
@@ -2138,6 +2157,10 @@
         shippingTable.style.display = "block";
         shippingEditButton.style.display = "block";
         billingForm.style.display = "block";
+
+        infoForm.style.display = "none";
+        infoTable.style.display = "block";
+        infoEditButton.style.display = "block";
 
         billingAddressField1.value = billingGetTable1;
         billingAddressField2.value = billingGetTable2;
