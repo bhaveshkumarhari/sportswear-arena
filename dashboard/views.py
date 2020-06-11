@@ -51,8 +51,11 @@ def customerProfile(request, user):
             shipping_state = form.cleaned_data.get('shipping_state')
             
             if is_valid_form([shipping_address, shipping_country, shipping_zip, shipping_state]):
-                old_shipping_address = Address.objects.get(user=user, address_type = 'S')
-                old_shipping_address.delete()
+                try:
+                    old_shipping_address = Address.objects.get(user=user, address_type = 'S')
+                    old_shipping_address.delete()
+                except ObjectDoesNotExist:
+                    pass
                 shipping_address = Address(
                         user = user,
                         street_address = shipping_address,
@@ -78,8 +81,12 @@ def customerProfile(request, user):
             billing_state = form.cleaned_data.get('billing_state')
             
             if is_valid_form([billing_address, billing_country, billing_zip, billing_state]):
-                old_billing_address = Address.objects.get(user=user, address_type = 'B')
-                old_billing_address.delete()
+                try:
+                    old_billing_address = Address.objects.get(user=user, address_type = 'B')
+                    old_billing_address.delete()
+                except ObjectDoesNotExist:
+                    pass
+
                 billing_address = Address(
                         user = user,
                         street_address = billing_address,

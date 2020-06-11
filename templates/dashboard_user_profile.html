@@ -317,6 +317,22 @@
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
+
+                                                                        
+                                                                        {% else %}
+
+                                                                        <div id="shipping-not-available">
+                                                                            <h5 class="card-header-text">Default shipping Address is not available</h5>
+                                                                            <button id="shipping-add-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                                                                <i class="icofont icofont-plus"></i>
+                                                                            </button>
+                                                                            <button id="shipping-minus-btn" style="display: none;" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                                                                <i class="icofont icofont-minus"></i>
+                                                                            </button>
+                                                                        </div>
+
+                                                                        {% endif %}
+
                                                                         <div class="table-responsive" id="shipping-form" style="display: none;">
                                                                             <div class="card-block">
                                                                             
@@ -365,9 +381,9 @@
                                                                                 </form>
                                                                             </div>
                                                                         </div>
-                                                                        {% else %}
-                                                                            <h5 class="card-header-text">Shipping Address is not available</h5>
-                                                                        {% endif %}
+
+                                                                
+
                                                                     </div>
                                                                     
                                                                     <!-- end of table col-lg-6 -->
@@ -404,6 +420,22 @@
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
+
+                                                                        
+                                                                        
+                                                                        {% else %}
+                                                                        <div id="billing-not-available">
+                                                                            <h5 class="card-header-text">Default billing Address is not available</h5>
+                                                                            <button id="billing-add-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                                                                <i class="icofont icofont-plus"></i>
+                                                                            </button>
+                                                                            <button id="billing-minus-btn" style="display: none;" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                                                                <i class="icofont icofont-minus"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        
+                                                                        {% endif %}
+
                                                                         <div class="table-responsive" id="billing-form" style="display: none;">
                                                                             <div class="card-block">
                                                                             
@@ -452,9 +484,8 @@
                                                                                 </form>
                                                                             </div>
                                                                         </div>
-                                                                        {% else %}
-                                                                            <h5 class="card-header-text">Billing Address is not available</h5>
-                                                                        {% endif %}
+
+                                                                        
                                                                     </div>
                                                                   
                                                                     <!-- end of table col-lg-6 -->
@@ -2084,10 +2115,53 @@
 </script>
 
 <script>
+    const shippingAddButton = document.getElementById("shipping-add-btn");
+    const shippingAddForm = document.getElementById("shipping-form");
+    const shippingMinusButton = document.getElementById("shipping-minus-btn");
+    
+    shippingAddButton.addEventListener("click", function() {
+        document.getElementById("shipping-cancel-btn").style.display = "none";
+        shippingAddButton.style.display = "none";
+        shippingAddForm.style.display = "block";
+        shippingMinusButton.style.display = "block";
+
+    });
+
+    shippingMinusButton.addEventListener("click", function() {
+        shippingAddForm.style.display = "none";
+        shippingMinusButton.style.display = "none";
+        shippingAddButton.style.display = "block";
+    });
+
+</script>
+
+<script>
+    const billingAddButton = document.getElementById("billing-add-btn");
+    const billingAddForm = document.getElementById("billing-form");
+    const billingMinusButton = document.getElementById("billing-minus-btn");
+
+    billingAddButton.addEventListener("click", function() {
+        billingAddButton.style.display = "none";
+        document.getElementById("billing-cancel-btn").style.display = "none";
+        billingAddForm.style.display = "block";
+        billingMinusButton.style.display = "block";
+
+    });
+
+    billingMinusButton.addEventListener("click", function() {
+        billingAddForm.style.display = "none";
+        billingMinusButton.style.display = "none";
+        billingAddButton.style.display = "block";
+    });
+
+</script>
+
+<script>
+
     const shippingEditButton = document.getElementById("shipping-edit-btn");
     const shippingTable = document.getElementById("shipping-table");
     const shippingForm = document.getElementById("shipping-form");
-
+    
     const shippingGetTable1 = document.getElementById("shipping-get-table").rows[0].cells[1].innerHTML
     const shippingGetTable2 = document.getElementById("shipping-get-table").rows[1].cells[1].innerHTML
     const shippingGetTable3 = document.getElementById("shipping-get-table").rows[2].cells[1].innerHTML
@@ -2102,12 +2176,13 @@
 
     const shippingCancelButton = document.getElementById("shipping-cancel-btn");
 
+
     shippingEditButton.addEventListener("click", function() {
         shippingTable.style.display = "none";
         shippingEditButton.style.display = "none";
-        billingForm.style.display = "none";
-        billingTable.style.display = "block";
-        billingEditButton.style.display = "block";
+        // billingForm.style.display = "none";
+        // billingTable.style.display = "block";
+        // billingEditButton.style.display = "block";
         shippingForm.style.display = "block";
 
         infoForm.style.display = "none";
@@ -2153,9 +2228,9 @@
     billingEditButton.addEventListener("click", function() {
         billingTable.style.display = "none";
         billingEditButton.style.display = "none";
-        shippingForm.style.display = "none";
-        shippingTable.style.display = "block";
-        shippingEditButton.style.display = "block";
+        // shippingForm.style.display = "none";
+        // shippingTable.style.display = "block";
+        // shippingEditButton.style.display = "block";
         billingForm.style.display = "block";
 
         infoForm.style.display = "none";
