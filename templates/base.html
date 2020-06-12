@@ -237,7 +237,7 @@
              <div class="ps-cart">
               <ul>
                 <!-- <li class="menu-item">Hello, {{request.user}}</li> -->
-               <li class="menu-item">Hello, {{request.user}}<a style="color: white; padding: 10px; font-size: 12pt; font-family: Arial, Helvetica, sans-serif;" href="{% url 'core:logout' %}"><u>Logout</u></a></li>
+               <li class="menu-item">Hello, <a href="{% url 'core:user-profile' %}">{{request.user}}</a><a style="color: white; padding: 10px; font-size: 12pt; font-family: Arial, Helvetica, sans-serif;" href="{% url 'core:logout' %}"><u>Logout</u></a></li>
              </ul>
              </div>
              {% else %}

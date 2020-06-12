@@ -15,7 +15,7 @@ from django.contrib import messages
 
 from .models import Item, Contact, Category, OrderItem, Order, Address
 
-from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm
+from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm, UserInfoForm, ShippingAddressForm, BillingAddressForm
 
 from .decorators import unauthenticated_user
 
@@ -32,7 +32,6 @@ def registerPage(request):
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
@@ -79,8 +78,94 @@ def logoutUser(request):
     return redirect('/')
 
 def userProfile(request):
+
+    if request.method == 'POST':
+        
+        form = ShippingAddressForm(request.POST or None)
+
+        if form.is_valid():
+            shipping_address = form.cleaned_data.get('shipping_address')
+            shipping_address2 = form.cleaned_data.get('shipping_address2')
+            shipping_country = form.cleaned_data.get('shipping_country')
+            shipping_zip = form.cleaned_data.get('shipping_zip')
+            shipping_state = form.cleaned_data.get('shipping_state')
+            
+            if is_valid_form([shipping_address, shipping_country, shipping_zip, shipping_state]):
+                try:
+                    old_shipping_address = Address.objects.get(user=request.user, address_type = 'S')
+                    old_shipping_address.delete()
+                except ObjectDoesNotExist:
+                    pass
+                shipping_address = Address(
+                        user = request.user,
+                        street_address = shipping_address,
+                        apartment_address = shipping_address2,
+                        country = shipping_country,
+                        zip = shipping_zip,
+                        state = shipping_state,
+                        address_type = 'S',
+                        default = True
+                    )
+                shipping_address.save()
+                return redirect('core:user-profile')
+
+    if request.method == 'POST':
+        
+        form = BillingAddressForm(request.POST or None)
+
+        if form.is_valid():
+            billing_address = form.cleaned_data.get('billing_address')
+            billing_address2 = form.cleaned_data.get('billing_address2')
+            billing_country = form.cleaned_data.get('billing_country')
+            billing_zip = form.cleaned_data.get('billing_zip')
+            billing_state = form.cleaned_data.get('billing_state')
+            
+            if is_valid_form([billing_address, billing_country, billing_zip, billing_state]):
+                try:
+                    old_billing_address = Address.objects.get(user=request.user, address_type = 'B')
+                    old_billing_address.delete()
+                except ObjectDoesNotExist:
+                    pass
+
+                billing_address = Address(
+                        user = request.user,
+                        street_address = billing_address,
+                        apartment_address = billing_address2,
+                        country = billing_country,
+                        zip = billing_zip,
+                        state = billing_state,
+                        address_type = 'B',
+                        default = True
+                    )
+                billing_address.save()
+                return redirect('core:user-profile')
     
-    return render(request, 'user_profile.html')
+    userform = UserInfoForm(request.POST or None, instance=request.user)
+
+    if request.method == 'POST':
+        if userform.is_valid():
+            first_name = userform.cleaned_data.get('first_name')
+            last_name = userform.cleaned_data.get('last_name')
+            email = userform.cleaned_data.get('email')
+            
+            if is_valid_form([first_name, last_name, email]):
+                userform.save()
+                return redirect('core:user-profile')
+    
+
+    try:
+        shipping_address = Address.objects.get(user=request.user, address_type='S', default=True)
+    except ObjectDoesNotExist:
+        shipping_address = False
+
+    try:
+        billing_address = Address.objects.get(user=request.user, address_type='B', default=True)
+    except ObjectDoesNotExist:
+        billing_address = False
+
+    context = {'shipping_address':shipping_address, 'billing_address':billing_address, 'userform':userform}
+    
+    return render(request, 'user_profile.html', context)
 
 
 class HomeView(View):

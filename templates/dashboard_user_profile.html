@@ -2089,6 +2089,13 @@
     const infoField4 = document.getElementById("info-phone");
 
     infoEditButton.addEventListener("click", function() {
+        // document.getElementById("billing-form").style.display = "none";
+        // document.getElementById("billing-minus-btn").style.display ="none";
+        // document.getElementById("shipping-form").style.display = "none";
+        // document.getElementById("shipping-minus-btn").style.display ="none";
+        // document.getElementById("billing-add-btn").style.display ="block";
+        // document.getElementById("shipping-add-btn").style.display ="block";
+
         infoTable.style.display = "none";
         infoEditButton.style.display = "none";
         infoForm.style.display = "block";
@@ -2121,6 +2128,12 @@
     
     shippingAddButton.addEventListener("click", function() {
         document.getElementById("shipping-cancel-btn").style.display = "none";
+        // document.getElementById("billing-form").style.display = "none";
+        // document.getElementById("billing-minus-btn").style.display ="none";
+        // document.getElementById("info-form").style.display = "none";
+        // document.getElementById("info-table").style.display = "block";
+        // document.getElementById("info-edit-btn").style.display = "block";
+        // document.getElementById("billing-add-btn").style.display ="block";
         shippingAddButton.style.display = "none";
         shippingAddForm.style.display = "block";
         shippingMinusButton.style.display = "block";
@@ -2143,6 +2156,12 @@
     billingAddButton.addEventListener("click", function() {
         billingAddButton.style.display = "none";
         document.getElementById("billing-cancel-btn").style.display = "none";
+        // document.getElementById("shipping-form").style.display = "none";
+        // document.getElementById("shipping-minus-btn").style.display ="none";
+        // document.getElementById("info-form").style.display = "none";
+        // document.getElementById("info-table").style.display = "block";
+        // document.getElementById("info-edit-btn").style.display = "block";
+        // document.getElementById("shipping-add-btn").style.display ="block";
         billingAddForm.style.display = "block";
         billingMinusButton.style.display = "block";
 
