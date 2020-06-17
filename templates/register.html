@@ -60,7 +60,25 @@
                     </div>
                 </form>
 
-                {{form.errors}}
+                <ul class="errorlist">
+                    {% if form.non_field_errors %}
+                      <li>{{ form.non_field_errors }}</li>
+                    {% endif %}
+                    {% for field in form %}
+                      {% if field.errors %}
+                        <li>
+                          <ul class="errorlist">
+                            {% for error in field.errors %}
+                            <div class="alert alert-danger alert-dismissible show" role="alert">
+                              <li>{{ error }}</li>
+                            </div>
+                            {% endfor %}
+                          </ul>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                </ul>
+                
 
                 <div class="text-center">Already have an account? <a href="{% url 'core:login' %}">Sign in</a></div>
             </div>
