@@ -4,6 +4,8 @@ from django import forms
 
 from django.forms import ModelForm
 
+from .models import UserProfile
+
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
@@ -21,21 +23,14 @@ class UserInfoForm(ModelForm):
 
 
 class CreateUserForm(UserCreationForm):
-    # phone_number = forms.IntegerField(required=True)
-
     class Meta:
         model = User
         fields= ['first_name','last_name','username','email','password1','password2']
 
-    # def save(self, commit=True):
-    #     user = super(UserCreationForm, self).save(commit=False)
-    #     user.phone_number = self.cleaned_data['phone_number']
-
-    #     if commit:
-    #         user.save()
-
-    #     return user
-
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['phone']
 
 class CheckoutForm(forms.Form):
     shipping_address = forms.CharField(required=False)
@@ -78,17 +73,18 @@ class ContactForm(forms.Form):
 class ProductForm(forms.Form):
     size = forms.CharField()
     value = forms.CharField()
+    color = forms.CharField()
 
 
 class ShippingAddressForm(forms.Form):
     shipping_address = forms.CharField(required=False)
     shipping_address2 = forms.CharField(required=False)
     shipping_country = forms.CharField(required=False)
-    # shipping_country = CountryField(blank_label='select country').formfield(
-    #     required=False,
-    #     widget=CountrySelectWidget(attrs={
-    #         'class': 'ps-select selectpicker',
-    # }))
+    shipping_country = CountryField(blank_label='select country').formfield(
+        required=False,
+        widget=CountrySelectWidget(attrs={
+            'class': 'ps-select selectpicker form-control',
+    }))
     shipping_zip = forms.CharField(required=False)
     shipping_state = forms.CharField(required=False)
 
@@ -96,10 +92,10 @@ class BillingAddressForm(forms.Form):
     billing_address = forms.CharField(required=False)
     billing_address2 = forms.CharField(required=False)
     billing_country = forms.CharField(required=False)
-    # shipping_country = CountryField(blank_label='select country').formfield(
-    #     required=False,
-    #     widget=CountrySelectWidget(attrs={
-    #         'class': 'ps-select selectpicker',
-    # }))
+    billing_country = CountryField(blank_label='select country').formfield(
+        required=False,
+        widget=CountrySelectWidget(attrs={
+            'class': 'ps-select selectpicker form-control',
+    }))
     billing_zip = forms.CharField(required=False)
     billing_state = forms.CharField(required=False)

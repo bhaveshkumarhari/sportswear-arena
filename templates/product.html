@@ -52,7 +52,7 @@
                   <p>{{object.description}}</p>
                   <!-- <p>The Nike Free RN 2017 Men's Running Sky weighs less than previous versions and features an updated knit material…</p> -->
                 </div>
-                <div class="ps-product__block ps-product__style">
+                <!-- <div class="ps-product__block ps-product__style">
                   <h4>CHOOSE YOUR STYLE</h4>
                   <ul>
                     <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
@@ -60,31 +60,46 @@
                     <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
                     <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
                   </ul>
-                </div>
+                </div> -->
                 <form method="POST" action="">
                   {% csrf_token %}
                 <div class="ps-product__block ps-product__size">
+                  
+                  
+                  {% if object.variation_set.all %}
+
+                  <!-- <div class="ps-product__block ps-product__style"> -->
+                    
+                    {% if object.variation_set.colors %}
+                    <h4>CHOOSE COLOR</h4>
+                    <select name="color" class="ps-select selectpicker">
+                      {% for item in object.variation_set.colors %}
+                        <option value="{{item.title|lower}}" required>{{item.title|capfirst}}</option>
+                      {% endfor %}
+                    </select>
+                    {% endif %}
+                    <!-- <ul>
+                      <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
+                      <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
+                      <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
+                      <li><a href="product-detail.html"><img src="{{ object.front_image.url }}" alt=""></a></li>
+                    </ul> -->
+                  <!-- </div> -->
+
+                  
+                  {% if object.variation_set.sizes %}
                   <h4>CHOOSE SIZE<a href="#">Size chart</a></h4>
                   <select name="size" class="ps-select selectpicker">
-                    <!-- <option value="1">Select Size</option> -->
-                    <!-- <option value="2">XXS</option>
-                    <option value="3">XS</option> -->
-                    <option value="S" required>S</option>
-                    <option value="M" required>M</option>
-                    <option value="L" required>L</option>
-                    <option value="XL" required>XL</option>
-                    <option value="XXL" required>XXL</option>
-                    
-                    <!-- <option value="3">8</option>
-                    <option value="3">8.5</option>
-                    <option value="3">9</option>
-                    <option value="3">9.5</option>
-                    <option value="3">10</option> -->
+                    {% for item in object.variation_set.sizes%}
+                    <option value="{{item.title|lower}}" required>{{item.title|capfirst}}</option>
+                    {% endfor %}
                   </select>
+                  {% endif %}
                   
+                  {% endif %}
                   
                   <div class="form-group">
-                    <input class="form-control" name="value" type="number" value="1">
+                    <input class="form-control" name="value" type="number" value="1" min="1">
                   </div>
                   
                 </div>

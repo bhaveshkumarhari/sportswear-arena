@@ -2,6 +2,11 @@ from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 
+from django.contrib.auth.models import User
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from django_countries.fields import CountryField
 
 CATEGORY_CHOICES = (
@@ -28,6 +33,16 @@ TSHIRT_SIZES = (
     ('XL','XL'),
     ('XXL','XXL'),
 )
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=11, blank=True)
+
+#  This will auto create a profile of user with blank phone number that can be updated later.
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 
 class Category(models.Model):
     title = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
@@ -56,7 +71,7 @@ class Item(models.Model):
     front_image = models.ImageField()
     back_image = models.ImageField()
     side_image = models.ImageField()
-    size = models.CharField(choices=TSHIRT_SIZES, max_length=3)
+    # size = models.CharField(choices=TSHIRT_SIZES, max_length=3)
     quantity = models.IntegerField(default=1)
     new = models.BooleanField(default=False)
 
@@ -91,15 +106,44 @@ class Item(models.Model):
     def saving_price(self):
         return int(self.price - self.discount_price)
 
+
+
+class VariationManager(models.Manager):
+    def all(self):
+        return super(VariationManager, self).filter(active=True)
+
+    def sizes(self):
+        return self.all().filter(category="size")
+
+    def colors(self):
+        return self.all().filter(category="color")
+
+VAR_CATEGORIES = (
+    ('size', 'size'),
+    ('color', 'color'),
+)
+
+class Variation(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    category = models.CharField(max_length=120, choices=VAR_CATEGORIES, default='size')
+    title = models.CharField(max_length=120)
+    active = models.BooleanField(default=True)
+
+    object = VariationManager()
+
+    def __str__(self):
+        return self.title
+
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    variations = models.ManyToManyField(Variation, blank=True)
     quantity = models.IntegerField(default=1)
-    size = models.CharField(null=False, max_length=3)
+    # size = models.CharField(null=False, max_length=150)
     ordered = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.quantity} of {self.item.title} of {self.size} size"
+        return f"{self.quantity} of {self.item.title}"
 
     # calculate price with item quantity
     def get_total_item_price(self):

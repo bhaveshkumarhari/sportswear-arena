@@ -15,7 +15,7 @@ from django.contrib import messages
 
 from .models import Item, Contact, Category, OrderItem, Order, Address
 
-from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm, UserInfoForm, ShippingAddressForm, BillingAddressForm
+from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm, UserInfoForm, ShippingAddressForm, BillingAddressForm, UserProfileForm
 
 from .decorators import unauthenticated_user
 
@@ -24,24 +24,20 @@ from .decorators import unauthenticated_user
 # from django.views.generic.edit import FormMixin
 
 
-@unauthenticated_user
+# @unauthenticated_user
 def registerPage(request):
     # if request.user.is_authenticated:
     #     return redirect('core:home')
     # else:
     form = CreateUserForm()
+    # profile_form = UserProfileForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
+        # profile_form = UserProfileForm(request.POST)
         if form.is_valid():
             user = form.save()
+            # profile_form.save()
             username = form.cleaned_data.get('username')
-            # phone_number = form.cleaned_data.get('phone_number')
-            # print(phone_number)
-
-            # phone = User(
-            #     phone_number = phone_number,
-            # )
-            # phone.save() 
 
             # For every user registration, add user to customer group
             group = Group.objects.get(name='customer')
@@ -49,6 +45,7 @@ def registerPage(request):
 
             messages.success(request,'Account was created for ' + username)
             return redirect('core:login')
+
     context = {'form':form}
     return render(request, 'register.html', context)
 
@@ -79,6 +76,8 @@ def logoutUser(request):
 
 def userProfile(request):
 
+    shippingform = ShippingAddressForm()
+
     if request.method == 'POST':
         
         form = ShippingAddressForm(request.POST or None)
@@ -108,6 +107,8 @@ def userProfile(request):
                     )
                 shipping_address.save()
                 return redirect('core:user-profile')
+
+    billingform = BillingAddressForm()
 
     if request.method == 'POST':
         
@@ -163,8 +164,15 @@ def userProfile(request):
     except ObjectDoesNotExist:
         billing_address = False
 
-    context = {'shipping_address':shipping_address, 'billing_address':billing_address, 'userform':userform}
+    context = {'shipping_address':shipping_address, 'billing_address':billing_address, 'userform':userform, 'shippingform':shippingform, 'billingform':billingform}
     
+    if request.user.is_authenticated:
+        try:
+            context['cart'] = Order.objects.get(user=request.user, ordered=False)
+        except:
+            ordered_date = timezone.now() # get current date
+            context['cart'] = Order.objects.create(user=request.user, ordered_date=ordered_date)
+
     return render(request, 'user_profile.html', context)
 
 
@@ -293,25 +301,31 @@ class ProductDetailView(View):
         return render(self.request, 'product.html', context)
     
     def post(self, *args, **kwargs):
-        
+        print(self.request.POST)
         form = ProductForm(self.request.POST or None)
         if form.is_valid():
             value = form.cleaned_data.get('value')
             size = form.cleaned_data.get('size')
-
+            color = form.cleaned_data.get('color')
         
+        print(value)
+        print(size)
+        print(color)
+
+        product_var = []
+        product_var.append(size)
+        product_var.append(color)
+        print(product_var)
+
         item = get_object_or_404(Item, slug=slug_value['slug']) # get specific item with slug
-        # print(item)
 
         if self.request.user.is_authenticated:
             # If item is not in OrderItem model then add item else get the item
             order_item, created = OrderItem.objects.get_or_create(
                 item=item,
-                # size=size,
                 user=self.request.user,
                 ordered=False
                 )
-            # print(order_item)
 
             # filter Order model which is not ordered yet by the specific user
             order_qs = Order.objects.filter(user=self.request.user, ordered=False) 
@@ -322,16 +336,16 @@ class ProductDetailView(View):
                 # check if an item exists in Order model with slug
                 if order.items.filter(item__slug=item.slug).exists():
                     
-                    order_item.quantity += int(value) # Increase quantity in OrderItem model if there is an item exists
-                    # order_item.size = size
+                    order_item.quantity = int(value)
                     order_item.save() # Save OrderItem model
                     messages.info(self.request, "This item quantity was updated.")
                     return redirect("core:order-summary")
                 else:
                     # print(order_item)
                     order.items.add(order_item) # Add item to Order model if item does not exist in OrderItem.
+                    for item in product_var:
+                        order_item.variations.add(item)
                     order_item.quantity = int(value)
-                    # order_item.size = size
                     order_item.save() # Save OrderItem model
                     messages.info(self.request, "This item was added to your cart.")
                     return redirect("core:order-summary")
@@ -341,23 +355,14 @@ class ProductDetailView(View):
                 order = Order.objects.create(user=self.request.user, ordered_date=ordered_date) # Create Order model instance with specific user and ordered date
                 order.items.add(order_item) # Then add order_item to that model instance
                 order_item.quantity = int(value)
+                for item in product_var:
+                        order_item.variations.add(item)
                 # order_item.size = size
                 order_item.save() # Save OrderItem model
                 messages.info(self.request, "This item was added to your cart.")
                 return redirect("core:order-summary")
 
         return redirect('core:order-summary')
-
-# class ProductDetailView(DetailView):
-#     model = Item
-#     template_name = "product.html"
-
-#     def get_context_data(self, *args, **kwargs):
-#         context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
-#         context['item_list'] = Item.objects.all()
-#         if self.request.user.is_staff: #TODO
-#             context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
-#         return context
 
 @login_required(login_url='core:login')
 def add_to_cart(request, slug):

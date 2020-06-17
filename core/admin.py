@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, OrderItem, Order, Contact, Category, Address
+from .models import Item, OrderItem, Order, Contact, Category, Address, UserProfile, Variation
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user',
@@ -54,4 +54,7 @@ admin.site.register(OrderItem)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Category)
 admin.site.register(Address, AddressAdmin)
-admin.site.register(Contact)
+admin.site.register(Contact),
+admin.site.register(Variation)
+
+admin.site.register(UserProfile)

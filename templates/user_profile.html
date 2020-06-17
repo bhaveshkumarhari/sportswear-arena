@@ -16,33 +16,6 @@
         <!-- Main-body start -->
         <div class="main-body">
             <div class="page-wrapper">
-                <!-- Page-header start -->
-                <!-- <div class="page-header">
-                    <div class="row align-items-end">
-                        <div class="col-lg-8">
-                            <div class="page-header-title">
-                                <div class="d-inline">
-                                    <h4>Customer Profile: <strong>{{request.user}}</strong></h4>
-                                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="page-header-breadcrumb">
-                                <ul class="breadcrumb-title">
-                                    <li class="breadcrumb-item">
-                                        <a href="{% url 'dashboard:dashboard-home' %}"> <i class="feather icon-home"></i> </a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="{% url 'dashboard:customer-list' %}">Customers</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#!">Customer Profile</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- Page-header end -->
 
                     <!-- Page-body start -->
                     <div class="page-body">
@@ -53,13 +26,14 @@
                             <div class="col-lg-12">
 
                                 <!-- tab header end -->
+                                
                                 <!-- tab content start -->
                                 <div class="tab-content">
                                     <!-- tab panel personal start -->
                                     <div class="tab-pane active" id="personal" role="tabpanel">
                                         <!-- personal card start -->
                                         <div class="card">
-                                            <div class="card-header">
+                                            <div class="card-header" style="padding: 15px;">
                                                 <h5 class="card-header-text">User Account</h5>
                                                 <button id="info-edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
                                                     Edit
@@ -68,11 +42,16 @@
                                             <div class="card-block">
                                                 <div class="view-info">
                                                     <div class="row">
+                                                        
                                                         <div class="col-lg-12">
+                                                            
                                                             <div class="general-info">
+                                                                
                                                                 <div id="info-table">
+                                                                   
                                                                 <div class="row">
                                                                     <div class="col-lg-12 col-xl-6">
+                                                                        
                                                                         <div class="table-responsive">
                                                                            
                                                                             <table id="info-get-table1" class="table m-0">
@@ -85,18 +64,7 @@
                                                                                         <th scope="row"><strong>Last Name</strong></th>
                                                                                         <td>{{request.user.last_name}}</td>
                                                                                     </tr>
-                                                                                    <!-- <tr>
-                                                                                        <th scope="row">Birth Date</th>
-                                                                                        <td>October 25th, 1990</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Marital Status</th>
-                                                                                        <td>Single</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Location</th>
-                                                                                        <td>New York, USA</td>
-                                                                                    </tr> -->
+                                                                                  
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -117,18 +85,7 @@
                                                                                         <th scope="row"><strong>Mobile Number</strong></th>
                                                                                         <td>{{request.user.phone_number}}</td>
                                                                                     </tr>
-                                                                                    <!-- <tr>
-                                                                                        <th scope="row">Twitter</th>
-                                                                                        <td>@xyz</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Skype</th>
-                                                                                        <td>demo.skype</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Website</th>
-                                                                                        <td><a href="#!">www.demo.com</a></td>
-                                                                                    </tr> -->
+                                                                           
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -258,10 +215,7 @@
                                                                                         <th scope="row">Apartment Address</th>
                                                                                         <td>{{shipping_address.apartment_address}}</td>
                                                                                     </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Country</th>
-                                                                                        <td>{{shipping_address.country}}</td>
-                                                                                    </tr>
+                                                                                    
                                                                                     <tr>
                                                                                         <th scope="row">Zip Code</th>
                                                                                         <td>{{shipping_address.zip}}</td>
@@ -269,6 +223,10 @@
                                                                                     <tr>
                                                                                         <th scope="row">State</th>
                                                                                         <td>{{shipping_address.state}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Country</th>
+                                                                                        <td>{{shipping_address.country.name}}</td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
@@ -307,12 +265,7 @@
                                                                                             <input type="text" name="shipping_address2" id="shipping-apartment-address" required class="form-control">
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-5 col-form-label">Country</label>
-                                                                                        <div class="col-sm-7">
-                                                                                            <input type="text" name="shipping_country" id="shipping-country" required class="form-control">
-                                                                                        </div>
-                                                                                    </div>
+                                                                                   
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label">Zip Code</label>
                                                                                         <div class="col-sm-7">
@@ -323,6 +276,13 @@
                                                                                         <label class="col-sm-5 col-form-label">State</label>
                                                                                         <div class="col-sm-7">
                                                                                             <input type="text" name="shipping_state" id="shipping-state" required class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-5 col-form-label">Country</label>
+                                                                                        <div class="col-sm-7">
+                                                                                            <!-- <input type="text" name="shipping_country" id="shipping-country" required class="form-control"> -->
+                                                                                            {{shippingform.shipping_country}}
                                                                                         </div>
                                                                                     </div>
 
@@ -362,10 +322,7 @@
                                                                                         <th scope="row">Apartment Address</th>
                                                                                         <td>{{billing_address.apartment_address}}</td>
                                                                                     </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Country</th>
-                                                                                        <td>{{billing_address.country}}</td>
-                                                                                    </tr>
+                                                                                    
                                                                                     <tr>
                                                                                         <th scope="row">Zip Code</th>
                                                                                         <td>{{billing_address.zip}}</td>
@@ -373,6 +330,10 @@
                                                                                     <tr>
                                                                                         <th scope="row">State</th>
                                                                                         <td>{{billing_address.state}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Country</th>
+                                                                                        <td>{{billing_address.country.name}}</td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
@@ -411,14 +372,9 @@
                                                                                             <input type="text" name="billing_address2" id="billing-apartment-address" required class="form-control">
                                                                                         </div>
                                                                                     </div>
+                                                                                    
                                                                                     <div class="form-group row">
-                                                                                        <label class="col-sm-5 col-form-label">Country</label>
-                                                                                        <div class="col-sm-7">
-                                                                                            <input type="text" name="billing_country" id="billing-country" required class="form-control">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-5 col-form-label">Zip Code></label>
+                                                                                        <label class="col-sm-5 col-form-label">Zip Code</label>
                                                                                         <div class="col-sm-7">
                                                                                             <input type="text" name="billing_zip" id="billing-zip" required class="form-control">
                                                                                         </div>
@@ -427,6 +383,13 @@
                                                                                         <label class="col-sm-5 col-form-label">State</label>
                                                                                         <div class="col-sm-7">
                                                                                             <input type="text" name="billing_state" id="billing-state" required class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-5 col-form-label">Country</label>
+                                                                                        <div class="col-sm-7">
+                                                                                            <!-- <input type="text" name="billing_country" id="billing-country" required class="form-control"> -->
+                                                                                            {{billingform.billing_country}}
                                                                                         </div>
                                                                                     </div>
 

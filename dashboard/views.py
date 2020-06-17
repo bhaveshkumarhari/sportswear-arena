@@ -39,6 +39,8 @@ def customerProfile(request, user):
 
     user = User.objects.get(username=user)
 
+    shippingform = ShippingAddressForm()
+
     if request.method == 'POST':
         
         form = ShippingAddressForm(request.POST or None)
@@ -68,6 +70,8 @@ def customerProfile(request, user):
                     )
                 shipping_address.save()
                 return redirect('dashboard:customer-profile', user=user)
+
+    billingform = BillingAddressForm()
 
     if request.method == 'POST':
         
@@ -122,7 +126,7 @@ def customerProfile(request, user):
     except ObjectDoesNotExist:
         billing_address = False
 
-    context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address, 'form':userform}
+    context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address, 'form':userform, 'shippingform':shippingform, 'billingform':billingform}
 
     return render(request, 'dashboard_user_profile.html', context)
 

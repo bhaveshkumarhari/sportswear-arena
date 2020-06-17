@@ -182,6 +182,7 @@
 
 
 {% block extra_scripts %}
+
 <script>
 var hideable_shipping_form = $('.hideable_shipping_form');
 var hideable_billing_form = $('.hideable_billing_form');
@@ -190,7 +191,6 @@ var show_text = $('.show_text');
 
 var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
 var use_default_billing = document.querySelector("input[name=use_default_billing]");
-var same_billing_address = document.querySelector("input[name=same_billing_address]");
 
 use_default_shipping.addEventListener('change', function() {
   if (this.checked) {
@@ -203,19 +203,28 @@ use_default_shipping.addEventListener('change', function() {
 use_default_billing.addEventListener('change', function() {
   if (this.checked) {
     hideable_billing_form.hide();
+    show_text.hide();
   } else {
     hideable_billing_form.show();
   }
 })
 
-same_billing_address.addEventListener('change', function() {
-  if (this.checked) {
-    hideable_billing_form.hide();
-    show_text.show();
-  } else {
-    hideable_billing_form.show();
-    show_text.hide();
-  }
-})
 </script>
+
+<script>
+  
+  var same_billing_address = document.querySelector("input[name=same_billing_address]");
+  
+  same_billing_address.addEventListener('change', function() {
+    if (this.checked) {
+      hideable_billing_form.hide();
+      show_text.show();
+    } else {
+      hideable_billing_form.show();
+      show_text.hide();
+    }
+  })
+  
+  </script>
+
 {% endblock extra_scripts %}

@@ -302,10 +302,7 @@
                                                                                         <th scope="row">Apartment Address</th>
                                                                                         <td>{{shipping_address.apartment_address}}</td>
                                                                                     </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Country</th>
-                                                                                        <td>{{shipping_address.country}}</td>
-                                                                                    </tr>
+                                                                                   
                                                                                     <tr>
                                                                                         <th scope="row">Zip Code</th>
                                                                                         <td>{{shipping_address.zip}}</td>
@@ -313,6 +310,10 @@
                                                                                     <tr>
                                                                                         <th scope="row">State</th>
                                                                                         <td>{{shipping_address.state}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Country</th>
+                                                                                        <td>{{shipping_address.country.name}}</td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
@@ -350,12 +351,7 @@
                                                                                             <input type="text" name="shipping_address2" id="shipping-apartment-address" required class="form-control">
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-5 col-form-label"><strong>Country</strong></label>
-                                                                                        <div class="col-sm-7">
-                                                                                            <input type="text" name="shipping_country" id="shipping-country" required class="form-control">
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>Zip Code</strong></label>
                                                                                         <div class="col-sm-7">
@@ -366,6 +362,13 @@
                                                                                         <label class="col-sm-5 col-form-label"><strong>State</strong></label>
                                                                                         <div class="col-sm-7">
                                                                                             <input type="text" name="shipping_state" id="shipping-state" required class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-5 col-form-label"><strong>Country</strong></label>
+                                                                                        <div class="col-sm-7">
+                                                                                            <!-- <input type="text" name="shipping_country" id="shipping-country" required class="form-control"> -->
+                                                                                            {{shippingform.shipping_country}}
                                                                                         </div>
                                                                                     </div>
 
@@ -405,10 +408,7 @@
                                                                                         <th scope="row">Apartment Address</th>
                                                                                         <td>{{billing_address.apartment_address}}</td>
                                                                                     </tr>
-                                                                                    <tr>
-                                                                                        <th scope="row">Country</th>
-                                                                                        <td>{{billing_address.country}}</td>
-                                                                                    </tr>
+                                                                                    
                                                                                     <tr>
                                                                                         <th scope="row">Zip Code</th>
                                                                                         <td>{{billing_address.zip}}</td>
@@ -416,6 +416,10 @@
                                                                                     <tr>
                                                                                         <th scope="row">State</th>
                                                                                         <td>{{billing_address.state}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th scope="row">Country</th>
+                                                                                        <td>{{billing_address.country.name}}</td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                             </table>
@@ -453,12 +457,7 @@
                                                                                             <input type="text" name="billing_address2" id="billing-apartment-address" required class="form-control">
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-5 col-form-label"><strong>Country</strong></label>
-                                                                                        <div class="col-sm-7">
-                                                                                            <input type="text" name="billing_country" id="billing-country" required class="form-control">
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>Zip Code</strong></label>
                                                                                         <div class="col-sm-7">
@@ -469,6 +468,13 @@
                                                                                         <label class="col-sm-5 col-form-label"><strong>State</strong></label>
                                                                                         <div class="col-sm-7">
                                                                                             <input type="text" name="billing_state" id="billing-state" required class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row">
+                                                                                        <label class="col-sm-5 col-form-label"><strong>Country</strong></label>
+                                                                                        <div class="col-sm-7">
+                                                                                            <!-- <input type="text" name="billing_country" id="billing-country" required class="form-control"> -->
+                                                                                            {{billingform.billing_country}}
                                                                                         </div>
                                                                                     </div>
 
