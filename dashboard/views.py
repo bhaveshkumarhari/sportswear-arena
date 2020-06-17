@@ -69,6 +69,7 @@ def customerProfile(request, user):
                         default = True
                     )
                 shipping_address.save()
+                    
                 return redirect('dashboard:customer-profile', user=user)
 
     billingform = BillingAddressForm()

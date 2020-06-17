@@ -285,6 +285,10 @@
                                                                                             {{shippingform.shipping_country}}
                                                                                         </div>
                                                                                     </div>
+                                                                                    <div class="form-group">
+                                                                                        <input type="checkbox" class="custom-control-input" name="same_billing_address" id="same_billing_address"> &nbsp;
+                                                                                        <label class="custom-control-label" for="same_billing_address">Billing address is the same as my shipping address</label>
+                                                                                    </div>
 
                                                                                 
                                                                                     <button id="shipping-edit-btn" type="submit" class="btn btn-sm btn-primary waves-effect waves-light f-right" style="margin: 5px;">
@@ -393,6 +397,10 @@
                                                                                         </div>
                                                                                     </div>
 
+                                                                                    <div class="form-group">
+                                                                                        <input type="checkbox" class="custom-control-input" name="same_shipping_address" id="same_shipping_address"> &nbsp;
+                                                                                        <label class="custom-control-label" for="same_shipping_address">Shipping address is the same as my billing address</label>
+                                                                                    </div>
                                                                                 
                                                                                     <button id="billing-edit-btn" type="submit" class="btn btn-sm btn-primary waves-effect waves-light f-right" style="margin: 5px;">
                                                                                         Save changes
@@ -482,7 +490,7 @@
         infoTable.style.display = "none";
         infoEditButton.style.display = "none";
         infoForm.style.display = "block";
-
+        <label class="custom-control-label" for="same_billing_address">Billing address is the same as my shipping address</label>
         billingTable.style.display = "block";
         billingEditButton.style.display = "block";
         billingForm.style.display = "none";

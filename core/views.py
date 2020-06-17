@@ -106,6 +106,25 @@ def userProfile(request):
                         default = True
                     )
                 shipping_address.save()
+
+                #---------- IF SAME BILLING ADDRESS CHECKED --------------
+
+                same_billing_address = form.cleaned_data.get('same_billing_address')
+
+                if same_billing_address:
+                    try:
+                        old_billing_address = Address.objects.get(user=request.user, address_type = 'B')
+                        old_billing_address.delete()
+                    except ObjectDoesNotExist:
+                        pass
+                    billing_address = shipping_address
+                    billing_address.pk = None
+                    billing_address.save()
+                    billing_address.address_type = 'B'
+                    billing_address.save()
+                
+                #-----------------------------------------------------------
+
                 return redirect('core:user-profile')
 
     billingform = BillingAddressForm()
@@ -139,6 +158,25 @@ def userProfile(request):
                         default = True
                     )
                 billing_address.save()
+
+                #-----IF SAME SHIPPING ADDRESS CHECKED ----------------------
+
+                same_shipping_address = form.cleaned_data.get('same_shipping_address')
+
+                if same_shipping_address:
+                    try:
+                        old_shipping_address = Address.objects.get(user=request.user, address_type = 'S')
+                        old_shipping_address.delete()
+                    except ObjectDoesNotExist:
+                        pass
+                    shipping_address = billing_address
+                    shipping_address.pk = None
+                    shipping_address.save()
+                    shipping_address.address_type = 'S'
+                    shipping_address.save()
+                
+                #-------------------------------------------------------------
+
                 return redirect('core:user-profile')
     
     userform = UserInfoForm(request.POST or None, instance=request.user)
