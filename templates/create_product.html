@@ -610,7 +610,6 @@
     });
 
     inpPrice.addEventListener("change", function() {
-        
 
         if(inpPrice != "") {
 
@@ -622,6 +621,10 @@
             showPrice = document.getElementById("show_discount_price");
             showPrice.appendChild(deletedPrice);
         }    
+    });
+
+    inpPrice.addEventListener("mouseover", function() {
+        document.getElementById("show_discount_price").innerHTML = "";
     });
 
 </script>
