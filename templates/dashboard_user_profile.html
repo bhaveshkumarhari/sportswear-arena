@@ -337,7 +337,7 @@
                                                                         <div class="table-responsive" id="shipping-form" style="display: none;">
                                                                             <div class="card-block">
                                                                             
-                                                                                <form method="POST">
+                                                                                <form method="POST" action="{% url 'dashboard:shipping-address' user %}">
                                                                                     {% csrf_token %}
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>Street Address</strong></label>
@@ -370,6 +370,11 @@
                                                                                             <!-- <input type="text" name="shipping_country" id="shipping-country" required class="form-control"> -->
                                                                                             {{shippingform.shipping_country}}
                                                                                         </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <input type="checkbox" name="same_billing_address" id="same_billing_address"> &nbsp;
+                                                                                        <label class="custom-control-label" for="same_billing_address">Billing address is the same as shipping address</label>
                                                                                     </div>
 
                                                                                 
@@ -443,7 +448,7 @@
                                                                         <div class="table-responsive" id="billing-form" style="display: none;">
                                                                             <div class="card-block">
                                                                             
-                                                                                <form method="POST">
+                                                                                <form method="POST" action="{% url 'dashboard:billing-address' user %}">
                                                                                     {% csrf_token %}
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label"><strong>Street Address</strong></label>
@@ -476,6 +481,11 @@
                                                                                             <!-- <input type="text" name="billing_country" id="billing-country" required class="form-control"> -->
                                                                                             {{billingform.billing_country}}
                                                                                         </div>
+                                                                                    </div>
+
+                                                                                    <div class="form-group">
+                                                                                        <input type="checkbox" name="same_shipping_address" id="same_shipping_address"> &nbsp;
+                                                                                        <label class="custom-control-label" for="same_shipping_address">Shipping address is the same as billing address</label>
                                                                                     </div>
 
                                                                                 

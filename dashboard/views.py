@@ -41,6 +41,39 @@ def customerProfile(request, user):
 
     shippingform = ShippingAddressForm()
 
+    billingform = BillingAddressForm()
+    
+    userform = UserInfoForm(request.POST or None, instance=user)
+
+    if request.method == 'POST':
+        if userform.is_valid():
+            first_name = userform.cleaned_data.get('first_name')
+            last_name = userform.cleaned_data.get('last_name')
+            email = userform.cleaned_data.get('email')
+            
+            if is_valid_form([first_name, last_name, email]):
+                userform.save()
+                return redirect('dashboard:customer-profile', user=user)
+
+    try:
+        shipping_address = Address.objects.get(user=user, address_type='S', default=True)
+    except ObjectDoesNotExist:
+        shipping_address = False
+
+    try:
+        billing_address = Address.objects.get(user=user, address_type='B', default=True)
+    except ObjectDoesNotExist:
+        billing_address = False
+
+    context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address, 'form':userform, 'shippingform':shippingform, 'billingform':billingform}
+
+    return render(request, 'dashboard_user_profile.html', context)
+
+
+def shippingAddress(request, user):
+
+    user = User.objects.get(username=user)
+
     if request.method == 'POST':
         
         form = ShippingAddressForm(request.POST or None)
@@ -69,10 +102,31 @@ def customerProfile(request, user):
                         default = True
                     )
                 shipping_address.save()
+
+                #---------- IF SAME BILLING ADDRESS CHECKED --------------
+
+                same_billing_address = form.cleaned_data.get('same_billing_address')
+
+                if same_billing_address:
+                    try:
+                        old_billing_address = Address.objects.get(user=user, address_type = 'B')
+                        old_billing_address.delete()
+                    except ObjectDoesNotExist:
+                        pass
+                    billing_address = shipping_address
+                    billing_address.pk = None
+                    billing_address.save()
+                    billing_address.address_type = 'B'
+                    billing_address.save()
+                
+                #-----------------------------------------------------------
                     
                 return redirect('dashboard:customer-profile', user=user)
 
-    billingform = BillingAddressForm()
+
+def billingAddress(request, user):
+
+    user = User.objects.get(username=user)
 
     if request.method == 'POST':
         
@@ -103,33 +157,26 @@ def customerProfile(request, user):
                         default = True
                     )
                 billing_address.save()
+
+                #-----IF SAME SHIPPING ADDRESS CHECKED ----------------------
+
+                same_shipping_address = form.cleaned_data.get('same_shipping_address')
+
+                if same_shipping_address:
+                    try:
+                        old_shipping_address = Address.objects.get(user=user, address_type = 'S')
+                        old_shipping_address.delete()
+                    except ObjectDoesNotExist:
+                        pass
+                    shipping_address = billing_address
+                    shipping_address.pk = None
+                    shipping_address.save()
+                    shipping_address.address_type = 'S'
+                    shipping_address.save()
+                
+                #-------------------------------------------------------------
+
                 return redirect('dashboard:customer-profile', user=user)
-    
-    userform = UserInfoForm(request.POST or None, instance=user)
-
-    if request.method == 'POST':
-        if userform.is_valid():
-            first_name = userform.cleaned_data.get('first_name')
-            last_name = userform.cleaned_data.get('last_name')
-            email = userform.cleaned_data.get('email')
-            
-            if is_valid_form([first_name, last_name, email]):
-                userform.save()
-                return redirect('dashboard:customer-profile', user=user)
-
-    try:
-        shipping_address = Address.objects.get(user=user, address_type='S', default=True)
-    except ObjectDoesNotExist:
-        shipping_address = False
-
-    try:
-        billing_address = Address.objects.get(user=user, address_type='B', default=True)
-    except ObjectDoesNotExist:
-        billing_address = False
-
-    context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address, 'form':userform, 'shippingform':shippingform, 'billingform':billingform}
-
-    return render(request, 'dashboard_user_profile.html', context)
 
 
 @login_required(login_url='dashboard:dashboard-login')

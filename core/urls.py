@@ -12,7 +12,9 @@ from .views import (
     remove_single_item_from_cart, 
     OrderSummaryView,
     CheckoutView,
-    userProfile
+    userProfile,
+    shippingAddress,
+    billingAddress
 )
 
 app_name = 'core'
@@ -32,4 +34,7 @@ urlpatterns = [
     path('login/', loginPage, name="login"),
     path('logout/', logoutUser, name="logout"),
     path('user-profile/', userProfile, name="user-profile"),
+
+    path('shipping-address/', shippingAddress, name="shipping-address"),
+    path('billing-address/', billingAddress, name="billing-address"),
 ]

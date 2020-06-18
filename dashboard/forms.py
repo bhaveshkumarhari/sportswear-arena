@@ -66,6 +66,7 @@ class ShippingAddressForm(forms.Form):
     }))
     shipping_zip = forms.CharField(required=False)
     shipping_state = forms.CharField(required=False)
+    same_billing_address = forms.BooleanField(required=False)
 
 class BillingAddressForm(forms.Form):
     billing_address = forms.CharField(required=False)
@@ -78,6 +79,7 @@ class BillingAddressForm(forms.Form):
     }))
     billing_zip = forms.CharField(required=False)
     billing_state = forms.CharField(required=False)
+    same_shipping_address = forms.BooleanField(required=False)
     
 
 class UserInfoForm(ModelForm):

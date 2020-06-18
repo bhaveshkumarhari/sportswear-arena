@@ -251,7 +251,7 @@
                                                                         <div id="shipping-form" style="display: none;">
                                                                             <div class="card-block">
                                                                             
-                                                                                <form method="POST">
+                                                                                <form method="POST" action="{% url 'core:shipping-address' %}">
                                                                                     {% csrf_token %}
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label">Street Address</label>
@@ -362,7 +362,7 @@
                                                                         <div id="billing-form" style="display: none;">
                                                                             <div class="card-block">
                                                                             
-                                                                                <form method="POST">
+                                                                                <form method="POST" action="{% url 'core:billing-address' %}">
                                                                                     {% csrf_token %}
                                                                                     <div class="form-group row">
                                                                                         <label class="col-sm-5 col-form-label">Street Address</label>
@@ -490,7 +490,6 @@
         infoTable.style.display = "none";
         infoEditButton.style.display = "none";
         infoForm.style.display = "block";
-        <label class="custom-control-label" for="same_billing_address">Billing address is the same as my shipping address</label>
         billingTable.style.display = "block";
         billingEditButton.style.display = "block";
         billingForm.style.display = "none";

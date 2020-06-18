@@ -78,6 +78,45 @@ def userProfile(request):
 
     shippingform = ShippingAddressForm()
 
+    billingform = BillingAddressForm()
+    
+    userform = UserInfoForm(request.POST or None, instance=request.user)
+
+    if request.method == 'POST':
+        if userform.is_valid():
+            first_name = userform.cleaned_data.get('first_name')
+            last_name = userform.cleaned_data.get('last_name')
+            email = userform.cleaned_data.get('email')
+            
+            if is_valid_form([first_name, last_name, email]):
+                userform.save()
+                return redirect('core:user-profile')
+    
+
+    try:
+        shipping_address = Address.objects.get(user=request.user, address_type='S', default=True)
+    except ObjectDoesNotExist:
+        shipping_address = False
+
+    try:
+        billing_address = Address.objects.get(user=request.user, address_type='B', default=True)
+    except ObjectDoesNotExist:
+        billing_address = False
+
+    context = {'shipping_address':shipping_address, 'billing_address':billing_address, 'userform':userform, 'shippingform':shippingform, 'billingform':billingform}
+    
+    if request.user.is_authenticated:
+        try:
+            context['cart'] = Order.objects.get(user=request.user, ordered=False)
+        except:
+            ordered_date = timezone.now() # get current date
+            context['cart'] = Order.objects.create(user=request.user, ordered_date=ordered_date)
+
+    return render(request, 'user_profile.html', context)
+
+
+def shippingAddress(request):
+
     if request.method == 'POST':
         
         form = ShippingAddressForm(request.POST or None)
@@ -127,7 +166,8 @@ def userProfile(request):
 
                 return redirect('core:user-profile')
 
-    billingform = BillingAddressForm()
+
+def billingAddress(request):
 
     if request.method == 'POST':
         
@@ -178,41 +218,6 @@ def userProfile(request):
                 #-------------------------------------------------------------
 
                 return redirect('core:user-profile')
-    
-    userform = UserInfoForm(request.POST or None, instance=request.user)
-
-    if request.method == 'POST':
-        if userform.is_valid():
-            first_name = userform.cleaned_data.get('first_name')
-            last_name = userform.cleaned_data.get('last_name')
-            email = userform.cleaned_data.get('email')
-            
-            if is_valid_form([first_name, last_name, email]):
-                userform.save()
-                return redirect('core:user-profile')
-    
-
-    try:
-        shipping_address = Address.objects.get(user=request.user, address_type='S', default=True)
-    except ObjectDoesNotExist:
-        shipping_address = False
-
-    try:
-        billing_address = Address.objects.get(user=request.user, address_type='B', default=True)
-    except ObjectDoesNotExist:
-        billing_address = False
-
-    context = {'shipping_address':shipping_address, 'billing_address':billing_address, 'userform':userform, 'shippingform':shippingform, 'billingform':billingform}
-    
-    if request.user.is_authenticated:
-        try:
-            context['cart'] = Order.objects.get(user=request.user, ordered=False)
-        except:
-            ordered_date = timezone.now() # get current date
-            context['cart'] = Order.objects.create(user=request.user, ordered_date=ordered_date)
-
-    return render(request, 'user_profile.html', context)
-
 
 class HomeView(View):
 
