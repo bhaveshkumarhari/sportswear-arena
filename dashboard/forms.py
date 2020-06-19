@@ -60,7 +60,7 @@ class ShippingAddressForm(forms.Form):
     shipping_address2 = forms.CharField(required=False)
     # shipping_country = forms.CharField(required=False)
     shipping_country = CountryField(blank_label='select country').formfield(
-        required=False,
+        required=True,
         widget=CountrySelectWidget(attrs={
             'class': 'ps-select selectpicker form-control',
     }))
@@ -73,7 +73,7 @@ class BillingAddressForm(forms.Form):
     billing_address2 = forms.CharField(required=False)
     # billing_country = forms.CharField(required=False)
     billing_country = CountryField(blank_label='select country').formfield(
-        required=False,
+        required=True,
         widget=CountrySelectWidget(attrs={
             'class': 'ps-select selectpicker form-control',
     }))

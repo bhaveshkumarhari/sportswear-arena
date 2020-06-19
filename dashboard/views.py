@@ -53,6 +53,7 @@ def customerProfile(request, user):
             
             if is_valid_form([first_name, last_name, email]):
                 userform.save()
+                messages.success(request, "User information was changed successfully.")
                 return redirect('dashboard:customer-profile', user=user)
 
     try:
@@ -118,9 +119,9 @@ def shippingAddress(request, user):
                     billing_address.save()
                     billing_address.address_type = 'B'
                     billing_address.save()
-                
+                    messages.success(request, "Billing address was changed successfully.")
                 #-----------------------------------------------------------
-                    
+                messages.success(request, "Shipping address was changed successfully.")
                 return redirect('dashboard:customer-profile', user=user)
 
 
@@ -173,9 +174,10 @@ def billingAddress(request, user):
                     shipping_address.save()
                     shipping_address.address_type = 'S'
                     shipping_address.save()
+                    messages.success(request, "Shipping address was changed successfully.")
                 
                 #-------------------------------------------------------------
-
+                messages.success(request, "Billing address was changed successfully.")
                 return redirect('dashboard:customer-profile', user=user)
 
 

@@ -41,6 +41,48 @@
     <!--WARNING: Respond.js doesn't work if you view the page via file://-->
     <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
   
+    <style>
+      .dropbtn {
+        background-color: rgb(29, 29, 88);
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      
+      .dropdown-content a:hover {background-color: #f1f1f1;}
+      
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      
+      .dropdown:hover .dropbtn {
+        background-color: rgb(29, 29, 88);
+      }
+      </style>
   </head>
   <!--[if IE 7]><body class="ie7 lt-ie8 lt-ie9 lt-ie10"><![endif]-->
   <!--[if IE 8]><body class="ie8 lt-ie9 lt-ie10"><![endif]-->
@@ -190,13 +232,13 @@
             </form> -->
            
           {% if request.user.is_authenticated %}
-          <div class="btn-group ps-dropdown" style="margin-left: 10px;"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Account <i class="fa fa-angle-down"></i></a>
+          <!-- <div class="btn-group ps-dropdown" style="margin-left: 10px;"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Account <i class="fa fa-angle-down"></i></a>
             <ul class="dropdown-menu">
               <li><a href="">Logged in as {{request.user}}</a></li>
               <li><a href="{% url 'core:user-profile' %}">My Profile</a></li>
               <li><a href="{% url 'core:logout' %}">Logout</a></li>
             </ul>
-          </div>
+          </div> -->
             {% if request.user|cart_item_count == 0 %}
             <div class="ps-cart"><a class="ps-cart__toggle" href="{% url 'core:order-summary' %}"><span><i>{{ request.user|cart_item_count }}</i></span><i class="ps-icon-shopping-cart"></i></a>
               <div class="ps-cart__listing">
@@ -252,6 +294,22 @@
              <!-- <div class="ps-cart"><a class="ps-cart__toggle"><i class="ps-icon-shopping-cart"></i></a>
               <div class="ps-cart__listing">
                 
+              </div>
+            </div> -->
+            <div class="btn-group ps-dropdown dropdown" style="margin-left: 10px;"><a class="dropdown-toggle dropbtn" href="#" data-toggle="dropdown">Account <i class="fa fa-angle-down"></i></a>
+              <ul class="dropdown-menu dropdown-content">
+                <li><a href="">Logged in as {{request.user}}</a></li>
+                <li><a href="{% url 'core:user-profile' %}">My Profile</a></li>
+                <li><a href="{% url 'core:logout' %}">Logout</a></li>
+              </ul>
+            </div>
+
+            <!-- <div class="dropdown" style="float:right;">
+              <button class="dropbtn">Right</button>
+              <div class="dropdown-content">
+              <a href="#">Link 1</a>
+              <a href="#">Link 2</a>
+              <a href="#">Link 3</a>
               </div>
             </div> -->
              {% else %}

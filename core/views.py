@@ -90,6 +90,7 @@ def userProfile(request):
             
             if is_valid_form([first_name, last_name, email]):
                 userform.save()
+                messages.success(request, "User information was changed successfully.")
                 return redirect('core:user-profile')
     
 
@@ -161,9 +162,10 @@ def shippingAddress(request):
                     billing_address.save()
                     billing_address.address_type = 'B'
                     billing_address.save()
+                    messages.success(request, "Billing address was changed successfully.")
                 
                 #-----------------------------------------------------------
-
+                messages.success(request, "Shipping address was changed successfully.")
                 return redirect('core:user-profile')
 
 
@@ -214,9 +216,10 @@ def billingAddress(request):
                     shipping_address.save()
                     shipping_address.address_type = 'S'
                     shipping_address.save()
+                    messages.success(request, "Shipping address was changed successfully.")
                 
                 #-------------------------------------------------------------
-
+                messages.success(request, "Billing address was changed successfully.")
                 return redirect('core:user-profile')
 
 class HomeView(View):
