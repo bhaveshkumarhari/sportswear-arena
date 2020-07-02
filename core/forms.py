@@ -27,10 +27,6 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields= ['first_name','last_name','username','email','password1','password2']
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['phone']
 
 class CheckoutForm(forms.Form):
     shipping_address = forms.CharField(required=False)
@@ -61,6 +57,13 @@ class CheckoutForm(forms.Form):
     use_default_billing = forms.BooleanField(required=False)
 
     payment_option = forms.ChoiceField(widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
+
+
+class PaymentForm(forms.Form):
+    stripeToken = forms.CharField(required=False)
+    save = forms.BooleanField(required=False)
+    use_default = forms.BooleanField(required=False)
+    
 
 class ContactForm(forms.Form):
     name = forms.CharField()

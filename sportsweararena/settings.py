@@ -93,6 +93,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'sportsweararena',
+#         'USER': 'postgres',
+#         'PASSWORD': '****',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -158,3 +168,6 @@ LOGIN_REDIRECT_URL = '/'
 # CRISPY FORMS
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+STRIPE_PUBLIC_KEY = ''
+STRIPE_SECRET_KEY = 'sk_test_FFgIjPlOpPt5hLPXnaUWwoN800tNAFIDxL'

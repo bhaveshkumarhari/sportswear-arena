@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, OrderItem, Order, Contact, Category, Address, UserProfile, Variation
+from .models import Item, OrderItem, Order, Contact, Category, Address, UserProfile, Variation, Payment
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user',
@@ -10,14 +10,14 @@ class OrderAdmin(admin.ModelAdmin):
                     # 'refund_granted',
                     'shipping_address',
                     'billing_address',
-                    # 'payment',
+                    'payment',
                     # 'coupon'
     ]
     list_display_links = [
                     'user',
                     'shipping_address',
                     'billing_address',
-                    # 'payment',
+                    'payment',
                     # 'coupon'
     ]
     
@@ -58,3 +58,5 @@ admin.site.register(Contact),
 admin.site.register(Variation)
 
 admin.site.register(UserProfile)
+
+admin.site.register(Payment)

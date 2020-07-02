@@ -298,7 +298,7 @@
             </div> -->
             <div class="btn-group ps-dropdown dropdown" style="margin-left: 10px;"><a class="dropdown-toggle dropbtn" href="#" data-toggle="dropdown">Account <i class="fa fa-angle-down"></i></a>
               <ul class="dropdown-menu dropdown-content">
-                <li><a href="">Logged in as {{request.user}}</a></li>
+                <li><a href="{% url 'core:home' %}">Logged in as {{request.user}}</a></li>
                 <li><a href="{% url 'core:user-profile' %}">My Profile</a></li>
                 <li><a href="{% url 'core:logout' %}">Logout</a></li>
               </ul>

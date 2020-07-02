@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.models import Group
 
-from core.models import Item, Address
+from core.models import Item, Address, Order
 
 from django.contrib.auth.models import User
 
@@ -38,6 +38,8 @@ def is_valid_form(values):
 def customerProfile(request, user):
 
     user = User.objects.get(username=user)
+
+    orders = Order.objects.filter(user=user, ordered = True)
 
     shippingform = ShippingAddressForm()
 
@@ -66,7 +68,7 @@ def customerProfile(request, user):
     except ObjectDoesNotExist:
         billing_address = False
 
-    context = {'user':user, 'shipping_address':shipping_address, 'billing_address':billing_address, 'form':userform, 'shippingform':shippingform, 'billingform':billingform}
+    context = {'user':user, 'orders': orders, 'shipping_address':shipping_address, 'billing_address':billing_address, 'form':userform, 'shippingform':shippingform, 'billingform':billingform}
 
     return render(request, 'dashboard_user_profile.html', context)
 
