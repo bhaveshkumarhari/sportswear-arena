@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="ps-content pt-80 pb-80">
+    <div class="ps-container">
+        <h3 class="ps-section__title">Your Orders</h3>
+      <div class="ps-cart-listing">
+        <table class="table ps-cart__table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th>All Products</th>
+              <!-- <th>Size</th> -->
+              <th>Price</th>
+              <th>Discount Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order_item in orders %}
+            {% for item in order_item.items.all %}
+            <tr>
+              <td scope="row">{{ forloop.counter }}</td>
+              <td><a class="ps-product__preview" href="{{ item.item.get_absolute_url }}"><img class="mr-15" width="80" height="80" src="{{ item.item.front_image.url }}" alt=""> {{ item.item.title }}</a></td>
+              <!-- <td>{{ order_item.size}}</td> -->
+              <td>&#8377;{{ item.item.price }}</td>
+              <td>&#8377;{{ item.item.discount_price }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>
+                <!-- check the condition if item has discount price -->
+                {% if item.item.discount_price %}
+                    <!-- get the return value from OrderItem model function-->
+                    &#8377;{{ item.get_total_discount_item_price }}
+                    <span class="badge badge-primary">Saving £{{ item.get_amount_saved }}</span>
+                {% else %}
+                    <!-- get the return value from OrderItem model function-->
+                    &#8377;{{ item.get_total_item_price }}
+                {% endif %}
+              </td>
+              <td>Status</td>
+              
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan='5'> You do not have any order.</td>
+            </tr>
+            <!-- <tr>
+              <td colspan="5">
+                <button class="ps-btn ps-btn--gray">Continue Shopping</button>
+              </td>
+            </tr> -->
+            {% endfor %}
+            {% endfor %}
+     
+          </tbody>
+        </table>
+        <div class="ps-cart__actions">
+          <div class="ps-cart__promotion">
+            <!-- <div class="form-group">
+              <div class="ps-form--icon"><i class="fa fa-angle-right"></i>
+                <input class="form-control" type="text" placeholder="Promo Code">
+              </div>
+            </div> -->
+            <div class="form-group">
+              <a href="/" class="ps-btn ps-btn--gray">Continue Shopping</a>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

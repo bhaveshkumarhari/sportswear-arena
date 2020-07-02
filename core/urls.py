@@ -15,7 +15,8 @@ from .views import (
     PaymentView,
     userProfile,
     shippingAddress,
-    billingAddress
+    billingAddress,
+    CustomerOrders
 )
 
 app_name = 'core'
@@ -36,6 +37,7 @@ urlpatterns = [
     path('login/', loginPage, name="login"),
     path('logout/', logoutUser, name="logout"),
     path('user-profile/', userProfile, name="user-profile"),
+    path('customer-orders/', CustomerOrders.as_view(), name="customer-orders"),
 
     path('shipping-address/', shippingAddress, name="shipping-address"),
     path('billing-address/', billingAddress, name="billing-address"),

@@ -395,8 +395,8 @@ class ProductDetailView(View):
                 else:
                     # print(order_item)
                     order.items.add(order_item) # Add item to Order model if item does not exist in OrderItem.
-                    for item in product_var:
-                        order_item.variations.add(item)
+                    # for item in product_var:
+                    #     order_item.variations.add(item)
                     order_item.quantity = int(value)
                     order_item.save() # Save OrderItem model
                     messages.info(self.request, "This item was added to your cart.")
@@ -407,8 +407,8 @@ class ProductDetailView(View):
                 order = Order.objects.create(user=self.request.user, ordered_date=ordered_date) # Create Order model instance with specific user and ordered date
                 order.items.add(order_item) # Then add order_item to that model instance
                 order_item.quantity = int(value)
-                for item in product_var:
-                        order_item.variations.add(item)
+                # for item in product_var:
+                #         order_item.variations.add(item)
                 # order_item.size = size
                 order_item.save() # Save OrderItem model
                 messages.info(self.request, "This item was added to your cart.")
@@ -881,6 +881,22 @@ class PaymentView(View):
                 messages.warning(self.request, "A serious error occured. We have been notified")
                 return redirect("/")
             
+
+class CustomerOrders(View):
+    def get(self, *args, **kwargs):
+
+        orders = Order.objects.filter(user=self.request.user, ordered = True)
+
+        context = {'orders': orders}
+
+        if self.request.user.is_authenticated:
+            try:
+                context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+            except:
+                ordered_date = timezone.now() # get current date
+                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+
+        return render(self.request, 'customer_orders.html', context)
 
 class ContactView(View):
     def get(self, *args, **kwargs):
