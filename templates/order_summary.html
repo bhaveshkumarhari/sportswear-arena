@@ -18,6 +18,7 @@
 
 <div class="ps-content pt-80 pb-80">
     <div class="ps-container">
+      <h3 class="ps-section__title">Your Cart</h3>
       <div class="ps-cart-listing">
         <table class="table ps-cart__table">
           <thead>
@@ -50,7 +51,7 @@
                 {% if order_item.item.discount_price %}
                     <!-- get the return value from OrderItem model function-->
                     &#8377;{{ order_item.get_total_discount_item_price }}
-                    <span class="badge badge-primary">Saving £{{ order_item.get_amount_saved }}</span>
+                    <span class="badge badge-primary">Saving &#8377;{{ order_item.get_amount_saved }}</span>
                 {% else %}
                     <!-- get the return value from OrderItem model function-->
                     &#8377;{{ order_item.get_total_item_price }}

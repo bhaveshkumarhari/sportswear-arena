@@ -725,20 +725,18 @@ class CheckoutView(LoginRequiredMixin, View):
 
                         #---------------------------------------------------------------------
                     else:
-                        messages.info(self.request, "Please fill in the required billing address fields")      
+                        messages.info(self.request, "Please fill in the required billing address fields")
 
-                return redirect('core:checkout')
+                payment_option = form.cleaned_data.get('payment_option')
 
-                # payment_option = form.cleaned_data.get('payment_option')
-
-                # if payment_option == 'S':
-                #     return redirect('core:payment', payment_option='stripe')
-                # elif payment_option == 'S':
-                #     return redirect('core:payment', payment_option='paypal')
-                # else:
-                #     # Prints when data is invalid
-                #     messages.warning(self.request, "Invalid payment option selected")
-                #     return redirect('core:checkout')
+                if payment_option == 'S':
+                    return redirect('core:payment', payment_option='stripe')
+                elif payment_option == 'S':
+                    return redirect('core:payment', payment_option='paypal')
+                else:
+                    # Prints when data is invalid
+                    messages.warning(self.request, "Invalid payment option selected")
+                    return redirect('core:checkout')
 
         except ObjectDoesNotExist:
             # if there is no active order then shows message
@@ -836,11 +834,11 @@ class PaymentView(View):
 
                 order.ordered = True # When order is completed
                 order.payment = payment
-                order.ref_code = create_ref_code()
+                # order.ref_code = create_ref_code()
                 order.save()
 
                 messages.success(self.request, "Your order was successful")
-                return redirect("/")
+                return redirect("core:customer-orders")
 
             except stripe.error.CardError as e:
                 # Since it's a decline, stripe.error.CardError will be caught
@@ -878,7 +876,7 @@ class PaymentView(View):
 
             except Exception as e:
                 # send an email to ourselves
-                messages.warning(self.request, "A serious error occured. We have been notified")
+                messages.warning(self.request, "A serious error occured. We have been notified. Error in Code.")
                 return redirect("/")
             
 

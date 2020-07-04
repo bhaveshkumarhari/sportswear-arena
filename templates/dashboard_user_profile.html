@@ -741,6 +741,10 @@
                                                                       
                                                                     </tr>
                                                                     {% endfor %}
+                                                                    {% empty %}
+                                                                    <tr>
+                                                                        <td colspan='5'> Customer does not have any order.</td>
+                                                                    </tr>
                                                                     {% endfor %}
                                                                  </tbody>
                                                             </table>

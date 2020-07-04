@@ -163,9 +163,40 @@ button:hover {
         
 
       </div>
- 
+      
+      
+      <div class="ps-checkout__order" style="background-color: white;">
+        <header>
+          <span class="text-uppercase"><H3 style="color: black;">YOUR ORDER</H3></span>
+          <span>Number of products </span><span class="badge badge-secondary badge-pill">{{ order.items.count }}</span>
+        </header>
+      
+        <div class="content">
+          <table class="table ps-checkout__products">
+            <thead>
+              <tr>
+                <th class="text-uppercase">Product</th>
+                <th class="text-uppercase">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order_item in order.items.all %}
+              <tr>
+                <td>{{ order_item.item.title }} x {{ order_item.quantity }}</td>
+                <td>&#8377;{{ order_item.get_final_price }}</td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td style="font-weight: bold;">Order Total</td>
+                <td style="font-weight: bold;">&#8377;{{ order.get_total }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
     </div>
-
+    
     
   </main>
 

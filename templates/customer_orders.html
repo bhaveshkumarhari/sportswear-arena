@@ -36,7 +36,7 @@
                 {% if item.item.discount_price %}
                     <!-- get the return value from OrderItem model function-->
                     &#8377;{{ item.get_total_discount_item_price }}
-                    <span class="badge badge-primary">Saving £{{ item.get_amount_saved }}</span>
+                    <span class="badge badge-primary">Saved &#8377;{{ item.get_amount_saved }}</span>
                 {% else %}
                     <!-- get the return value from OrderItem model function-->
                     &#8377;{{ item.get_total_item_price }}
@@ -45,6 +45,7 @@
               <td>Status</td>
               
             </tr>
+            {% endfor %}
             {% empty %}
             <tr>
                 <td colspan='5'> You do not have any order.</td>
@@ -54,7 +55,7 @@
                 <button class="ps-btn ps-btn--gray">Continue Shopping</button>
               </td>
             </tr> -->
-            {% endfor %}
+            
             {% endfor %}
      
           </tbody>
