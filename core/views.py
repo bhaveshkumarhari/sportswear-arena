@@ -137,8 +137,12 @@ def shippingAddress(request):
             
             if is_valid_form([shipping_address, shipping_country, shipping_zip, shipping_state]):
                 try:
-                    old_shipping_address = Address.objects.get(user=request.user, address_type = 'S')
-                    old_shipping_address.delete()
+                    # old_shipping_address = Address.objects.get(user=request.user, address_type = 'S')
+                    # old_shipping_address.delete()
+                    old_shipping_address = Address.objects.filter(user=request.user, address_type = 'S', default = True)
+                    for address in old_shipping_address:
+                        address.default = False
+                        address.save()
                 except ObjectDoesNotExist:
                     pass
                 shipping_address = Address(
@@ -159,8 +163,12 @@ def shippingAddress(request):
 
                 if same_billing_address:
                     try:
-                        old_billing_address = Address.objects.get(user=request.user, address_type = 'B')
-                        old_billing_address.delete()
+                        # old_billing_address = Address.objects.get(user=request.user, address_type = 'B')
+                        # old_billing_address.delete()
+                        old_billing_address = Address.objects.filter(user=request.user, address_type = 'B', default = True)
+                        for address in old_billing_address:
+                            address.default = False
+                            address.save()
                     except ObjectDoesNotExist:
                         pass
                     billing_address = shipping_address
@@ -190,8 +198,12 @@ def billingAddress(request):
             
             if is_valid_form([billing_address, billing_country, billing_zip, billing_state]):
                 try:
-                    old_billing_address = Address.objects.get(user=request.user, address_type = 'B')
-                    old_billing_address.delete()
+                    # old_billing_address = Address.objects.get(user=request.user, address_type = 'B')
+                    # old_billing_address.delete()
+                    old_billing_address = Address.objects.filter(user=request.user, address_type = 'B', default = True)
+                    for address in old_billing_address:
+                        address.default = False
+                        address.save()
                 except ObjectDoesNotExist:
                     pass
 
@@ -213,8 +225,12 @@ def billingAddress(request):
 
                 if same_shipping_address:
                     try:
-                        old_shipping_address = Address.objects.get(user=request.user, address_type = 'S')
-                        old_shipping_address.delete()
+                        # old_shipping_address = Address.objects.get(user=request.user, address_type = 'S')
+                        # old_shipping_address.delete()
+                        old_shipping_address = Address.objects.filter(user=request.user, address_type = 'S', default = True)
+                        for address in old_shipping_address:
+                            address.default = False
+                            address.save()
                     except ObjectDoesNotExist:
                         pass
                     shipping_address = billing_address
@@ -679,13 +695,17 @@ class CheckoutView(LoginRequiredMixin, View):
 
                 #------- If checkbox selected to use same billing address as shipping address-
                 if same_billing_address:
-                    billing_address = shipping_address
-                    billing_address.pk = None
-                    billing_address.save()
-                    billing_address.address_type = 'B'
-                    billing_address.save()
-                    order.billing_address = billing_address
-                    order.save()
+                    if shipping_address:
+                        billing_address = shipping_address
+                        billing_address.pk = None
+                        billing_address.default = False
+                        billing_address.save()
+                        billing_address.address_type = 'B'
+                        billing_address.save()
+                        order.billing_address = billing_address
+                        order.save()
+                    else:
+                        return redirect('core:checkout')
 
                 #------- elif checkbox selected to use default shipping address --------
                 elif use_default_billing:
@@ -748,6 +768,7 @@ class CheckoutView(LoginRequiredMixin, View):
                         #---------------------------------------------------------------------
                     else:
                         messages.info(self.request, "Please fill in the required billing address fields")
+                        return redirect('core:checkout')
 
                 payment_option = form.cleaned_data.get('payment_option')
 
