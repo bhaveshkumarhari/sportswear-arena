@@ -21,12 +21,22 @@
           <td>&#8377;{{ order_item.get_final_price }}</td>
         </tr>
         {% endfor %}
+
+        {% if order.coupon %}
+        <tr>
+          <td style="color: green;">Promo code ({{ order.coupon.code }})</td>
+          <td style="color: green;">-&#8377;{{order.coupon.amount }}</td>
+        </tr>
+        {% endif %}
+        
         <tr>
           <td style="font-weight: bold;">Order Total</td>
           <td style="font-weight: bold;">&#8377;{{ order.get_total }}</td>
         </tr>
       </tbody>
     </table>
+
+
   </div>
   <footer>
     <h3>Payment Method</h3>
@@ -61,6 +71,19 @@
     
   </footer>
 </div>
+
+{% if DISPLAY_COUPON_FORM %}
+<form class="card p-2" action="{% url 'core:add-coupon' %}" method="POST">
+  {% csrf_token %}
+  <div class="input-group">
+    {{ couponform.code }}
+    <div class="input-group-append">
+      <button class="ps-btn ps-btn--fullwidth" type="submit">Redeem<i class="ps-icon-next"></i></button>
+    </div>
+  </div>
+</form>
+{% endif %}
+              
 <div class="ps-shipping">
   <h3>FREE SHIPPING</h3>
   <p>YOUR ORDER QUALIFIES FOR FREE SHIPPING.<br> <a href="#"> Singup </a> for free shipping on every order, every time.</p>

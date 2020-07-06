@@ -16,7 +16,8 @@ from .views import (
     userProfile,
     shippingAddress,
     billingAddress,
-    CustomerOrders
+    CustomerOrders,
+    AddCouponView
 )
 
 app_name = 'core'
@@ -31,6 +32,8 @@ urlpatterns = [
     path('order-summary/', OrderSummaryView.as_view(), name="order-summary"),
     path('checkout/', CheckoutView.as_view(), name="checkout"),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
+    path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),
+    
     path('contact-us/', ContactView.as_view(), name="contact-us"),
 
     path('register/', registerPage, name="register"),

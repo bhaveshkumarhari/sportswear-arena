@@ -18,19 +18,6 @@
 
 {% block content %}
 
-<div class="mt-5 pt-4">
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% endfor %}
-    {% endif %}
-</div>
-
 <div class="ps-content pt-80 pb-80">
     <div class="ps-container">
       <h3 class="ps-section__title">Your Cart</h3>
@@ -89,6 +76,16 @@
             </tr> -->
             {% endfor %}
      
+            {% if cart.coupon %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td style="color: green;">Promo code ({{ cart.coupon.code }})</td>
+              <td style="color: green;">-&#8377;{{cart.coupon.amount }}</td>
+            </tr>
+            {% endif %}
           </tbody>
         </table>
         <div class="ps-cart__actions">

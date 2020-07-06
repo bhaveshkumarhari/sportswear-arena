@@ -65,6 +65,15 @@ class PaymentForm(forms.Form):
     use_default = forms.BooleanField(required=False)
     
 
+class CouponForm(forms.Form):
+    code = forms.CharField(widget=forms.TextInput(attrs={
+        'class' : 'form-control',
+        'placeholder' : 'Promo code',
+        'aria-label' : 'Recipient\'s username',
+        'aria-describedby' : 'basic-addon2'
+    }))
+    
+
 class ContactForm(forms.Form):
     name = forms.CharField()
     email = forms.EmailField()

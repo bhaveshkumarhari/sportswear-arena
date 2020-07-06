@@ -13,9 +13,9 @@ from django.utils import timezone
 
 from django.contrib import messages
 
-from .models import Item, Contact, Category, OrderItem, Order, Address, UserProfile, Payment
+from .models import Item, Contact, Category, OrderItem, Order, Address, UserProfile, Payment, Coupon
 
-from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm, UserInfoForm, PaymentForm, ShippingAddressForm, BillingAddressForm
+from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm, UserInfoForm, PaymentForm, ShippingAddressForm, BillingAddressForm, CouponForm
 
 from .decorators import unauthenticated_user
 
@@ -571,9 +571,9 @@ class CheckoutView(LoginRequiredMixin, View):
             form = CheckoutForm()
             context = {
                 'form': form,
-                # 'couponform': CouponForm,
+                'couponform': CouponForm,
                 'order': order,
-                # 'DISPLAY_COUPON_FORM': True # Displays coupon form.
+                'DISPLAY_COUPON_FORM': True # Displays coupon form.
             }
 
             shipping_address_qs = Address.objects.filter(
@@ -695,7 +695,7 @@ class CheckoutView(LoginRequiredMixin, View):
 
                 #------- If checkbox selected to use same billing address as shipping address-
                 if same_billing_address:
-                    if shipping_address:
+                    if is_valid_form([shipping_address, shipping_country, shipping_zip, shipping_state]):
                         billing_address = shipping_address
                         billing_address.pk = None
                         billing_address.default = False
@@ -809,6 +809,14 @@ class PaymentView(View):
                     context.update({
                         'card': card_list[0]
                     })
+                    
+            if self.request.user.is_authenticated:
+                try:
+                    context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
+                except:
+                    ordered_date = timezone.now() # get current date
+                    context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+
             return render(self.request, 'payment.html', context)
         else:
             messages.warning(self.request, "You have not added a billing address")
@@ -922,6 +930,34 @@ class PaymentView(View):
                 messages.warning(self.request, "A serious error occured. We have been notified. Error in Code.")
                 return redirect("/")
             
+
+def get_coupon(request, code):
+    try:
+        coupon = Coupon.objects.get(code=code) # Check if code exists
+        return coupon # Return code
+
+    except ObjectDoesNotExist:
+        messages.info(request, "This coupon does not exist")
+        return redirect("core:checkout")
+
+class AddCouponView(View):
+    def post(self, *args, **kwargs):
+        print("worked")
+        form = CouponForm(self.request.POST or None)
+        if form.is_valid():
+            try:
+                code = form.cleaned_data.get('code') # Get the cleaned coupon code from form
+                order = Order.objects.get(user=self.request.user, ordered=False)
+                # Go to function and check if coupon exists? Yes. Add the coupon code to Order model field(coupon)
+                order.coupon = get_coupon(self.request, code)
+                order.save() # Save the order instance
+                messages.success(self.request, "Successfully added coupon")
+                return redirect("core:checkout")
+
+            except ObjectDoesNotExist:
+                messages.info(self.request, "You do not have an active order")
+                return redirect("core:checkout")
+
 
 class CustomerOrders(View):
     def get(self, *args, **kwargs):

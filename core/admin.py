@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, OrderItem, Order, Contact, Category, Address, UserProfile, Variation, Payment
+from .models import Item, OrderItem, Order, Contact, Category, Address, UserProfile, Variation, Payment, Coupon
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user',
@@ -60,3 +60,4 @@ admin.site.register(Variation)
 admin.site.register(UserProfile)
 
 admin.site.register(Payment)
+admin.site.register(Coupon)
