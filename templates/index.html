@@ -33,6 +33,21 @@
 </div>
 {% endblock banner %}
 
+{% block message %}
+<div class="mt-6 pt-4">
+  {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+  {% endif %}
+  </div>
+{% endblock message %}
+
 {% block content %}
       <div class="ps-blog-grid pt-80 pb-80">
         <div class="ps-container">

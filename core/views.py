@@ -652,6 +652,18 @@ class CheckoutView(LoginRequiredMixin, View):
                         set_default_shipping = form.cleaned_data.get('set_default_shipping')
 
                         if set_default_shipping:
+                            try:
+                                # old_shipping_address = Address.objects.get(user=self.request.user, address_type = 'S', default = True)
+                                # old_shipping_address.default = False
+                                # old_shipping_address.save()
+
+                                old_shipping_address = Address.objects.filter(user=self.request.user, address_type = 'S', default = True)
+                                for address in old_shipping_address:
+                                    address.default = False
+                                    address.save()
+
+                            except ObjectDoesNotExist:
+                                pass
                             shipping_address.default = True
                             shipping_address.save()
                         #---------------------------------------------------------------------
@@ -720,6 +732,16 @@ class CheckoutView(LoginRequiredMixin, View):
                         set_default_billing = form.cleaned_data.get('set_default_billing')
 
                         if set_default_billing:
+                            try:
+                                # old_billing_address = Address.objects.get(user=self.request.user, address_type = 'B', default = True)
+                                # old_billing_address.default = False
+                                # old_billing_address.save()
+                                old_billing_address = Address.objects.filter(user=self.request.user, address_type = 'B', default = True)
+                                for address in old_billing_address:
+                                    address.default = False
+                                    address.save()
+                            except ObjectDoesNotExist:
+                                pass
                             billing_address.default = True
                             billing_address.save()
 
