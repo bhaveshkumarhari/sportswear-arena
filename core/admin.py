@@ -1,37 +1,42 @@
 from django.contrib import admin
-from .models import Item, OrderItem, Order, Contact, Category, Address, UserProfile, Variation, Payment, Coupon
+from .models import Item, OrderItem, Order, Contact, Category, Address, UserProfile, Variation, Payment, Coupon, Refund
+
+def make_refund_accepted(ModelAdmin, request, queryset):
+    queryset.update(refund_requested=False, refund_granted=True)
+make_refund_accepted.short_description = 'Update orders to refund granted'
+
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user',
                     'ordered',
-                    # 'being_delivered',
-                    # 'received',
-                    # 'refund_requested',
-                    # 'refund_granted',
+                    'being_delivered',
+                    'received',
+                    'refund_requested',
+                    'refund_granted',
                     'shipping_address',
                     'billing_address',
                     'payment',
-                    # 'coupon'
+                    'coupon'
     ]
     list_display_links = [
                     'user',
                     'shipping_address',
                     'billing_address',
                     'payment',
-                    # 'coupon'
+                    'coupon'
     ]
     
-    # list_filter = ['ordered',
-                    # 'being_delivered',
-                    # 'received',
-                    # 'refund_requested',
-                    # 'refund_granted'
-                    # ]
+    list_filter = ['ordered',
+                    'being_delivered',
+                    'received',
+                    'refund_requested',
+                    'refund_granted'
+                    ]
     search_fields = [
         'user__username',
-        # 'ref_code'
+        'ref_code'
     ]
-    # actions = [make_refund_accepted]
+    actions = [make_refund_accepted]
 
 
 class AddressAdmin(admin.ModelAdmin):
@@ -61,3 +66,5 @@ admin.site.register(UserProfile)
 
 admin.site.register(Payment)
 admin.site.register(Coupon)
+
+admin.site.register(Refund)
