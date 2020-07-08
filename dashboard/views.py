@@ -248,6 +248,62 @@ def customerList(request):
     context = {'users':users}
     return render(request, 'customer_list.html', context)
 
+@login_required(login_url='dashboard:dashboard-login')
+@admin_only
+def orderList(request):
+    orders = Order.objects.all() # Get all the orders
+    total_orders = orders.filter(ordered=True).count() # Count total successful orders
+
+    items = Item.objects.all() # Get all the items
+    total_items = items.count() # Count total items
+
+    users = User.objects.all() # Get all the users
+    total_users = users.count() - 1 # Count total users
+
+    # Get revenue by totalling all payment amounts
+    payments = Payment.objects.all()
+    revenue = 0
+    for amounts in payments:
+        revenue += amounts.amount
+
+    # Filter all the orders which are successfully completed
+    order_qs = Order.objects.filter(ordered=True).order_by('-ordered_date')
+
+    ordered = Order.objects.filter(ordered=True, refund_granted=False, refund_requested=False, received=False, being_delivered=False)
+    for setorder in ordered:
+        setorder.status = "Ordered"
+        setorder.label = "danger"
+        setorder.save()
+
+    refund_granted = Order.objects.filter(ordered=True, refund_granted=True)
+    for setorder in refund_granted:
+        setorder.status = "Refund Granted"
+        setorder.label = "primary"
+        setorder.save()
+
+    refund_requested = Order.objects.filter(ordered=True, refund_requested=True)
+    for setorder in refund_requested:
+        setorder.status = "Refund Requested"
+        setorder.label = "warning"
+        setorder.save()
+
+    received = Order.objects.filter(ordered=True, received=True)
+    for setorder in received:
+        setorder.status = "Delivered"
+        setorder.label = "success"
+        setorder.save()
+    
+    being_delivered = Order.objects.filter(ordered=True, being_delivered=True)
+    for setorder in being_delivered:
+        setorder.status = "Being Delivered"
+        setorder.label = "inverse"
+        setorder.save()
+
+    context = {'total_orders':total_orders, 'total_items':total_items, 'total_users':total_users, 'revenue':revenue,
+                'order_qs':order_qs}
+                
+    return render(request, 'dashboard_orders.html', context)
+
 class createProduct(View):
 
     def get(self, *args, **kwargs):

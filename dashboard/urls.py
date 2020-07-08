@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomeView, customerProfile, productList, createProduct, update_product, delete_product, registerPage, loginPage, logoutUser, userPage, customerList, shippingAddress, billingAddress
+from .views import HomeView, customerProfile, productList, createProduct, update_product, delete_product, registerPage, loginPage, logoutUser, userPage, customerList, orderList, shippingAddress, billingAddress
 
 app_name = 'dashboard'
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('dashboard/delete-product/<slug>/', delete_product, name="delete-product"),
 
     path('dashboard/customer-list/', customerList, name="customer-list"),
+    path('dashboard/order-list/', orderList, name="order-list"),
 
     path('dashboard/register/', registerPage, name="dashboard-register"),
     path('dashboard/login/', loginPage, name="dashboard-login"),

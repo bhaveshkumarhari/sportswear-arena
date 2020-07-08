@@ -248,7 +248,7 @@
 
                         <!-- ticket and update start -->
                         <div class="col-xl-12 col-md-12">
-                            <div class="card table-card">
+                            <div class="card">
                                 <div class="card-header">
                                     <h5>Customer Orders</h5>
                                     <div class="card-header-right">
@@ -269,9 +269,11 @@
                                             <thead>
                                                 <tr>
                                                     <th>Status</th>
-                                                    <th>Title</th>
+                                                    <th>Product</th>
                                                     <th>Quantity</th>
                                                     <th>Amount</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Email</th>
                                                     <th>Delivery Address</th>
                                                     <th>Billing Address</th>
                                                     <th>Ordered date</th>
@@ -285,6 +287,8 @@
                                                     <td>{{ order_item.item.title }}</td>
                                                     <td>{{ order_item.quantity }}</td>
                                                     <td>{{ order.get_total }}</td>
+                                                    <td>{{ order.user.first_name }} {{ order.user.last_name }}</td>
+                                                    <td>{{ order.user.email }}</td>
                                                     <td>{% if order.shipping_address %}{{ order.shipping_address.street_address }}, {{ order.shipping_address.state }} - {{ order.shipping_address.zip }} {% else %} Address not available {% endif %}</td>
                                                     <td>{% if order.billing_address %}{{ order.billing_address.street_address }}, {{ order.billing_address.state }} - {{ order.billing_address.zip }} {% else %} Address not available {% endif %}</td>
                                                     <td>{{ order.ordered_date }}</td>
