@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.models import Group
 
-from core.models import Item, Address, Order
+from core.models import Item, Address, Order, Payment
 
 from django.contrib.auth.models import User
 
@@ -24,7 +24,24 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # @allowed_users(allowed_roles=['admin'])
 @admin_only
 def HomeView(request):
-    return render(request, 'dashboard.html')
+    orders = Order.objects.all() # Get all the orders
+    total_orders = orders.filter(ordered=True).count() # Count total successful orders
+
+    items = Item.objects.all() # Get all the items
+    total_items = items.count() # Count total items
+
+    users = User.objects.all() # Get all the users
+    total_users = users.count() - 1 # Count total users
+
+    # Get revenue by totalling all payment amounts
+    payments = Payment.objects.all()
+    revenue = 0
+    for amounts in payments:
+        revenue += amounts.amount
+
+    context = {'total_orders':total_orders, 'total_items':total_items, 'total_users':total_users, 'revenue':revenue}
+
+    return render(request, 'dashboard.html', context)
 
 def is_valid_form(values):
     valid = True
