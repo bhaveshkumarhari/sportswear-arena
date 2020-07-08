@@ -269,125 +269,34 @@
                                             <thead>
                                                 <tr>
                                                     <th>Status</th>
-                                                    <th>Subject</th>
-                                                    <th>Department</th>
-                                                    <th>Date</th>
+                                                    <th>Title</th>
+                                                    <th>Quantity</th>
+                                                    <th>Amount</th>
+                                                    <th>Delivery Address</th>
+                                                    <th>Billing Address</th>
+                                                    <th>Ordered date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            {% for order in order_qs %}
+                                                {% for order_item in order.items.all %}
                                                 <tr>
-                                                    <td><label class="label label-success">open</label></td>
-                                                    <td>Website down for one week</td>
-                                                    <td>Support</td>
-                                                    <td>Today 2:00</td>
+                                                    <td><label class="label label-{{ order.label }}">{{ order.status }}</label></td>
+                                                    <td>{{ order_item.item.title }}</td>
+                                                    <td>{{ order_item.quantity }}</td>
+                                                    <td>{{ order.get_total }}</td>
+                                                    <td>{% if order.shipping_address %}{{ order.shipping_address.street_address }}, {{ order.shipping_address.state }} - {{ order.shipping_address.zip }} {% else %} Address not available {% endif %}</td>
+                                                    <td>{% if order.billing_address %}{{ order.billing_address.street_address }}, {{ order.billing_address.state }} - {{ order.billing_address.zip }} {% else %} Address not available {% endif %}</td>
+                                                    <td>{{ order.ordered_date }}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td><label class="label label-primary">progress</label></td>
-                                                    <td>Loosing control on server</td>
-                                                    <td>Support</td>
-                                                    <td>Yesterday</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-danger">closed</label></td>
-                                                    <td>Authorizations keys</td>
-                                                    <td>Support</td>
-                                                    <td>27, Aug</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-success">open</label></td>
-                                                    <td>Restoring default settings</td>
-                                                    <td>Support</td>
-                                                    <td>Today 9:00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-primary">progress</label></td>
-                                                    <td>Loosing control on server</td>
-                                                    <td>Support</td>
-                                                    <td>Yesterday</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-success">open</label></td>
-                                                    <td>Restoring default settings</td>
-                                                    <td>Support</td>
-                                                    <td>Today 9:00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-danger">closed</label></td>
-                                                    <td>Authorizations keys</td>
-                                                    <td>Support</td>
-                                                    <td>27, Aug</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-primary">progress</label></td>
-                                                    <td>Loosing control on server</td>
-                                                    <td>Support</td>
-                                                    <td>Yesterday</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-success">open</label></td>
-                                                    <td>Restoring default settings</td>
-                                                    <td>Support</td>
-                                                    <td>Today 9:00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-danger">closed</label></td>
-                                                    <td>Authorizations keys</td>
-                                                    <td>Support</td>
-                                                    <td>27, Aug</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-primary">progress</label></td>
-                                                    <td>Loosing control on server</td>
-                                                    <td>Support</td>
-                                                    <td>Yesterday</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-success">open</label></td>
-                                                    <td>Restoring default settings</td>
-                                                    <td>Support</td>
-                                                    <td>Today 9:00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-danger">closed</label></td>
-                                                    <td>Authorizations keys</td>
-                                                    <td>Support</td>
-                                                    <td>27, Aug</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-primary">progress</label></td>
-                                                    <td>Loosing control on server</td>
-                                                    <td>Support</td>
-                                                    <td>Yesterday</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-success">open</label></td>
-                                                    <td>Restoring default settings</td>
-                                                    <td>Support</td>
-                                                    <td>Today 9:00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-danger">closed</label></td>
-                                                    <td>Authorizations keys</td>
-                                                    <td>Support</td>
-                                                    <td>27, Aug</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-success">open</label></td>
-                                                    <td>Restoring default settings</td>
-                                                    <td>Support</td>
-                                                    <td>Today 9:00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label class="label label-primary">progress</label></td>
-                                                    <td>Loosing control on server</td>
-                                                    <td>Support</td>
-                                                    <td>Yesterday</td>
-                                                </tr>
+                                                {% endfor %}
+                                            {% endfor %}
+                                                
                                             </tbody>
                                         </table>
-                                        <div class="text-right m-r-20">
+                                        <!-- <div class="text-right m-r-20">
                                             <a href="#!" class=" b-b-primary text-primary">View all Projects</a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>

@@ -181,6 +181,8 @@ class Order(models.Model):
     received = models.BooleanField(default=False)
     refund_requested = models.BooleanField(default=False)
     refund_granted = models.BooleanField(default=False)
+    status = models.CharField(max_length=20)
+    label = models.CharField(max_length=10)
 
     def __str__(self):
         return self.user.username

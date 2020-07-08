@@ -39,7 +39,41 @@ def HomeView(request):
     for amounts in payments:
         revenue += amounts.amount
 
-    context = {'total_orders':total_orders, 'total_items':total_items, 'total_users':total_users, 'revenue':revenue}
+    # Filter all the orders which are successfully completed
+    order_qs = Order.objects.filter(ordered=True).order_by('-ordered_date')
+
+    ordered = Order.objects.filter(ordered=True, refund_granted=False, refund_requested=False, received=False, being_delivered=False)
+    for setorder in ordered:
+        setorder.status = "Ordered"
+        setorder.label = "danger"
+        setorder.save()
+
+    refund_granted = Order.objects.filter(ordered=True, refund_granted=True)
+    for setorder in refund_granted:
+        setorder.status = "Refund Granted"
+        setorder.label = "primary"
+        setorder.save()
+
+    refund_requested = Order.objects.filter(ordered=True, refund_requested=True)
+    for setorder in refund_requested:
+        setorder.status = "Refund Requested"
+        setorder.label = "warning"
+        setorder.save()
+
+    received = Order.objects.filter(ordered=True, received=True)
+    for setorder in received:
+        setorder.status = "Delivered"
+        setorder.label = "success"
+        setorder.save()
+    
+    being_delivered = Order.objects.filter(ordered=True, being_delivered=True)
+    for setorder in being_delivered:
+        setorder.status = "Being Delivered"
+        setorder.label = "inverse"
+        setorder.save()
+
+    context = {'total_orders':total_orders, 'total_items':total_items, 'total_users':total_users, 'revenue':revenue,
+                'order_qs':order_qs}
 
     return render(request, 'dashboard.html', context)
 
