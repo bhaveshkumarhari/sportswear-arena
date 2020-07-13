@@ -51,7 +51,7 @@
               <td><a class="ps-product__preview" href="{{ item.item.get_absolute_url }}"><img class="mr-15" width="80" height="80" src="{{ item.item.front_image.url }}" alt=""> {{ item.item.title }}</a></td>
               <!-- <td>{{ order_item.size}}</td> -->
               <td>&#8377;{{ item.item.price }}</td>
-              <td>&#8377;{{ item.item.discount_price }}</td>
+              <td>{% if item.item.discount_price %}&#8377;{{ item.item.discount_price }} {% else %} - {% endif %}</td>
               <td>{{ item.quantity }}</td>
               <td>
                 <!-- check the condition if item has discount price -->
@@ -64,7 +64,7 @@
                     &#8377;{{ item.get_total_item_price }}
                 {% endif %}
               </td>
-              <td>Status</td>
+              <td><label class="label label-{{ order_item.label }}">{{ order_item.status }}</label></td>
               
             </tr>
             {% endfor %}

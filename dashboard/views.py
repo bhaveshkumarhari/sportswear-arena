@@ -31,7 +31,8 @@ def HomeView(request):
     total_items = items.count() # Count total items
 
     users = User.objects.all() # Get all the users
-    total_users = users.count() - 1 # Count total users
+
+    total_customers = User.objects.filter(groups__name='customer').count()
 
     # Get revenue by totalling all payment amounts
     payments = Payment.objects.all()
@@ -72,7 +73,7 @@ def HomeView(request):
         setorder.label = "inverse"
         setorder.save()
 
-    context = {'total_orders':total_orders, 'total_items':total_items, 'total_users':total_users, 'revenue':revenue,
+    context = {'total_orders':total_orders, 'total_items':total_items, 'total_customers':total_customers, 'revenue':revenue,
                 'order_qs':order_qs}
 
     return render(request, 'dashboard.html', context)

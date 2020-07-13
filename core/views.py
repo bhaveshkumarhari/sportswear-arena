@@ -273,8 +273,9 @@ class HomeView(View):
             try:
                 context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
             except:
-                ordered_date = timezone.now() # get current date
-                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+                pass
+                # ordered_date = timezone.now() # get current date
+                # context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
 
         return render(self.request, 'index.html', context)
 
@@ -364,8 +365,9 @@ class ProductDetailView(View):
             try:
                 context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
             except:
-                ordered_date = timezone.now() # get current date
-                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+                pass
+                # ordered_date = timezone.now() # get current date
+                # context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
 
         return render(self.request, 'product.html', context)
     
@@ -600,8 +602,9 @@ class CheckoutView(LoginRequiredMixin, View):
                 try:
                     context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
                 except:
-                    ordered_date = timezone.now() # get current date
-                    context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+                    pass
+                    # ordered_date = timezone.now() # get current date
+                    # context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
                     
             return render(self.request, 'checkout.html', context)
         
@@ -815,8 +818,9 @@ class PaymentView(View):
                 try:
                     context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
                 except:
-                    ordered_date = timezone.now() # get current date
-                    context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+                    pass
+                    # ordered_date = timezone.now() # get current date
+                    # context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
 
             return render(self.request, 'payment.html', context)
         else:
@@ -965,14 +969,45 @@ class CustomerOrders(View):
 
         orders = Order.objects.filter(user=self.request.user, ordered = True)
 
+        ordered = Order.objects.filter(ordered=True, refund_granted=False, refund_requested=False, received=False, being_delivered=False)
+        for setorder in ordered:
+            setorder.status = "Ordered"
+            setorder.label = "danger"
+            setorder.save()
+
+        refund_granted = Order.objects.filter(ordered=True, refund_granted=True)
+        for setorder in refund_granted:
+            setorder.status = "Refund Granted"
+            setorder.label = "primary"
+            setorder.save()
+
+        refund_requested = Order.objects.filter(ordered=True, refund_requested=True)
+        for setorder in refund_requested:
+            setorder.status = "Refund Requested"
+            setorder.label = "warning"
+            setorder.save()
+
+        received = Order.objects.filter(ordered=True, received=True)
+        for setorder in received:
+            setorder.status = "Delivered"
+            setorder.label = "success"
+            setorder.save()
+        
+        being_delivered = Order.objects.filter(ordered=True, being_delivered=True)
+        for setorder in being_delivered:
+            setorder.status = "Being Delivered"
+            setorder.label = "default"
+            setorder.save()
+
         context = {'orders': orders}
 
         if self.request.user.is_authenticated:
             try:
                 context['cart'] = Order.objects.get(user=self.request.user, ordered=False)
             except:
-                ordered_date = timezone.now() # get current date
-                context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
+                pass
+                # ordered_date = timezone.now() # get current date
+                # context['cart'] = Order.objects.create(user=self.request.user, ordered_date=ordered_date)
 
         return render(self.request, 'customer_orders.html', context)
 
