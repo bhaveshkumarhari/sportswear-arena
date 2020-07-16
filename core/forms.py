@@ -70,7 +70,8 @@ class CouponForm(forms.Form):
         'class' : 'form-control',
         'placeholder' : 'Promo code',
         'aria-label' : 'Recipient\'s username',
-        'aria-describedby' : 'basic-addon2'
+        'aria-describedby' : 'basic-addon2',
+        'size': '15'
     }))
 
 

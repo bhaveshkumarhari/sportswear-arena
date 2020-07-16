@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, View, DetailView
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
@@ -942,22 +943,27 @@ def get_coupon(request, code):
         return coupon # Return code
 
     except ObjectDoesNotExist:
-        messages.info(request, "This coupon does not exist")
-        return redirect("core:checkout")
+        pass
+        # messages.info(request, "This coupon does not exist")
+        # return redirect("core:checkout")
 
 class AddCouponView(View):
     def post(self, *args, **kwargs):
-        print("worked")
         form = CouponForm(self.request.POST or None)
         if form.is_valid():
             try:
                 code = form.cleaned_data.get('code') # Get the cleaned coupon code from form
                 order = Order.objects.get(user=self.request.user, ordered=False)
                 # Go to function and check if coupon exists? Yes. Add the coupon code to Order model field(coupon)
-                order.coupon = get_coupon(self.request, code)
-                order.save() # Save the order instance
-                messages.success(self.request, "Successfully added coupon")
-                return redirect("core:checkout")
+                got_coupon = get_coupon(self.request, code)
+                if got_coupon != None:
+                    order.coupon = got_coupon
+                    order.save() # Save the order instance
+                    messages.success(self.request, "Successfully added coupon")
+                    return redirect("core:checkout")
+                else:
+                    messages.info(self.request, "This coupon does not exist")
+                    return redirect("core:checkout")
 
             except ObjectDoesNotExist:
                 messages.info(self.request, "You do not have an active order")
