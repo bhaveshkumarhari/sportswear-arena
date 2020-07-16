@@ -201,7 +201,7 @@ button:hover {
               <tr>
                 <td>{{ order_item.item.title }} x {{ order_item.quantity }}</td>
                 <td>&#8377;{{ order_item.item.price }}</td>
-                <td>&#8377;{{ order_item.item.discount_price }} <span class="badge badge-primary">Saved &#8377;{{ order_item.get_amount_saved }}</span></td>
+                <td>{% if order_item.item.discount_price %} &#8377;{{ order_item.item.discount_price }} <span class="badge badge-primary">Saved &#8377;{{ order_item.get_amount_saved }} {% else %} - {% endif %}</span></td>
                 
                 <td>&#8377;{{ order_item.get_final_price }}</td>
               </tr>
