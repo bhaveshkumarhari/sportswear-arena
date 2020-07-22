@@ -3,7 +3,7 @@ from django.views.generic import View
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from .forms import CreateUserForm, ItemForm, ProductForm, ShippingAddressForm, BillingAddressForm, UserInfoForm
+from .forms import CreateUserForm, ItemForm, ProductForm, ShippingAddressForm, BillingAddressForm, UserInfoForm, AdminForm
 
 from django.contrib import messages
 
@@ -424,10 +424,18 @@ def logoutUser(request):
     return redirect('dashboard:dashboard-login')
 
 
-# def updateShippingAddress(request):
+def adminAccount(request):
+    admin = request.user.admin
+    form = AdminForm(instance=admin)
 
-#     return render(request, 'update_product.html', context)
+    if request.method == 'POST':
+        form = AdminForm(request.POST, request.FILES, instance=admin)
+        if form.is_valid():
+            form.save()
 
+    context = {'form': form}
+
+    return render(request, 'admin_account.html', context)
 
 class userPage(View):
 
