@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from django.forms import ModelForm
-from core.models import Item, Admin
+from core.models import Item, AllUserProfile
 
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
@@ -89,6 +89,6 @@ class UserInfoForm(ModelForm):
 
 class AdminForm(ModelForm):
     class Meta:
-        model = Admin
+        model = AllUserProfile
         fields = '__all__'
         exclude = ['user']

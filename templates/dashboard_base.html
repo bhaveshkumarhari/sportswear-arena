@@ -185,17 +185,17 @@
                                         <i class="feather icon-chevron-down"></i>
                                     </div>
                                     <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                        <li>
+                                        <!-- <li>
                                             <a href="#!">
                                                 <i class="feather icon-settings"></i> Settings
                                             </a>
-                                        </li>
+                                        </li> -->
                                         <li>
-                                            <a href="user-profile.htm">
+                                            <a href="{% url 'dashboard:dashboard-account' %}">
                                                 <i class="feather icon-user"></i> Profile
                                             </a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="email-inbox.htm">
                                                 <i class="feather icon-mail"></i> My Messages
                                             </a>
@@ -204,7 +204,7 @@
                                             <a href="auth-lock-screen.htm">
                                                 <i class="feather icon-lock"></i> Lock Screen
                                             </a>
-                                        </li>
+                                        </li> -->
                                         <li>
                                             <!-- <a href="{% url 'dashboard:dashboard-logout' %}" class="confirm-delete" title="Delete" data-toggle="modal" data-target="#confirmDeleteModal" id="deleteButton{{item.slug}}"><i class="icofont icofont-delete-alt"></i></a> -->
                                             <a href="{% url 'dashboard:dashboard-logout' %}">

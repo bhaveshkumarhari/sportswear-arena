@@ -4,7 +4,7 @@ from django import forms
 
 from django.forms import ModelForm
 
-from .models import UserProfile
+from .models import UserProfile, AllUserProfile
 
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
@@ -16,10 +16,17 @@ PAYMENT_CHOICES = (
 )
 
 
+# class UserInfoForm(ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ['first_name', 'last_name', 'email']
+
 class UserInfoForm(ModelForm):
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']
+        model = AllUserProfile
+        fields = '__all__'
+        exclude = ['user']
+
 
 
 class CreateUserForm(UserCreationForm):

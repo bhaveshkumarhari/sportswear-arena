@@ -41,15 +41,13 @@ def registerPage(request):
     # profile_form = UserProfileForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
-        # profile_form = UserProfileForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # profile_form.save()
             username = form.cleaned_data.get('username')
 
             # For every user registration, add user to customer group
-            group = Group.objects.get(name='customer')
-            user.groups.add(group)
+            # group = Group.objects.get(name='customer')
+            # user.groups.add(group)
 
             messages.success(request,'Account was created for ' + username)
             return redirect('core:login')
@@ -88,9 +86,12 @@ def userProfile(request):
 
     billingform = BillingAddressForm()
     
-    userform = UserInfoForm(request.POST or None, instance=request.user)
+    customer = request.user.alluserprofile
+
+    userform = UserInfoForm(instance=customer)
 
     if request.method == 'POST':
+        userform = UserInfoForm(request.POST or None, request.FILES, instance=customer)
         if userform.is_valid():
             first_name = userform.cleaned_data.get('first_name')
             last_name = userform.cleaned_data.get('last_name')

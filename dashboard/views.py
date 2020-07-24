@@ -425,7 +425,7 @@ def logoutUser(request):
 
 
 def adminAccount(request):
-    admin = request.user.admin
+    admin = request.user.alluserprofile
     form = AdminForm(instance=admin)
 
     if request.method == 'POST':
