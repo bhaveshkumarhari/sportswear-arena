@@ -66,7 +66,7 @@
                                         </button></a>
                                     </div>
                                     <div class="card-block">
-                                        <div class="table-responsive">
+                                        <div class="">
                                             <div class="table-content">
                                                 <div class="project-table">
                                                     <table id="myTable" class="table table-striped dt-responsive nowrap">
@@ -76,6 +76,7 @@
                                                                 <th>Last name</th>
                                                                 <th>Username</th>
                                                                 <th>Email</th>
+                                                                <th>Phone</th>
                                                                 <!-- <th>Amount</th>
                                                                 <th>Discount Price</th>
                                                                 <th>Stock</th> -->
@@ -86,10 +87,11 @@
                                                             {% for user in users %}
                                                             <tr>
                                                                 
-                                                                <td>{{user.first_name}}</td>
-                                                                <td>{{user.last_name}}</td>
-                                                                <td>{{user.username}}</td>
-                                                                <td>{{user.email}}</td>
+                                                                <td>{{user.customerprofile.first_name}}</td>
+                                                                <td>{{user.customerprofile.last_name}}</td>
+                                                                <td>{{user.customerprofile.user}}</td>
+                                                                <td>{{user.customerprofile.email}}</td>
+                                                                <td>{{user.customerprofile.phone}}</td>
                                                             
                                                                 <td class="action-icon">
                                                                     <a href="{% url 'dashboard:customer-profile' user %}" class="m-r-15" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class="icofont icofont-eye-alt"></i></a>

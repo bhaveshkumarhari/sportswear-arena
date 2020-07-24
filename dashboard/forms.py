@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from django.forms import ModelForm
-from core.models import Item, AllUserProfile
+from core.models import Item, CustomerProfile
 
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
@@ -82,13 +82,19 @@ class BillingAddressForm(forms.Form):
     same_shipping_address = forms.BooleanField(required=False)
     
 
+# class UserInfoForm(ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ['first_name', 'last_name', 'email']
+
 class UserInfoForm(ModelForm):
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']
+        model = CustomerProfile
+        fields = '__all__'
+        exclude = ['user']
 
 class AdminForm(ModelForm):
     class Meta:
-        model = AllUserProfile
+        model = CustomerProfile
         fields = '__all__'
         exclude = ['user']

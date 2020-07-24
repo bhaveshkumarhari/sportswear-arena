@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django_countries',
 
     'core.apps.CoreConfig',
-    'dashboard',
+    'dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [

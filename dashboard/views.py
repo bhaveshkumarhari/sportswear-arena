@@ -96,10 +96,16 @@ def customerProfile(request, user):
     shippingform = ShippingAddressForm()
 
     billingform = BillingAddressForm()
+
+    customer = user.customerprofile
+
+    userform = UserInfoForm(instance=customer)
     
-    userform = UserInfoForm(request.POST or None, instance=user)
+    # userform = UserInfoForm(request.POST or None, instance=user)
+
 
     if request.method == 'POST':
+        userform = UserInfoForm(request.POST or None, request.FILES, instance=customer)
         if userform.is_valid():
             first_name = userform.cleaned_data.get('first_name')
             last_name = userform.cleaned_data.get('last_name')
@@ -120,7 +126,7 @@ def customerProfile(request, user):
     except ObjectDoesNotExist:
         billing_address = False
 
-    context = {'user':user, 'orders': orders, 'shipping_address':shipping_address, 'billing_address':billing_address, 'form':userform, 'shippingform':shippingform, 'billingform':billingform}
+    context = {'user':user, 'orders': orders, 'shipping_address':shipping_address, 'billing_address':billing_address, 'userform':userform, 'shippingform':shippingform, 'billingform':billingform}
 
     return render(request, 'dashboard_user_profile.html', context)
 
@@ -391,7 +397,7 @@ def registerPage(request):
             username = form.cleaned_data.get('username')
 
             # For every user registration, add user to customer group
-            group = Group.objects.get(name='customer')
+            group = Group.objects.get(name='admin')
             user.groups.add(group)
 
             messages.success(request,'Account was created for ' + username)
@@ -425,7 +431,7 @@ def logoutUser(request):
 
 
 def adminAccount(request):
-    admin = request.user.alluserprofile
+    admin = request.user.customerprofile
     form = AdminForm(instance=admin)
 
     if request.method == 'POST':

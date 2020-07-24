@@ -46,8 +46,8 @@ def registerPage(request):
             username = form.cleaned_data.get('username')
 
             # For every user registration, add user to customer group
-            # group = Group.objects.get(name='customer')
-            # user.groups.add(group)
+            group = Group.objects.get(name='customer')
+            user.groups.add(group)
 
             messages.success(request,'Account was created for ' + username)
             return redirect('core:login')
@@ -86,7 +86,7 @@ def userProfile(request):
 
     billingform = BillingAddressForm()
     
-    customer = request.user.alluserprofile
+    customer = request.user.customerprofile
 
     userform = UserInfoForm(instance=customer)
 

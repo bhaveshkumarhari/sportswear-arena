@@ -34,7 +34,7 @@ TSHIRT_SIZES = (
     ('XXL','XXL'),
 )
 
-class AllUserProfile(models.Model):
+class CustomerProfile(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=200, null=True)
     last_name = models.CharField(max_length=200, null=True)
@@ -45,6 +45,7 @@ class AllUserProfile(models.Model):
 
     def __str__(self):
         return self.email
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(

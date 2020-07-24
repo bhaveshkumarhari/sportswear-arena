@@ -132,17 +132,22 @@
                                                             <div class="general-info">
                                                                 <div id="info-table">
                                                                 <div class="row">
-                                                                    <div class="col-lg-12 col-xl-6">
+                                                                    <div class="col-lg-12 col-xl-2">
+                                                                        
+                                                                        <img class="profile-pic" src="{{user.customerprofile.profile_pic.url}}" width="150" height="150">
+                                                                    </div>
+
+                                                                    <div class="col-lg-12 col-xl-5">
                                                                         <div class="table-responsive">
                                                                             <table id="info-get-table1" class="table m-0">
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <th scope="row">First Name</th>
-                                                                                        <td>{{user.first_name}}</td>
+                                                                                        <td>{{user.customerprofile.first_name}}</td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <th scope="row">Last Name</th>
-                                                                                        <td>{{user.last_name}}</td>
+                                                                                        <td>{{user.customerprofile.last_name}}</td>
                                                                                     </tr>
                                                                                     <!-- <tr>
                                                                                         <th scope="row">Birth Date</th>
@@ -163,18 +168,18 @@
                             
                                                                     </div>
                                                                     <!-- end of table col-lg-6 -->
-                                                                    <div class="col-lg-12 col-xl-6">
+                                                                    <div class="col-lg-12 col-xl-5">
                                                                         <div class="table-responsive">
                                                                             <table id="info-get-table2" class="table">
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <th scope="row">Email</th>
-                                                                                        <td>{{user.email}}</td>
+                                                                                        <td>{{user.customerprofile.email}}</td>
                                                                                         <!-- <td><a href="#!"><span class="__cf_email__" data-cfemail="4206272f2d02273a232f322e276c212d2f">[email&#160;protected]</span></a></td> -->
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <th scope="row">Mobile Number</th>
-                                                                                        <td>{{user.phone_number}}</td>
+                                                                                        <td>{{user.customerprofile.phone}}</td>
                                                                                     </tr>
                                                                                     <!-- <tr>
                                                                                         <th scope="row">Twitter</th>
@@ -198,8 +203,8 @@
                                                            
                                                                 <!-- end of row -->
                                                                 <div id="info-form" style="display: none;">
-                                                                <form method="POST">
-                                                                    
+                                                                <form method="POST" enctype="multipart/form-data">
+                                                            
                                                                 {% csrf_token %}
                                                                 <div class="row">
                                                                     
@@ -209,14 +214,14 @@
                                                                                 <label class="col-sm-5 col-form-label"><strong>First Name</strong></label>
                                                                                 <div class="col-sm-7">
                                                                                     <!-- <input type="text" name="first_name" id="info-firstname" required class="form-control"> -->
-                                                                                    {{form.first_name}}
+                                                                                    {{userform.first_name}}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group row">
                                                                                 <label class="col-sm-5 col-form-label"><strong>Last Name</strong></label>
                                                                                 <div class="col-sm-7">
                                                                                     <!-- <input type="text" name="last_name" id="info-lastname" required class="form-control"> -->
-                                                                                    {{form.last_name}}
+                                                                                    {{userform.last_name}}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -230,14 +235,21 @@
                                                                                 <label class="col-sm-5 col-form-label"><strong>Email</strong></label>
                                                                                 <div class="col-sm-7">
                                                                                     <!-- <input type="text" name="email" id="info-email" required class="form-control"> -->
-                                                                                    {{form.email}}
+                                                                                    {{userform.email}}
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group row">
                                                                                 <label class="col-sm-5 col-form-label"><strong>Mobile Number</strong></label>
                                                                                 <div class="col-sm-7">
                                                                                     <!-- <input type="text" name="phone" id="info-phone" class="form-control"> -->
-                                                                                    {{form.phone}}
+                                                                                    {{userform.phone}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-sm-5 col-form-label"><strong>Mobile Number</strong></label>
+                                                                                <div class="col-sm-7">
+                                                                                    <!-- <input type="text" name="phone" id="info-phone" class="form-control"> -->
+                                                                                    {{userform.profile_pic}}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
