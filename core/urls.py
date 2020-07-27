@@ -20,7 +20,8 @@ from .views import (
     billingAddress,
     CustomerOrders,
     AddCouponView,
-    RequestRefundView
+    RequestRefundView,
+    success
 )
 
 app_name = 'core'
@@ -48,5 +49,6 @@ urlpatterns = [
 
     path('shipping-address/', shippingAddress, name="shipping-address"),
     path('billing-address/', billingAddress, name="billing-address"),
-
+    
+    path('success/', success, name="success"),
 ]

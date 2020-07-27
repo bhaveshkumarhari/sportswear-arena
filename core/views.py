@@ -10,6 +10,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
+
 from django.utils import timezone
 
 from django.contrib import messages
@@ -381,14 +385,11 @@ class ProductDetailView(View):
             size = form.cleaned_data.get('size')
             color = form.cleaned_data.get('color')
         
-        print(value)
-        print(size)
-        print(color)
 
         product_var = []
         product_var.append(size)
         product_var.append(color)
-        print(product_var)
+
 
         item = get_object_or_404(Item, slug=slug_value['slug']) # get specific item with slug
 
@@ -896,7 +897,8 @@ class PaymentView(View):
                 order.save()
 
                 messages.success(self.request, "Your order was successful")
-                return redirect("core:customer-orders")
+                # return redirect("core:customer-orders")
+                return redirect("core:success")
 
             except stripe.error.CardError as e:
                 # Since it's a decline, stripe.error.CardError will be caught
@@ -936,7 +938,22 @@ class PaymentView(View):
                 # send an email to ourselves
                 messages.warning(self.request, "A serious error occured. We have been notified. Error in Code.")
                 return redirect("/")
-            
+
+def success(request):
+
+    template = render_to_string('email_template.html', {'name': request.user.customerprofile.first_name})
+
+    email = EmailMessage(
+        'Thanks for purchasing our product!',
+        template,
+        settings.EMAIL_HOST_USER,
+        [request.user.customerprofile.email],
+    )
+
+    email.fail_silently=False
+    email.send()
+
+    return redirect("core:customer-orders")   
 
 def get_coupon(request, code):
     try:
