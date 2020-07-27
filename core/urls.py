@@ -1,4 +1,6 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
+
 from .views import (
     registerPage,
     loginPage,
@@ -46,4 +48,5 @@ urlpatterns = [
 
     path('shipping-address/', shippingAddress, name="shipping-address"),
     path('billing-address/', billingAddress, name="billing-address"),
+
 ]
