@@ -87,6 +87,7 @@ class Item(models.Model):
     # size = models.CharField(choices=TSHIRT_SIZES, max_length=3)
     quantity = models.IntegerField(default=1)
     new = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
@@ -140,9 +141,10 @@ class Variation(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     category = models.CharField(max_length=120, choices=VAR_CATEGORIES, default='size')
     title = models.CharField(max_length=120)
+    price = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True)
     active = models.BooleanField(default=True)
 
-    object = VariationManager()
+    objects = VariationManager()
 
     def __str__(self):
         return self.title

@@ -27,7 +27,6 @@
             <tr>
               <th scope="col">#</th>
               <th>All Products</th>
-              <th>Size</th>
               <th>Price</th>
               <th>Quantity</th>
               <th>Total</th>
@@ -38,8 +37,8 @@
             {% for order_item in cart.items.all %}
             <tr>
               <td scope="row">{{ forloop.counter }}</td>
-              <td><a class="ps-product__preview" href="{{ order_item.item.get_absolute_url }}"><img class="mr-15" width="80" height="80" src="{{ order_item.item.front_image.url }}" alt=""> {{ order_item.item.title }}</a></td>
-              <td>{{ order_item.size}}</td>
+              <td><a class="ps-product__preview" href="{{ order_item.item.get_absolute_url }}"><img class="mr-15" width="80" height="80" src="{{ order_item.item.front_image.url }}" alt=""> 
+                {{ order_item.item.title }}</a> {% if order_item.variations.all %} <ul>{% for subitem in order_item.variations.all %} <li>{{subitem.category|capfirst }} : {{ subitem.title|capfirst }}</li> {% endfor %}</ul>{% endif %}</td>
               <td>&#8377;{{ order_item.item.price }}</td>
               <td>
                 <div class="form-group--number">

@@ -18,7 +18,7 @@ from django.utils import timezone
 
 from django.contrib import messages
 
-from .models import Item, Contact, Category, OrderItem, Order, Address, UserProfile, Payment, Coupon, Refund
+from .models import Item, Contact, Category, OrderItem, Order, Address, UserProfile, Payment, Coupon, Refund, Variation
 
 from .forms import ContactForm, ProductForm, CheckoutForm, CreateUserForm, UserInfoForm, PaymentForm, ShippingAddressForm, BillingAddressForm, CouponForm, RefundForm
 
@@ -362,6 +362,7 @@ def ProductListView(request, title):
 class ProductDetailView(View):
 
     def get(self, *args, **kwargs):
+
         global slug_value
         slug_value = kwargs
         context = {}
@@ -378,20 +379,32 @@ class ProductDetailView(View):
         return render(self.request, 'product.html', context)
     
     def post(self, *args, **kwargs):
-        print(self.request.POST)
-        form = ProductForm(self.request.POST or None)
-        if form.is_valid():
-            value = form.cleaned_data.get('value')
-            size = form.cleaned_data.get('size')
-            color = form.cleaned_data.get('color')
-        
+
+        get_item = get_object_or_404(Item, slug=slug_value['slug']) # get specific item with slug
 
         product_var = []
-        product_var.append(size)
-        product_var.append(color)
 
+        value = self.request.POST['value']
+        for item in self.request.POST:
+            key = item
+            val = self.request.POST[key]
+            # print(key, val)
+            try:
+                v = Variation.objects.get(item=get_item, category__iexact=key, title__iexact=val)
+                product_var.append(v)
+            except:
+                # print("nothing")
+                pass
+
+
+        # form = ProductForm(self.request.POST or None)
+        # if form.is_valid():
+        #     value = form.cleaned_data.get('value')
+        #     size = form.cleaned_data.get('size')
+        #     color = form.cleaned_data.get('color')
 
         item = get_object_or_404(Item, slug=slug_value['slug']) # get specific item with slug
+        
 
         if self.request.user.is_authenticated:
             # If item is not in OrderItem model then add item else get the item
@@ -409,29 +422,33 @@ class ProductDetailView(View):
                 
                 # check if an item exists in Order model with slug
                 if order.items.filter(item__slug=item.slug).exists():
-                    
+                    if len(product_var) > 0:
+                        order_item.variations.clear()
+                        for item in product_var:
+                            order_item.variations.add(item)
                     order_item.quantity = int(value)
                     order_item.save() # Save OrderItem model
                     messages.info(self.request, "This item quantity was updated.")
                     return redirect("core:order-summary")
                 else:
-                    # print(order_item)
                     order.items.add(order_item) # Add item to Order model if item does not exist in OrderItem.
-                    # for item in product_var:
-                    #     order_item.variations.add(item)
+                    if len(product_var) > 0:
+                        order_item.variations.clear()
+                        for item in product_var:
+                            order_item.variations.add(item)
                     order_item.quantity = int(value)
                     order_item.save() # Save OrderItem model
                     messages.info(self.request, "This item was added to your cart.")
                     return redirect("core:order-summary")
             else:
-                # print(order_item)
                 ordered_date = timezone.now() # get current date
                 order = Order.objects.create(user=self.request.user, ordered_date=ordered_date) # Create Order model instance with specific user and ordered date
                 order.items.add(order_item) # Then add order_item to that model instance
+                if len(product_var) > 0:
+                    order_item.variations.clear()
+                    for item in product_var:
+                        order_item.variations.add(item)
                 order_item.quantity = int(value)
-                # for item in product_var:
-                #         order_item.variations.add(item)
-                # order_item.size = size
                 order_item.save() # Save OrderItem model
                 messages.info(self.request, "This item was added to your cart.")
                 return redirect("core:order-summary")
