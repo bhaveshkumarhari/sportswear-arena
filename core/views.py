@@ -391,6 +391,7 @@ class ProductDetailView(View):
             # print(key, val)
             try:
                 v = Variation.objects.get(item=get_item, category__iexact=key, title__iexact=val)
+                # print(v.item)
                 product_var.append(v)
             except:
                 # print("nothing")
@@ -408,7 +409,13 @@ class ProductDetailView(View):
 
         if self.request.user.is_authenticated:
             # If item is not in OrderItem model then add item else get the item
-            order_item, created = OrderItem.objects.get_or_create(
+            # order_item, created = OrderItem.objects.get_or_create(
+            #     item=item,
+            #     user=self.request.user,
+            #     ordered=False
+            #     )
+            
+            order_item = OrderItem.objects.create(
                 item=item,
                 user=self.request.user,
                 ordered=False
@@ -423,17 +430,18 @@ class ProductDetailView(View):
                 # check if an item exists in Order model with slug
                 if order.items.filter(item__slug=item.slug).exists():
                     if len(product_var) > 0:
-                        order_item.variations.clear()
+                        # order_item.variations.clear()
                         for item in product_var:
                             order_item.variations.add(item)
                     order_item.quantity = int(value)
                     order_item.save() # Save OrderItem model
+                    order.items.add(order_item)
                     messages.info(self.request, "This item quantity was updated.")
                     return redirect("core:order-summary")
                 else:
                     order.items.add(order_item) # Add item to Order model if item does not exist in OrderItem.
                     if len(product_var) > 0:
-                        order_item.variations.clear()
+                        # order_item.variations.clear()
                         for item in product_var:
                             order_item.variations.add(item)
                     order_item.quantity = int(value)
@@ -445,7 +453,7 @@ class ProductDetailView(View):
                 order = Order.objects.create(user=self.request.user, ordered_date=ordered_date) # Create Order model instance with specific user and ordered date
                 order.items.add(order_item) # Then add order_item to that model instance
                 if len(product_var) > 0:
-                    order_item.variations.clear()
+                    # order_item.variations.clear()
                     for item in product_var:
                         order_item.variations.add(item)
                 order_item.quantity = int(value)
